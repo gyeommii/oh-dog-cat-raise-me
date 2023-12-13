@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-config.dtd">
+
+<!-- MyBatis3 프레임워크 설정 -->
+<configuration>
+
+    <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
+    <typeAliases>
+
+    </typeAliases>
+
+</configuration>
