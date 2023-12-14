@@ -14,4 +14,12 @@
     where email like #{email}
   </select>
 
+  <insert id="join" parameterType="Member">
+    insert into member (
+      member_id, password, email, phone, address_fk
+    ) values (
+      #{member_id}, #{password}, #{email}, #{phone}, #{address_fk}
+    );
+  </insert>
+
 </mapper>

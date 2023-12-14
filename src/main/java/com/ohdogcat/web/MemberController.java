@@ -51,6 +51,7 @@ public class MemberController {
     @PostMapping("/signup")
     public void signup(@RequestBody MemberJoinDto dto) {
         log.debug("MemberJoinDto={}", dto);
+        service.join(dto);
     }
 
 }
