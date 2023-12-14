@@ -24,6 +24,12 @@ public class MemberJoinDto {
     private String recipient;
 
     public Address getAddress() {
+
+        if (address.isEmpty() || detail_addr.isEmpty() || zonecode.isEmpty()
+            || recipient.isEmpty()) {
+            return null;
+        }
+
         return Address.builder()
             .address(address)
             .detail_addr(detail_addr)
@@ -31,7 +37,7 @@ public class MemberJoinDto {
             .recipient(recipient).build();
     }
 
-    public Member getMember () {
+    public Member getMember() {
         return Member.builder()
             .member_id(member_id)
             .password(password)

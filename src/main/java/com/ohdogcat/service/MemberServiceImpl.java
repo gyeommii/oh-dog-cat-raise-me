@@ -2,6 +2,7 @@ package com.ohdogcat.service;
 
 import com.ohdogcat.dto.MemberJoinDto;
 import com.ohdogcat.model.Address;
+import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
 import lombok.RequiredArgsConstructor;
@@ -35,10 +36,18 @@ public class MemberServiceImpl implements MemberService {
     public boolean join(MemberJoinDto dto) {
         log.debug("join={}", dto);
         Address address = dto.getAddress();
-        Integer result = addressDao.registerAddress(address);
-        log.debug("result = {}", result);
-        log.debug("address_pk={}", address.getAddress_pk());
+        Member member = dto.getMember();
 
-        return true;
+        if (address != null) {
+            Integer result = addressDao.registerAddress(address);
+            log.debug("result = {}", result);
+            log.debug("address_pk={}", address.getAddress_pk());
+            member.setAddress_fk(address.getAddress_pk());
+        }
+
+        Integer isMemberCreated = memberDao.join(member);
+        log.debug("isMemberCreated::{}", isMemberCreated);
+
+        return isMemberCreated == 1;
     }
 }

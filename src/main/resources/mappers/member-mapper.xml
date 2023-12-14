@@ -16,10 +16,19 @@
 
   <insert id="join" parameterType="Member">
     insert into member (
-      member_id, password, email, phone, address_fk
+    member_id,
+    password,
+    email,
+    phone
+    <if test="address_fk != null">
+      , address_fk
+    </if>
     ) values (
-      #{member_id}, #{password}, #{email}, #{phone}, #{address_fk}
-    );
+    #{member_id}, #{password}, #{email}, #{phone}
+    <if test="address_fk != null">
+      , #{address_fk}
+    </if>
+    )
   </insert>
 
 </mapper>

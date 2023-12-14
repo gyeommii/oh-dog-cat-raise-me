@@ -49,9 +49,11 @@ public class MemberController {
 
     // 끝: signup 시 DB에 중복 데이터 체크할 REST API
     @PostMapping("/signup")
-    public void signup(@RequestBody MemberJoinDto dto) {
+    public ResponseEntity<Boolean> signup(@RequestBody MemberJoinDto dto) {
         log.debug("MemberJoinDto={}", dto);
-        service.join(dto);
+        boolean result = service.join(dto);
+
+        return ResponseEntity.ok(result);
     }
 
 }

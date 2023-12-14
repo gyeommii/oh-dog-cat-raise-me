@@ -1,4 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
+  if(location.href.includes("result=fail")) {
+    alert("로그인에 실패하였습니다. 다시 시도해주세요!");
+  }
+
   const checkDuplicationId = document.getElementById("check-duplicated-id-btn");
   const submitBtn = document.getElementById("submitBtn");
   submitBtn.disabled = true;
@@ -189,13 +193,13 @@ document.addEventListener("DOMContentLoaded", () => {
   document.getElementById("btnFoldWrap").addEventListener("click",
       foldDaumPostcode);
 
-  const detailAddress = document.getElementById("detailAddress");
-  detailAddress.addEventListener("change", detailAddrOnChangeEvent);
-
   const zone_codeInput = document.getElementById('zonecode');
   const addressInput = document.getElementById("address");
   const detail_addrInput = document.getElementById("detailAddress");
   const recipientInput = document.getElementById("recipient");
+
+  detail_addrInput.addEventListener("change", detailAddrOnChangeEvent);
+  recipientInput.addEventListener("change", detailAddrOnChangeEvent);
 
   const addressResetBtn = document.getElementById("address-reset-btn");
   addressResetBtn.addEventListener("click", resetAddress);
@@ -205,6 +209,9 @@ document.addEventListener("DOMContentLoaded", () => {
     addressInput.value = "";
     detail_addrInput.value = "";
     recipientInput.value = "";
+
+    isAddressValid = true;
+    isBtnActivatable();
   }
 
   function detailAddrOnChangeEvent() {
@@ -216,19 +223,19 @@ document.addEventListener("DOMContentLoaded", () => {
     const detail_addr = detail_addrInput.value;
     const recipient = recipientInput.value;
 
-    if (Object.isEmptyObject(zone_code)
-        && Object.isEmptyObject(address)
-        && Object.isEmptyObject(detail_addr)
-        && Object.isEmptyObject(recipient)
+    if (zone_code.trim().length > 0
+        && address.trim().length > 0
+        && detail_addr.trim().length > 0
+        && recipient.trim().length > 0
     ) {
       addressHelp.innerHTML = "* 배송지 입력시 수취인과 상세 주소는 필수입니다.";
       addressHelp.classList.remove("text-danger");
       addressHelp.classList.add("text-success");
       isAddressValid = true;
-    } else if (!Object.isEmptyObject(zone_code)
-        && !Object.isEmptyObject(address)
-        && !Object.isEmptyObject(detail_addr)
-        && !Object.isEmptyObject(recipient)) {
+    } else if ((zone_code.trim().length === 0
+        && address.trim().length === 0
+        && detail_addr.trim().length === 0
+        && recipient.trim().length === 0)) {
       addressHelp.innerHTML = "* 배송지 입력시 수취인과 상세 주소는 필수입니다.";
       addressHelp.classList.remove("text-danger");
       addressHelp.classList.add("text-success");
@@ -270,8 +277,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const {data: result} = await axios.post("./signup", data);
 
-    console.log("data= ", data);
-    console.log("result= ", result)
+    console.log("result= ", result);
+    if (result) {
+      location.href = "./signin?result=success";
+    } else {
+      location.href = `./signup?result=fail`;
+    }
   }
 
 });
