@@ -254,7 +254,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const address = addressInput.value;
     const detail_addr = detail_addrInput.value;
-    const zone_code = zone_codeInput.value;
+    const zonecode = zone_codeInput.value;
     const recipient = recipientInput.value;
 
     const data = {
@@ -264,7 +264,7 @@ document.addEventListener("DOMContentLoaded", () => {
       phone,
       address,
       detail_addr,
-      zone_code,
+      zonecode,
       recipient
     };
 
