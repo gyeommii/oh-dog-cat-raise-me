@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ohdogcat.repository.ProductDao">
+	
+	<!--PRODUCT 테이블 전체 검색. 상품 신규 등록 순 정렬용 -->
+	<select id="selectOrderByCreateDesc" resultType="Product">
+		select * from PRODUCT order by CREATE_DATE desc
+	</select>
+	
+	<!-- PRODUCT + CATEGORY 테이블 조인(펫 타입). 펫 타입 별 신규 등록 순 조회용-->
+	<select id="selectPetTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
+		select p.product_pk, p.product_name, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
+		from category c join product p 
+		on c.category_pk = p.category_fk
+		order by CREATE_DATE desc
+	</select>
+	
+	<!-- PRODUCT + CATEGORY 테이블 조인(펫 타입). 펫 타입 별 베스트 순 조회용-->
+	<select id="selectPetTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
+		select p.product_pk, p.product_name, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
+		from category c join product p 
+		on c.category_pk = p.category_fk
+		order by sold desc
+	</select>
+
+</mapper>

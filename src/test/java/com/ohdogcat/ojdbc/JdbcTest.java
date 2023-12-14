@@ -19,6 +19,7 @@ import oracle.jdbc.OracleDriver;
  */
 public class JdbcTest {
     private static final String URL = "jdbc:oracle:thin:@192.168.20.11:1521:xe";
+//    private static final String URL = "jdbc:oracle:thin:@localhost:1521:xe";
     private static final String USER = "scott";
     private static final String PASSWORD = "tiger";
     private static final Logger log = LoggerFactory.getLogger(JdbcTest.class);
