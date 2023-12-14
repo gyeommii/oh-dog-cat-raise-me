@@ -21,10 +21,14 @@
         </Logger>
     
         <!-- 이름이 com.zaxxer.hikari 로 시작하는 logger들은 info 레벨 이상의 로그만 출력 -->
-        <Logger name="com.zaxxer.hikari" level="info" additivity="false">
+        <Logger name="com.zaxxer.hikari" level="error" additivity="false">
             <AppenderRef ref="console" />
         </Logger>
-        
+
+        <Logger name="com.ohdogcat.repository" level="trace" additivity="false">
+            <AppenderRef ref="console" />
+        </Logger>
+
         <!-- logger 출력 기본값: debug 이상을 출력 -->
         <Root level="debug" additivity="false">
             <AppenderRef ref="console" />

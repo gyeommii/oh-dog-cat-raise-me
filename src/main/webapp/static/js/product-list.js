@@ -8,6 +8,7 @@
 	 const bestTitle = document.querySelector("h3#bestTitle");
 	 
 	 const dogNewList = document.querySelector("div#dogNewList");
+	 const catNewList = document.querySelector("div#catNewList");
 	 
 	 const btnDog = document.querySelector('input#btnradio1');
 	 const btnCat = document.querySelector('input#btnradio2');
