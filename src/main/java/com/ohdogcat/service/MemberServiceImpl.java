@@ -1,15 +1,30 @@
 package com.ohdogcat.service;
 
-public class MemberServiceImpl implements MemberService{
+import com.ohdogcat.repository.MemberDao;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class MemberServiceImpl implements MemberService {
+
+    private final MemberDao memberDao;
 
     @Override
-    public boolean checkUserIdDuplication() {
-        return false;
+    public boolean checkMemberIdUnique(String memberId) {
+        log.debug("memberId = " + memberId);
+        Integer cnt = memberDao.checkMemberIdUnique(memberId);
+        log.debug("cnt = " + cnt);
+        return (cnt == 0);
     }
 
     @Override
-    public boolean checkEmailDuplication() {
-        return false;
+    public boolean checkEmailUnique(String email) {
+        Integer cnt = memberDao.checkEmailUnique(email);
+        log.debug("cnt={}", cnt);
+        return (cnt == 0);
     }
 
     @Override

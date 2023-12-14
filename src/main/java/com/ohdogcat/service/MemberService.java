@@ -3,9 +3,9 @@ package com.ohdogcat.service;
 
 public interface MemberService {
 
-    boolean checkUserIdDuplication();
+    boolean checkMemberIdUnique(String memberId);
 
-    boolean checkEmailDuplication();
+    boolean checkEmailUnique(String email);
 
     boolean join();
 
