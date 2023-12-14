@@ -14,9 +14,9 @@
 <body>
 
 
-<div id="join-form-wrapper" style="width: 80%; margin: auto">
+<div id="join-form-wrapper" style="width: 60%; margin: auto">
     <div class="mb-3">
-        <form method="post">
+        <form>
             <div class="mb-3">
                 <div class="mb-3">
                     <label for="inputUserId" class="form-label mx-2">아이디 입력<span
@@ -24,7 +24,7 @@
                     <div class="input-group  mx-2">
                         <input type="text" class="form-control" style="width: 80%"
                                id="inputUserId"
-                               aria-describedby="emailHelp" required>
+                               aria-describedby="userIdDesc" required>
                         <a id="check-duplicated-id-btn" class="btn btn-outline-success">중복 확인하기</a>
                     </div>
                     <div id="userIdDesc" class="form-text mx-2">1) 아이디는 6자 이상. 2) 영어와 숫자의 조합</div>
@@ -97,9 +97,9 @@
         crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="../js/postcode.v2.js"></script>
-<script src="../js/kakao-addr.js"></script>
-<script src="../js/signup.js"></script>
+<script src="../js/member/postcode.v2.js"></script>
+<script src="../js/member/kakao-addr.js"></script>
+<script src="../js/member/signup.js"></script>
 
 </body>
 </html>
