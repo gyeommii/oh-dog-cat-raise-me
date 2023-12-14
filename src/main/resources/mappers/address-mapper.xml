@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ohdogcat.repository.AddressDao">
+  <insert id="registerAddress" parameterType="Address">
+    insert into address (
+      address, zonecode, detail_addr, recipient
+    ) values (
+      #{address}, #{zonecode}, #{detail_addr}, #{recipient}
+    )
+    <selectKey resultType="Long" keyProperty="address_pk" order="AFTER">
+      select address_pk from address
+      where address = #{address} and zonecode = #{zonecode} and detail_addr = #{detail_addr} and recipient= #{recipient}
+      order by created_date desc
+      offset 0 row fetch next 1 row only
+    </selectKey>
+  </insert>
+
+
+</mapper>
