@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration
-    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
-    "https://mybatis.org/dtd/mybatis-3-config.dtd">
+  PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-config.dtd">
 
 <!-- MyBatis3 프레임워크 설정 -->
 <configuration>
 
-    <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
-    <typeAliases>
-
-    </typeAliases>
+  <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
+  <typeAliases>
+    <typeAlias type="com.ohdogcat.model.Member" alias="Member"/>
+    <typeAlias type="com.ohdogcat.model.Address" alias="Address"/>
+  </typeAliases>
 
 </configuration>

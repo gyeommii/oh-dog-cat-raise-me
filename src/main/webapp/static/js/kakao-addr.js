@@ -32,7 +32,7 @@ function findAddressThrougDaumPost() {
         addr += extraAddr;
       }
 
-      document.getElementById('postcode').value = data.zonecode;
+      document.getElementById('zonecode').value = data.zonecode;
       document.getElementById("address").value = addr;
       document.getElementById("detailAddress").focus();
 

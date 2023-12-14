@@ -9,6 +9,9 @@ document.addEventListener("DOMContentLoaded", () => {
   let isPasswordValid = false;
   let isPasswordChecked = false;
   let isEmailValid = false;
+  let isPhoneValid = false;
+
+  let isAddressValid = true;
 
   checkDuplicationId.addEventListener("click", async (e) => {
     const inputUserId = document.getElementById("inputUserId");
@@ -40,6 +43,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const inputEmail = document.getElementById("inputEmail");
   inputEmail.addEventListener("change", onChangeAtEmail);
+
+  const inputPhone = document.getElementById("inputPhone");
+  inputPhone.addEventListener("change", onChangeAtPhone);
 
   function onKeyUpAtUserId() {
     //   DONE: userId 조건
@@ -90,6 +96,7 @@ document.addEventListener("DOMContentLoaded", () => {
       emailDesc.innerHTML = "가입 가능한 이메일입니다.";
       emailDesc.classList.remove("text-danger");
       emailDesc.classList.add("text-success");
+      isEmailValid = true;
     } else {
       if (!emailReg.test(email)) {
         emailDesc.innerHTML = "올바른 이메일을 입력해주세요.";
@@ -100,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
         emailDesc.classList.remove("text-success");
         emailDesc.classList.add("text-danger");
       }
+      isEmailValid = false;
     }
 
     isBtnActivatable();
@@ -116,10 +124,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?!.*\s).{8,}$/;
 
     if (pwReg.test(password)) {
+      isPasswordValid = true;
       pwHelp.innerHTML = "조건에 알맞은 비밀번호입니다. 비밀번호 확인을 완료해주세요.";
       pwHelp.classList.remove("text-danger");
       pwHelp.classList.add("text-success");
     } else {
+      isPasswordValid = false;
       pwHelp.innerHTML = "비밀번호 조건을 다시 확인해주세요! 조건) 6글자 이상의 영어와 숫자 조합";
       pwHelp.classList.remove("text-success");
       pwHelp.classList.add("text-danger");
@@ -140,21 +150,128 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
       pwCheckHelp.innerHTML = "비밀번호가 일치합니다! 회원가입을 마무리해주세요^^.";
       pwCheckHelp.classList.remove("text-danger");
-      pwCheckHelp.classList.add("text-text");
+      pwCheckHelp.classList.add("text-success");
       isPasswordChecked = true;
     }
 
     isBtnActivatable();
   }
 
+  function onChangeAtPhone() {
+    // DB 중복 체크는 따로 하지 않고, 형태 유효성 검사만 할 것
+    const phone = inputPhone.value;
+    const phoneReg = /^(02|010)-?\d{3,4}-?\d{4}$/;
+    isPhoneValid = phoneReg.test(phone);
+
+    const phoneHelp = document.getElementById("phoneHelp");
+
+    if (isPhoneValid) {
+      phoneHelp.innerHTML = "유효한 핸드폰 번호입니다. ";
+      phoneHelp.classList.remove("text-danger");
+      phoneHelp.classList.add("text-success");
+    } else {
+      phoneHelp.innerHTML = "유효하지 않은 핸드폰 번호입니다. 다시 확인해주세요.";
+      phoneHelp.classList.remove("text-success");
+      phoneHelp.classList.add("text-danger");
+    }
+    isBtnActivatable();
+  }
+
   function isBtnActivatable() {
-    submitBtn.disabled = !(isUserIdValid && isUserIdUnique && isEmailValid
-        && isPasswordValid && isPasswordChecked);
+    submitBtn.disabled = !(isUserIdValid && isPhoneValid && isUserIdUnique
+        && isEmailValid
+        && isPasswordValid && isPasswordChecked && isAddressValid);
+  }
+
+// TODO : 배송지 입력란 eventHandler 등록
+  document.getElementById("daumPostOpenBtn").addEventListener("click",
+      findAddressThrougDaumPost);
+  document.getElementById("btnFoldWrap").addEventListener("click",
+      foldDaumPostcode);
+
+  const detailAddress = document.getElementById("detailAddress");
+  detailAddress.addEventListener("change", detailAddrOnChangeEvent);
+
+  const zone_codeInput = document.getElementById('zonecode');
+  const addressInput = document.getElementById("address");
+  const detail_addrInput = document.getElementById("detailAddress");
+  const recipientInput = document.getElementById("recipient");
+
+  const addressResetBtn = document.getElementById("address-reset-btn");
+  addressResetBtn.addEventListener("click", resetAddress);
+
+  function resetAddress() {
+    zone_codeInput.value = "";
+    addressInput.value = "";
+    detail_addrInput.value = "";
+    recipientInput.value = "";
+  }
+
+  function detailAddrOnChangeEvent() {
+
+    const addressHelp = document.getElementById("addressHelp");
+
+    const zone_code = zone_codeInput.value;
+    const address = addressInput.value;
+    const detail_addr = detail_addrInput.value;
+    const recipient = recipientInput.value;
+
+    if (Object.isEmptyObject(zone_code)
+        && Object.isEmptyObject(address)
+        && Object.isEmptyObject(detail_addr)
+        && Object.isEmptyObject(recipient)
+    ) {
+      addressHelp.innerHTML = "* 배송지 입력시 수취인과 상세 주소는 필수입니다.";
+      addressHelp.classList.remove("text-danger");
+      addressHelp.classList.add("text-success");
+      isAddressValid = true;
+    } else if (!Object.isEmptyObject(zone_code)
+        && !Object.isEmptyObject(address)
+        && !Object.isEmptyObject(detail_addr)
+        && !Object.isEmptyObject(recipient)) {
+      addressHelp.innerHTML = "* 배송지 입력시 수취인과 상세 주소는 필수입니다.";
+      addressHelp.classList.remove("text-danger");
+      addressHelp.classList.add("text-success");
+      isAddressValid = true;
+    } else {
+      addressHelp.innerHTML = "* 배송지 입력을 완료하십시오.";
+      addressHelp.classList.remove("text-success");
+      addressHelp.classList.add("text-danger");
+      isAddressValid = false;
+    }
+
+    isBtnActivatable();
   }
 
 //   submit 버튼 눌렀을 때 전송 요청 함수
-  function onClickSubmitBtn () {
+  submitBtn.addEventListener("click", onClickSubmitBtn);
 
+  async function onClickSubmitBtn() {
+    const member_id = inputUserId.value;
+    const password = inputPw.value;
+    const email = inputEmail.value;
+    const phone = inputPhone.value;
+
+    const address = addressInput.value;
+    const detail_addr = detail_addrInput.value;
+    const zone_code = zone_codeInput.value;
+    const recipient = recipientInput.value;
+
+    const data = {
+      member_id,
+      password,
+      email,
+      phone,
+      address,
+      detail_addr,
+      zone_code,
+      recipient
+    };
+
+    const {data: result} = await axios.post("./signup", data);
+
+    console.log("data= ", data);
+    console.log("result= ", result)
   }
 
 });

@@ -1,4 +1,4 @@
-package com.ohdogcat.dto;
+package com.ohdogcat.model;
 
 
 import lombok.AllArgsConstructor;
@@ -10,13 +10,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class MemberJoinDto {
-    private String member_id;
-    private String password;
-    private String email;
-    private String phone;
+public class Address {
+    private Long address_pk;
     private String address;
+    private String zonecode;
     private String detail_addr;
-    private String zone_code;
     private String recipient;
+    private String created_date;
 }

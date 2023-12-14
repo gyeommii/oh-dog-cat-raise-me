@@ -1,11 +1,13 @@
 package com.ohdogcat.web;
 
 
+import com.ohdogcat.dto.MemberJoinDto;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -27,7 +29,7 @@ public class MemberController {
     public ResponseEntity<Boolean> checkUserIdUnique(@RequestParam String userId) {
         log.debug("duplicationCheck::");
         log.debug("userId={}", userId);
-        return ResponseEntity.ok(false);
+        return ResponseEntity.ok(true);
     }
 
     @ResponseBody
@@ -40,8 +42,8 @@ public class MemberController {
 
     // 끝: signup 시 DB에 중복 데이터 체크할 REST API
     @PostMapping("/signup")
-    public void signuppost() {
-        log.debug("signup::");
+    public void signup(@RequestBody MemberJoinDto dto) {
+        log.debug("MemberJoinDto={}", dto);
     }
 
 }

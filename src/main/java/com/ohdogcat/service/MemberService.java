@@ -5,6 +5,8 @@ public interface MemberService {
 
     boolean checkUserIdDuplication();
 
+    boolean checkEmailDuplication();
+
     boolean join();
 
 

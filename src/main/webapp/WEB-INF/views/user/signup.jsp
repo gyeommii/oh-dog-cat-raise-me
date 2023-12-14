@@ -45,42 +45,49 @@
                 <div class="mb-3">
                     <label for="inputPwCheck" class="form-label mx-2">비밀번호 확인<span
                             class="text-danger">*</span></label>
-                    <input type="password" class="form-control mx-2" id="inputPwCheck" required />
+                    <input type="password" class="form-control mx-2" id="inputPwCheck" required/>
                     <div id="pwCheckHelp" class="form-text mx-2"></div>
                 </div>
                 <div class="mb-3">
-                    <label for="inputPw" class="form-label mx-2">핸드폰 번호<span
-                            class="text-danger" >*</span></label>
-                    <input type="text" class="form-control mx-2" id="exampleCheck1" required/>
+                    <label for="inputPhone" class="form-label mx-2">핸드폰 번호<span
+                            class="text-danger">*</span></label>
+                    <input type="text" class="form-control mx-2" id="inputPhone" required/>
+                    <div id="phoneHelp" class="form-text mx-2">"-"로 구분하여 작성해주세요.</div>
+                    <div class="text-secondary text-opacity-50 mx-2">예) 010-0000-0000</div>
                 </div>
             </div>
         </form>
     </div>
     <hr class="border border-2 opacity-75" style="margin-left: 0.5rem;margin-right: -0.5rem"/>
     <div class="mb-3">
-        <h3>기본 배송지 입력</h3>
-        <div style="color: gray">
-            선택 사항
+        <div class="input-group mx-2">
+            <h3>기본 배송지 입력</h3>
+            <div class="form-text text-secondary mx-5">선택 사항</div>
         </div>
         <div id="address-div" class="mb-3">
             <div class="input-group m-2">
-                <input type="text" id="postcode" class="form-control" placeholder="우편번호" readonly>
-                <input type="button" class="btn btn-outline-success"
-                       onclick="findAddressThrougDaumPost()" value="우편번호 찾기"><br>
+                <input type="text" id="zonecode" class="form-control" placeholder="우편번호" readonly>
+                <input type="button" id="daumPostOpenBtn" class="btn btn-outline-success"
+                       value="우편번호 찾기"><br>
             </div>
             <input type="text" id="address" class="form-control m-2" placeholder="주소" readonly>
             <input type="text" id="detailAddress" class="form-control m-2" placeholder="상세주소">
-            <input type="text" id="getter-name" class="form-control m-2" placeholder="배송 받는 사람">
+            <input type="text" id="recipient" class="form-control m-2" placeholder="배송 받는 사람">
+            <div id="addressHelp" class="form-text mx-2">
+                * 배송지 입력시 수취인과 상세 주소는 필수입니다.
+            </div>
+            <a id="address-reset-btn" class="btn btn-outline-warning form-control m-2" >배송지 초기화</a>
 
             <div id="address-finder"
                  style="display:none;border:1px solid;width:500px;height:300px;margin:auto;position:relative">
-                <img src="//t1.daumcdn.net/postcode/resource/images/close.png" id="btnFoldWrap"
+                <img src="../images/close.png" id="btnFoldWrap"
                      style="cursor:pointer;position:absolute;right:0px;top:-1px;z-index:1"
-                     onclick="foldDaumPostcode()" alt="접기 버튼">
+                     alt="접기 버튼">
             </div>
         </div>
         <div class="mb-3">
-            <button type="submit" id="submitBtn" class="btn btn-primary form-control mx-2">Submit</button>
+            <button type="submit" id="submitBtn" class="btn btn-primary form-control mx-2">Submit
+            </button>
         </div>
     </div>
 </div>
@@ -90,7 +97,7 @@
         crossorigin="anonymous"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+<script src="../js/postcode.v2.js"></script>
 <script src="../js/kakao-addr.js"></script>
 <script src="../js/signup.js"></script>
 
