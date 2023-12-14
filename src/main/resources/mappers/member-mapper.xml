@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ohdogcat.repository.MemberDao">
+  <select id="checkMemberIdUnique" parameterType="String" resultType="Integer">
+    select COUNT(*) AS cnt from MEMBER
+    where member_id like #{memberId}
+  </select>
+
+  <select id="checkEmailUnique" parameterType="String" resultType="Integer">
+    select COUNT(*) AS cnt from MEMBER
+    where email like #{email}
+  </select>
+
+  <insert id="join" parameterType="Member">
+    insert into member (
+    member_id,
+    password,
+    email,
+    phone
+    <if test="address_fk != null">
+      , address_fk
+    </if>
+    ) values (
+    #{member_id}, #{password}, #{email}, #{phone}
+    <if test="address_fk != null">
+      , #{address_fk}
+    </if>
+    )
+  </insert>
+
+</mapper>

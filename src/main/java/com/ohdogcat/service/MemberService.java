@@ -1,11 +1,15 @@
 package com.ohdogcat.service;
 
 
+import com.ohdogcat.dto.MemberJoinDto;
+
 public interface MemberService {
 
-    boolean checkUserIdDuplication();
+    boolean checkMemberIdUnique(String memberId);
 
-    boolean join();
+    boolean checkEmailUnique(String email);
+
+    boolean join(MemberJoinDto dto);
 
 
 }
