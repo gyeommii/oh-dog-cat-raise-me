@@ -12,10 +12,8 @@
 			alias="Product" />
 		<typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto"
 			alias="ProductPetTypeDto" />
-
 		<typeAlias type="com.ohdogcat.model.Member" alias="Member" />
 		<typeAlias type="com.ohdogcat.model.Address" alias="Address" />
 	</typeAliases>
-
 
 </configuration>
