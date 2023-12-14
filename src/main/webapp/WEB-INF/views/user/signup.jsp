@@ -24,35 +24,34 @@
                     <div class="input-group  mx-2">
                         <input type="text" class="form-control" style="width: 80%"
                                id="inputUserId"
-                               aria-describedby="emailHelp">
+                               aria-describedby="emailHelp" required>
                         <a id="check-duplicated-id-btn" class="btn btn-outline-success">중복 확인하기</a>
                     </div>
-                    <span id="userIdDesc" class="form-text mx-2"></span>
+                    <div id="userIdDesc" class="form-text mx-2">1) 아이디는 6자 이상. 2) 영어와 숫자의 조합</div>
                 </div>
                 <div class="mb-3">
                     <label for="inputEmail" class="form-label  mx-2">이메일 주소<span
                             class="text-danger">*</span></label>
                     <input type="email" class="form-control mx-2" id="inputEmail"
-                           aria-describedby="emailHelp">
+                           aria-describedby="emailHelp" required>
+                    <div id="emailDesc" class="form-text mx-2"></div>
                 </div>
                 <div class="mb-3">
                     <label for="inputPw" class="form-label  mx-2">비밀번호<span
                             class="text-danger">*</span></label>
-                    <input type="password" class="form-control mx-2" id="inputPw">
-                    <div id="pwHelp" class="form-text mx-2">1) 영문 숫자 혼합. 2)공백 제외 6글자 이상 32글자 이상으로
-                        설정.
-                    </div>
+                    <input type="password" class="form-control mx-2" id="inputPw" required>
+                    <div id="pwHelp" class="form-text mx-2">1) 영문 숫자 혼합. 2)공백 제외 6글자 이상.</div>
                 </div>
                 <div class="mb-3">
                     <label for="inputPwCheck" class="form-label mx-2">비밀번호 확인<span
                             class="text-danger">*</span></label>
-                    <input type="password" class="form-control mx-2" id="inputPwCheck">
+                    <input type="password" class="form-control mx-2" id="inputPwCheck" required />
                     <div id="pwCheckHelp" class="form-text mx-2"></div>
                 </div>
                 <div class="mb-3">
                     <label for="inputPw" class="form-label mx-2">핸드폰 번호<span
-                            class="text-danger">*</span></label>
-                    <input type="text" class="form-control mx-2" id="exampleCheck1">
+                            class="text-danger" >*</span></label>
+                    <input type="text" class="form-control mx-2" id="exampleCheck1" required/>
                 </div>
             </div>
         </form>
@@ -60,6 +59,9 @@
     <hr class="border border-2 opacity-75" style="margin-left: 0.5rem;margin-right: -0.5rem"/>
     <div class="mb-3">
         <h3>기본 배송지 입력</h3>
+        <div style="color: gray">
+            선택 사항
+        </div>
         <div id="address-div" class="mb-3">
             <div class="input-group m-2">
                 <input type="text" id="postcode" class="form-control" placeholder="우편번호" readonly>
@@ -68,6 +70,7 @@
             </div>
             <input type="text" id="address" class="form-control m-2" placeholder="주소" readonly>
             <input type="text" id="detailAddress" class="form-control m-2" placeholder="상세주소">
+            <input type="text" id="getter-name" class="form-control m-2" placeholder="배송 받는 사람">
 
             <div id="address-finder"
                  style="display:none;border:1px solid;width:500px;height:300px;margin:auto;position:relative">

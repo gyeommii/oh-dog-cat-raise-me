@@ -11,10 +11,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class MemberJoinDto {
-        private String password;
-        private String email;
-        private String phone;
-        private String address;
-        private String buildingName;
-        private String detail_addr;
+    private String member_id;
+    private String password;
+    private String email;
+    private String phone;
+    private String jibun_addr;
+    private String buildingName;
+    private String detail_addr;
 }
