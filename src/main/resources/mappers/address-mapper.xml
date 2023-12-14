@@ -9,6 +9,14 @@
       address, zonecode, detail_addr, recipient
     ) values (
       #{address}, #{zonecode}, #{detail_addr}, #{recipient}
-    );
+    )
+    <selectKey resultType="Long" keyProperty="address_pk" order="AFTER">
+      select address_pk from address
+      where address = #{address} and zonecode = #{zonecode} and detail_addr = #{detail_addr} and recipient= #{recipient}
+      order by created_date desc
+      offset 0 row fetch next 1 row only
+    </selectKey>
   </insert>
+
+
 </mapper>
