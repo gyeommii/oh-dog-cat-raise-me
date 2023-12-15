@@ -39,7 +39,7 @@ public class ProductController {
 		model.addAttribute("products", productService.readBestSellers());
 	}
 	 
-	@GetMapping("/sort")
+	@GetMapping("/collection/sort")
     @ResponseBody
     public ProductService.SortedProductData sortProducts(@RequestParam String sortType) {
         // ProductService에서 정렬된 제품 데이터를 가져오는 메서드 호출
