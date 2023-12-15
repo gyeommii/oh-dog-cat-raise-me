@@ -1,0 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core" %> 
+    
+<header class="bg-dark py-5">
+    <div class="container px-4 px-lg-5 my-5">
+    	<c:url var="mainPage" value="/"/>
+        <div class="text-center text-white" 
+        	onclick="location.href= '${mainPage}'" style= "cursor: pointer;">
+            <h1 class="display-4 fw-bolder">🐶🐱<br>키워줄개냥?</h1>
+            <p class="lead fw-normal text-white-50 mb-0">oh dog cat raise me </p>
+        </div>
+    </div>
+</header>

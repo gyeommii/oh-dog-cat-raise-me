@@ -14,17 +14,10 @@
 	<body>
 	
   	<!-- Header-->
-  	<header class="bg-dark py-5">
-	    <div class="container px-4 px-lg-5 my-5">
-	        <div class="text-center text-white">
-	            <h1 class="display-4 fw-bolder">🐶🐱<br>키워줄개냥?</h1>
-	            <p class="lead fw-normal text-white-50 mb-0">oh dog cat raise me </p>
-	        </div>
-	    </div>
-  	</header>
+  	<%@ include file ="fragments/header.jspf" %>
+  	
   	
 	<main>
-	
 	<!-- 멍멍이/야옹이 버튼 -->
 	<div class="text-center mt-5">
 		<div class="btn-group  btn-group-lg" role="group" aria-label="Basic radio toggle button group">
@@ -41,62 +34,110 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-12 text-center my-5">
-				<h3 id="newTitle">🐶멍 신상품 ></h3>
+				<h3 id="newTitle">🐶멍 신상품</h3>
 			</div>
 		</div>
 		<div id="dogNewList" class="row">
 			<!--신상품: petType이 강아지인 경우 -->
-			<c:forEach var="n" items="${newList}">
-				<c:if test="${n.petType eq 1}">
-					<div class="col-3">
-						<div class="card mb-5" style="width: 17rem;">
-							<div class="badge bg-warning text-white position-absolute"
-								style="top: 0.5rem; right: 0.5rem">New</div>
-							<img src="${n.imgUrl}" class="card-img-top" alt="Product image">
-							<div class="card-body">
-								<h5 class="card-title">${n.productName}</h5>
-								<p class="card-text">${n.minPrice}</p>
-							</div>
+			<c:forEach var="dn" items="${dogNew}">
+				<div class="col-3">
+					<c:url var="productDetailsPage" value="/product/details">
+						<c:param name="productPk" value="${dn.productPk}" />
+					</c:url>
+					<div class="card mb-5"
+						onclick="location.href= '${productDetailsPage}'"
+						style="width: 17rem; cursor: pointer;">
+						<div class="badge bg-warning text-white position-absolute"
+							style="top: 0.5rem; right: 0.5rem">New</div>
+						<img src="${dn.imgUrl}" class="card-img-top" alt="Product image">
+						<div class="card-body">
+							<h5 class="card-title">${dn.productName}</h5>
+							<p class="card-text">${dn.minPrice}</p>
 						</div>
 					</div>
-				</c:if>
+				</div>
 			</c:forEach>
 		</div>
 		<!-- product-list.js에서 처리. (고양이 버튼 선택 시 보여줄 신상품) -->
 		<div id="catNewList" class="row d-none">
-		</div>	
-	</div> <!-- end 신상품 컨테이너 -->
-	
-	
+			<!--신상품: petType이 고양이인 경우 -->
+			<c:forEach var="cn" items="${catNew}">
+				<div class="col-3">
+					<c:url var="productDetailsPage" value="/product/details">
+						<c:param name="productPk" value="${cn.productPk}" />
+					</c:url>
+					<div class="card mb-5"
+						onclick="location.href= '${productDetailsPage}'"
+						style="width: 17rem; cursor: pointer;">
+						<div class="badge bg-warning text-white position-absolute"
+							style="top: 0.5rem; right: 0.5rem">New</div>
+						<img src="${cn.imgUrl}" class="card-img-top" alt="Product image">
+						<div class="card-body">
+							<h5 class="card-title">${cn.productName}</h5>
+							<p class="card-text">${cn.minPrice}</p>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<!-- end 신상품 컨테이너 -->
 
 
- 	<!-- 베스트 컨테이너-->
+	<!-- 베스트 컨테이너-->
 	<div class="container">
 		<div id="dogBest" class="row">
 			<div class="col-12 text-center my-5">
-				<h3 id="bestTitle">🐶멍 베스트 ></h3>
+				<h3 id="bestTitle">🐶멍 베스트</h3>
 			</div>
 		</div>
-		
-		<div class="row">
+
+		<div id="dogBestList" class="row">
 			<!--베스트 상품: petType이 강아지인 경우 -->
-			<c:forEach var="b" items="${bestList}">
-				<c:if test="${b.petType eq 1}">
-					<div class="col-3">
-						<div class="card mb-5" style="width: 17rem;">
-							<div class="badge bg-warning text-white position-absolute"
-								style="top: 0.5rem; right: 0.5rem">Best</div>
-							<img src="${b.imgUrl}" class="card-img-top" alt="Product image">
-							<div class="card-body">
-								<h5 class="card-title">${b.productName}</h5>
-								<p class="card-text">${b.minPrice}</p>
-							</div>
+			<c:forEach var="db" items="${dogBest}">
+				<div class="col-3">
+					<c:url var="productDetailsPage" value="/product/details">
+						<c:param name="productPk" value="${db.productPk}" />
+					</c:url>
+					<div class="card mb-5"
+						onclick="location.href= '${productDetailsPage}'"
+						style="width: 17rem; cursor: pointer;">
+						<div class="badge bg-warning text-white position-absolute"
+							style="top: 0.5rem; right: 0.5rem">Best</div>
+						<img src="${db.imgUrl}" class="card-img-top" alt="Product image">
+						<div class="card-body">
+							<h5 class="card-title">${db.productName}</h5>
+							<p class="card-text">${db.minPrice}</p>
 						</div>
 					</div>
-				</c:if>
+				</div>
 			</c:forEach>
 		</div>
-	</div> <!-- end 베스트 컨테이너 -->
+
+		<!-- product-list.js에서 처리. (고양이 버튼 선택 시 보여줄 베스트상품) -->
+		<div id="catBestList" class="row d-none">
+			<!--베스트 상품: petType이 고양이인 경우 -->
+			<c:forEach var="cb" items="${catBest}">
+				<div class="col-3">
+					<c:url var="productDetailsPage" value="/product/details">
+						<c:param name="productPk" value="${cb.productPk}" />
+					</c:url>
+					<div class="card mb-5"
+						onclick="location.href= '${productDetailsPage}'"
+						style="width: 17rem; cursor: pointer;">
+						<div class="badge bg-warning text-white position-absolute"
+							style="top: 0.5rem; right: 0.5rem">Best</div>
+						<img src="${cb.imgUrl}" class="card-img-top" alt="Product image">
+						<div class="card-body">
+							<h5 class="card-title">${cb.productName}</h5>
+							<p class="card-text">${cb.minPrice}</p>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+	<!-- end 베스트 컨테이너 -->
 
 
 	</main>
@@ -107,8 +148,10 @@
 	<script src="js/product-list.js"></script>
 					
     <!-- Footer-->
-  	<footer class="py-5 bg-dark">
-       <div class="container"><p class="m-0 text-center text-white">Copyright &copy; ohdogcat 2023</p></div>
-    </footer>
-	</body>
+	<footer class="py-5 bg-dark">
+		<div class="container">
+			<p class="m-0 text-center text-white">Copyright &copy; ohdogcat 2023</p>
+		</div>
+	</footer>
+</body>
 </html>

@@ -1,4 +1,4 @@
-package com.ohdogcat.domain;
+package com.ohdogcat.model;
 
 import java.time.LocalDateTime;
 

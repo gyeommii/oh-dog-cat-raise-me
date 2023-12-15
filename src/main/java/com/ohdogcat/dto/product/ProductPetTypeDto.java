@@ -10,6 +10,7 @@ import lombok.Data;
 public class ProductPetTypeDto {
 	private Long productPk;
 	private String productName;
+	private Long categoryFk;
 	private String imgUrl;
 	private Long minPrice;
 	private Long sold;
