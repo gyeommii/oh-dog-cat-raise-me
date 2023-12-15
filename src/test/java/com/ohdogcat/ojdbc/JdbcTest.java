@@ -14,7 +14,7 @@ import oracle.jdbc.OracleDriver;
 /*
  * JUnit 테스트(자바 단위 테스트)를 하기 위한 클래스 작성.
  * main 메서드를 작성하지 않음.
- * @Test 애너테이션을 사용한 메스드를 작성.
+ * @Test 애너테이션을 사용한 메서드를 작성.
  * Run As->JUnit Test를 실행하면, junit-jupiter-engine에서 테스트 메서드를 실행.
  */
 public class JdbcTest {

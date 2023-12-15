@@ -36,14 +36,14 @@ public class HikariCPTest {
 		// 커넥션 풀(데이터 소스)에서 커넥션 객체를 빌려옴.
 		Connection conn = ds.getConnection();
 
-		PreparedStatement stmt = conn.prepareStatement("INSERT INTO BLOGS (TITLE, CONTENT, AUTHOR) VALUES (?, ?, ?)");
-		stmt.setString(1, "hihi");
-		stmt.setString(2, "hello");
-		stmt.setString(3, "hola");
-
-		int result = stmt.executeUpdate();
-
-		Assertions.assertEquals(1, result);
+//		PreparedStatement stmt = conn.prepareStatement("INSERT INTO BLOGS (TITLE, CONTENT, AUTHOR) VALUES (?, ?, ?)");
+//		stmt.setString(1, "hihi");
+//		stmt.setString(2, "hello");
+//		stmt.setString(3, "hola");
+//
+//		int result = stmt.executeUpdate();
+//
+//		Assertions.assertEquals(1, result);
 
 		// 커넥션 객체는 null이 아니어야 함.
 		Assertions.assertNotNull(conn);

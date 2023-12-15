@@ -8,7 +8,7 @@
 
     <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
     <typeAliases>
-
+        <typeAlias type="com.ohdogcat.domain.Product" alias="Product"/>
     </typeAliases>
 
 </configuration>

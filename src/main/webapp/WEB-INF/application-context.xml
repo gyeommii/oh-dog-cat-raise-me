@@ -12,12 +12,13 @@
         <property name="driverClassName"
             value="oracle.jdbc.OracleDriver" />
         <property name="jdbcUrl"
-            value="jdbc:oracle:thin:@192.168.20.11:1521:xe" />
-        <property name="username" value="scott" />
-        <property name="password" value="tiger" />
+            value="jdbc:oracle:thin:@192.168.20.11:1521:xe" /> <!-- "jdbc:oracle:thin:@localhost:1521:xe" 
+                                                                    "jdbc:oracle:thin:@192.168.20.11:1521:xe"            --> 
+        <property name="username" value="ohdogcat" /> <!-- ohdogcat --> <!-- scott --> 
+        <property name="password" value="raiseme" />   <!-- raiseme -->  <!-- tiger --> 
     </bean>
 
-    <!-- HikariDataSource 객체(bean) 생서을 위한 설정 -->
+    <!-- HikariDataSource 객체(bean) 생성을 위한 설정 -->
     <!-- HikariDataSrouce ds = new HikariDataSource(config); -->
     <bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
         <constructor-arg ref="hikariConfig" />
@@ -37,9 +38,9 @@
     <!-- MyBatis 프레임워크에서 생성하고 관리하는 빈(bean)들을 base-package와 그 하위 패키지에서 찾음. 
         PostDao, UserDao 인터페이스들을 작성하는 패키지. -->
     <mybatis:scan
-        base-package="ohdogcat.repository" />
+        base-package="com.ohdogcat.repository" />
 
     <!-- 스프링 컨테이너에서 컴포넌트 빈(예: @Service, @Component, ...)들을 검색할 기본 패키지를 설정 -->
     <context:component-scan
-        base-package="ohdogcat.service" />
+        base-package="com.ohdogcat.service" />
 </beans>
