@@ -31,4 +31,12 @@
     )
   </insert>
 
+  <select id="login" parameterType="Member" resultType="Member">
+    select
+      member_pk,
+      member_id
+    from member
+    where member_id = #{member_id} and password = #{password}
+  </select>
+
 </mapper>

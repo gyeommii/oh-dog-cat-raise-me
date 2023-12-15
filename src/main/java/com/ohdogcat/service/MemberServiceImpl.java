@@ -1,6 +1,8 @@
 package com.ohdogcat.service;
 
 import com.ohdogcat.dto.MemberJoinDto;
+import com.ohdogcat.dto.MemberLoginDto;
+import com.ohdogcat.dto.MemberSessionDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
@@ -49,5 +51,12 @@ public class MemberServiceImpl implements MemberService {
         log.debug("isMemberCreated::{}", isMemberCreated);
 
         return isMemberCreated == 1;
+    }
+
+    @Override
+    public MemberSessionDto signin(MemberLoginDto dto) {
+        log.debug("dto={}", dto);
+        Member memberInDb = memberDao.login(dto.toMember());
+        return MemberSessionDto.fromMember(memberInDb);
     }
 }

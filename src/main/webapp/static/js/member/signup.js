@@ -277,7 +277,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const {data: result} = await axios.post("./signup", data);
 
-    console.log("result= ", result);
+    console.log("result=", result);
     if (result) {
       location.href = "./signin?result=success";
     } else {
