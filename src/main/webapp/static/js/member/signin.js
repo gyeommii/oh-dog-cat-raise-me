@@ -1,24 +1,17 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const inputId = document.getElementById("inputUserId");
-  const inputPw = document.getElementById("inputPw");
+  const resultDesc = document.getElementById("login-result-desc");
 
-  const loginBtn = document.getElementById("loginBtn");
-  loginBtn.addEventListener("click", loginBtnClickHandler);
+  if (location.href.includes("result=success")) {
+    resultDesc.innerHTML = "회원가입에 성공하셨습니다. 로그인을 해볼까요?";
+    resultDesc.classList.remove("d-none");
+    resultDesc.classList.remove("text-danger");
+    resultDesc.classList.add("text-success");
+  }
 
-  async function loginBtnClickHandler() {
-    const member_id = inputId.value;
-    const password = inputPw.value;
-
-    const data = {
-      member_id,
-      password
-    };
-
-    console.log("data={}", data)
-
-    const {data: result} = await axios.post("./signin", data);
-
-    console.log("result=", result);
+  if (location.href.includes("result=f")) {
+    resultDesc.classList.remove("d-none");
+  } else {
+    resultDesc.classList.add("d-none");
   }
 
 })
