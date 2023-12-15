@@ -13,8 +13,11 @@
 </head>
 <body>
 
+<%@include file="../fragments/header.jspf" %>
 
-<div id="join-form-wrapper" style="width: 60%; margin: auto">
+
+<div id="join-form-wrapper" style="width: 60%; margin: auto; padding-top: 3%;">
+    <h2 class="my-4">회원가입</h2>
     <div class="mb-3">
         <form>
             <div class="mb-3">
@@ -76,7 +79,7 @@
             <div id="addressHelp" class="form-text mx-2">
                 * 배송지 입력시 수취인과 상세 주소는 필수입니다.
             </div>
-            <a id="address-reset-btn" class="btn btn-outline-warning form-control m-2" >배송지 초기화</a>
+            <a id="address-reset-btn" class="btn btn-outline-warning form-control m-2">배송지 초기화</a>
 
             <div id="address-finder"
                  style="display:none;border:1px solid;width:500px;height:300px;margin:auto;position:relative">
