@@ -22,7 +22,8 @@ public class HikariCPTest {
 
 		// HikariCP 환경 설정:
 		config.setDriverClassName("oracle.jdbc.OracleDriver");
-		config.setJdbcUrl("jdbc:oracle:thin:@192.168.20.11:1521:xe");
+//		config.setJdbcUrl("jdbc:oracle:thin:@192.168.20.11:1521:xe");
+		config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
 		config.setUsername("scott");
 		config.setPassword("tiger");
 

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ohdogcat.service.ProductService;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -45,4 +46,14 @@ public class ProductController {
 		log.debug("sortType={}", sortType);
         return productService.getSortedProducts(sortType);
     }
+
+	// 유정언니꺼
+	@GetMapping("/details")
+	public void details(@RequestParam(name = "productPk") long productPk, Model model) {
+		log.debug("details prodcutPk = {}", productPk);
+	}
+	
+	
+	
+
 }

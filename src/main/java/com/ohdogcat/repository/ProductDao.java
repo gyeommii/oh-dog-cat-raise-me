@@ -2,6 +2,7 @@ package com.ohdogcat.repository;
 
 import java.util.List;
 
+<<<<<<< HEAD
 import com.ohdogcat.domain.Product;
 
 public interface ProductDao {
@@ -15,4 +16,23 @@ public interface ProductDao {
 	List<Product> selectByHighestPrice();
 	
 
+=======
+import com.ohdogcat.dto.product.ProductPetTypeDto;
+
+public interface ProductDao {
+	// 강아지/고양이 전체 신규 등록 순
+	List<ProductPetTypeDto> selectOrderByCreateDesc();
+	
+	
+	// 강아지 타입 신상품 상위 8개 
+	List<ProductPetTypeDto> selectDogTypeOrderByCreateDesc();
+	// 강아지 타입 베스트 상품 상위 8개 
+	List<ProductPetTypeDto> selectDogTypeOrderBySoldDesc();
+	
+	// 고양이 타입 신상품 상위 8개 
+	List<ProductPetTypeDto> selectCatTypeOrderByCreateDesc();
+	// 고양이 타입 베스트 상품 상위 8개 
+	List<ProductPetTypeDto> selectCatTypeOrderBySoldDesc();
+	
+>>>>>>> main
 }
