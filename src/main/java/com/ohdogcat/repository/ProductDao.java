@@ -1,12 +1,13 @@
 package com.ohdogcat.repository;
 
+
+import com.ohdogcat.model.Product;
+
 import java.util.List;
 
-<<<<<<< HEAD
-import com.ohdogcat.domain.Product;
+import com.ohdogcat.dto.product.ProductPetTypeDto;
 
 public interface ProductDao {
-
 	List<Product> selectByCreatedDesc();
 	
 	List<Product> selectByBestSellerDesc();
@@ -15,11 +16,7 @@ public interface ProductDao {
 	
 	List<Product> selectByHighestPrice();
 	
-
-=======
-import com.ohdogcat.dto.product.ProductPetTypeDto;
-
-public interface ProductDao {
+	
 	// 강아지/고양이 전체 신규 등록 순
 	List<ProductPetTypeDto> selectOrderByCreateDesc();
 	
@@ -34,5 +31,4 @@ public interface ProductDao {
 	// 고양이 타입 베스트 상품 상위 8개 
 	List<ProductPetTypeDto> selectCatTypeOrderBySoldDesc();
 	
->>>>>>> main
 }

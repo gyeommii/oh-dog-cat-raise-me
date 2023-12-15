@@ -2,7 +2,7 @@ package com.ohdogcat.dto.product;
 
 import java.time.LocalDateTime;
 
-import com.ohdogcat.domain.Product;
+import com.ohdogcat.model.Product;
 
 import lombok.Builder;
 import lombok.Data;

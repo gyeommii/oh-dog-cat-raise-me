@@ -1,12 +1,9 @@
-<<<<<<< HEAD
-=======
 <?xml version="1.0" encoding="UTF-8"?>
->>>>>>> main
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-<<<<<<< HEAD
+
 <!--  PRODUCT 테이블에서 CRUD에 필요한 SQL 문장들을 선언 -->
 <mapper namespace="com.ohdogcat.repository.ProductDao"> <!-- 같은 id로 만들어도(예를들어 insert로 하면 post의 insert인지 user의 insert인지,,) namespace가 다르면  -->
     
@@ -31,15 +28,11 @@
     </select>
     
     
-  
-=======
-<mapper namespace="com.ohdogcat.repository.ProductDao">
-	
+	<!-- ///////////////// 여기서부터 유정언니 부분 //////////////////////// -->
 	<!--PRODUCT 테이블 전체 검색. 상품 신규 등록 순 정렬용 -->
 	<select id="selectOrderByCreateDesc" resultType="Product">
 		select * from PRODUCT order by CREATE_DATE desc
 	</select>
-	
 	
 	<!-- ****** 메인 리스트 신상품/베스트 상품 불러올 때 사용! ****** -->
 	
@@ -79,7 +72,5 @@
 		order by sold desc
 	</select>
 	
-	
 
->>>>>>> main
 </mapper>
