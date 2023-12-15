@@ -42,11 +42,11 @@
                 <input type="password" class="form-control mx-2" id="inputPw" name="password"
                        required>
             </div>
-            <div id="login-result-desc" class="text-danger d-none">아이디(로그인 전용 아이디) 또는 비밀번호를 잘못
+            <div id="login-result-desc">아이디(로그인 전용 아이디) 또는 비밀번호를 잘못
                 입력했습니다.<br/>
                 입력하신 내용을 다시 확인해주세요.
             </div>
-            <input type="submit" id="loginBtn" class="btn btn-outline-success" value="로그인"/>
+            <input type="submit" id="loginBtn" class="btn btn-outline-success form-control" value="로그인"/>
         </form>
     </div>
 </main>
