@@ -20,13 +20,12 @@
     </style>
 </head>
 <body>
-<div class="p-4" style="height: 50%">
-    <h3 class="text-center">키워주개냥!</h3>
-</div>
+<%@include file="../fragments/header.jspf" %>
 
 
-<main id="login-form-wrapper m-3" style="width: 50%; margin: auto">
+<main id="login-form-wrapper m-3" style="width: 50%; margin: auto; padding-top: 3%;">
     <div class="mb-3 card p-3" style="width: 70%; margin:auto">
+        <h2 class="my-4" style="margin: auto">로그인</h2>
         <form class="mb-3 card-body" method="post">
             <div class="mb-3">
                 <label for="inputUserId" class="form-label p-2"><img class="login-icon m-2"
@@ -46,7 +45,8 @@
                 입력했습니다.<br/>
                 입력하신 내용을 다시 확인해주세요.
             </div>
-            <input type="submit" id="loginBtn" class="btn btn-outline-success form-control" value="로그인"/>
+            <input type="submit" id="loginBtn" class="btn btn-outline-success form-control"
+                   value="로그인"/>
         </form>
     </div>
 </main>
