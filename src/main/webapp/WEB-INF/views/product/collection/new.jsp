@@ -58,8 +58,7 @@
                     <div>
                         <div>
                             <ul class="horizontal-list">
-                                <li id="totalProductCount">총0건</li>
-                                <!-- 수정된 부분: ID를 추가함 -->
+                                <li id="totalProductCount">총건</li>
                                 <li><a href="" id="new"
                                     class="sort-option">신상품순</a></li>
                                 <li><a href="" id="best"

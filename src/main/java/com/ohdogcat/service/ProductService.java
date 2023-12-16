@@ -73,6 +73,12 @@ public class ProductService {
 		List<ProductPetTypeDto> list = productDao.selectDogTypeOrderByCreateDesc();
 		return list;
 	}
+	
+	public List<ProductPetTypeDto> readDogOrderByNewAll() {
+		log.debug("readDogOrderByNewAll()");
+		List<ProductPetTypeDto> list = productDao.selectDogTypeAllProduct();
+		return list;
+	}
 
 	public List<ProductPetTypeDto> readDogOrderByBest() {
 		log.debug("readDogOrderByBest()");
@@ -83,6 +89,12 @@ public class ProductService {
 	public List<ProductPetTypeDto> readCatOrderByNew() {
 		log.debug("readCatOrderByNew()");
 		List<ProductPetTypeDto> list = productDao.selectCatTypeOrderByCreateDesc();
+		return list;
+	}
+	
+	public List<ProductPetTypeDto> readCatOrderByNewAll() {
+		log.debug("readCatOrderByNewAll()");
+		List<ProductPetTypeDto> list = productDao.selectCatTypeAllProduct();
 		return list;
 	}
 

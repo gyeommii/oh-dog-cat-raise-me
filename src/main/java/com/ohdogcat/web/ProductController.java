@@ -1,5 +1,7 @@
 package com.ohdogcat.web;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,11 +24,25 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 	
+//	@GetMapping("/list")
+//	public void allProductList(Model model) {
+//		// 전체상품 목록을 가져와서 모델에 추가
+//		model.addAttribute("products", productService.readNewProducts());
+//	}
+	
 	@GetMapping("/list")
 	public void allProductList(Model model) {
-		// 전체상품 목록을 가져와서 모델에 추가
-		model.addAttribute("products", productService.readNewProducts());
+		log.debug("list()");
+		// 강아지 & 고양이 전체 목록(신상품순)
+		List<ProductPetTypeDto> dogNew = productService.readDogOrderByNewAll();
+		List<ProductPetTypeDto> catNew = productService.readCatOrderByNewAll();
+		
+		model.addAttribute("dogNew", dogNew);
+		model.addAttribute("catNew", catNew);
+		
 	}
+	
+		
 	
 	@GetMapping("/collection/new")
 	public void newProductList(Model model) {
