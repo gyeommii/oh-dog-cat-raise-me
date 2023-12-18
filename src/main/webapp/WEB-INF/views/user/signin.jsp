@@ -7,10 +7,11 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet"
-          integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-          crossorigin="anonymous">
+    <link
+            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+            rel="stylesheet"
+            integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+            crossorigin="anonymous">
     <style>
       .login-icon {
         width: 13px;
@@ -22,6 +23,7 @@
 <body>
 <%@include file="../fragments/header.jspf" %>
 
+<<<<<<< HEAD
 <main id="login-form-wrapper m-3" style="width: 50%; margin: auto; padding-top: 3%;">
     <div class="mb-3 card p-3" style="width: 70%; margin:auto">
         <h2 class="my-4" style="margin: auto">로그인</h2>
@@ -52,15 +54,28 @@
                     입력했습니다.<br/>
                     입력하신 내용을 다시 확인해주세요.
                 </div>
-                <input type="submit" id="loginBtn" class="btn btn-outline-success form-control"
-                       value="로그인"/>
+                <input type="submit" id="loginBtn"
+                       class="btn btn-outline-success form-control"
+                       value="로그인"/> <a class="btn"
+                                        href="https://kauth.kakao.com/oauth/authorize?client_id=ec9680b53803006c0f80b409abf45501&redirect_uri=http://localhost:8081/ohdogcat/user/signin/kakaoLogin
+&response_type=code">
+                <img class="img-fluid"
+                     src="../../images/kakao_login_medium_narrow.png">
+            </a>
             </div>
         </form>
     </div>
 </main>
+<div
+        class="card-body d-flex justify-content-center align-items-center input-group"
+        style="width: 100%">
+
+</div>
 
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+
+<script
+        src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 

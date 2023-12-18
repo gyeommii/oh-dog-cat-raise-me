@@ -16,37 +16,50 @@
 	<!-- 강아지 타입 신규 상품 상위 8개 -->
 	<select id="selectDogTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
 		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-		from category c join product p 
-		on c.category_pk = p.category_fk
-		where rownum <![CDATA[ <= ]]> 8 and c.pet_type = 1
-		order by create_date desc
-	</select>
+	    from (
+	        select *
+	        from product
+	        where category_fk in (select category_pk from category where pet_type = 1)
+	        order by create_date desc
+	        fetch first 8 rows only
+	    ) p join category c on p.category_fk = c.category_pk
+    </select>
+	
 
 	<!-- 강아지 타입 베스트 상품 상위 8개 -->
 	<select id="selectDogTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
 		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-		from category c join product p 
-		on c.category_pk = p.category_fk
-		where rownum <![CDATA[ <= ]]> 8 and c.pet_type = 1
-		order by sold desc
+	    from (
+	        select *
+	        from product
+	        where category_fk in (select category_pk from category where pet_type = 1)
+	        order by sold desc
+	        fetch first 8 rows only
+	    ) p join category c on p.category_fk = c.category_pk
 	</select>
 	
 	<!-- 고양이 타입 신규 상품 상위 8개 -->
 	<select id="selectCatTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
 		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-		from category c join product p 
-		on c.category_pk = p.category_fk
-		where rownum <![CDATA[ <= ]]> 8 and c.pet_type = 2
-		order by create_date desc
+	    from (
+	        select *
+	        from product
+	        where category_fk in (select category_pk from category where pet_type = 2)
+	        order by create_date desc
+	        fetch first 8 rows only
+	    ) p join category c on p.category_fk = c.category_pk
 	</select>
 
 	<!-- 고양이 타입 베스트 상품 상위 8개-->
 	<select id="selectCatTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
 		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-		from category c join product p 
-		on c.category_pk = p.category_fk
-		where rownum <![CDATA[ <= ]]> 8 and c.pet_type = 2
-		order by sold desc
+	    from (
+	        select *
+	        from product
+	        where category_fk in (select category_pk from category where pet_type = 2)
+	        order by sold desc
+	        fetch first 8 rows only
+	    ) p join category c on p.category_fk = c.category_pk
 	</select>
 	
 	
