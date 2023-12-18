@@ -33,10 +33,17 @@
 
   <select id="login" parameterType="Member" resultType="Member">
     select
-      member_pk,
-      member_id
+    member_pk,
+    member_id
     from member
     where member_id = #{member_id} and password = #{password}
+  </select>
+
+  <select id="findMemberId" parameterType="String" resultType="String">
+    select
+    member_id
+    from member
+    where email = #{email}
   </select>
 
 </mapper>
