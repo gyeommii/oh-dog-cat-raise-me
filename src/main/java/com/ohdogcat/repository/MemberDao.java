@@ -13,4 +13,6 @@ public interface MemberDao {
     Member login(Member member);
 
     String findMemberId(String email);
+
+    Integer updatePassword (Member member);
 }

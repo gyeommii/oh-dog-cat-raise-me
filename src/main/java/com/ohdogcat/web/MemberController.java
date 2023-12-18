@@ -3,6 +3,7 @@ package com.ohdogcat.web;
 
 import com.ohdogcat.dto.member.MemberJoinDto;
 import com.ohdogcat.dto.member.MemberLoginDto;
+import com.ohdogcat.dto.member.MemberResetPasswordDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.service.MemberService;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -95,7 +97,6 @@ public class MemberController {
 
     @GetMapping("/find/password")
     public void findPassword() {
-
     }
 
     // 아이디 비밀번호 찾기 결과 페이지
@@ -113,5 +114,15 @@ public class MemberController {
     public void resetPassword() {
     }
 
+    @ResponseBody
+    @PatchMapping("/find/result/password")
+    public ResponseEntity<Boolean> resetPassword(@RequestBody MemberResetPasswordDto dto) {
+
+        log.debug("resetPassword(dto={})", dto);
+
+        boolean result = service.resetPassword(dto);
+
+        return ResponseEntity.ok(result);
+    }
 
 }

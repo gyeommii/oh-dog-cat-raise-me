@@ -23,7 +23,6 @@
 <body>
 <%@include file="../fragments/header.jspf" %>
 
-<<<<<<< HEAD
 <main id="login-form-wrapper m-3" style="width: 50%; margin: auto; padding-top: 3%;">
     <div class="mb-3 card p-3" style="width: 70%; margin:auto">
         <h2 class="my-4" style="margin: auto">로그인</h2>
@@ -54,14 +53,17 @@
                     입력했습니다.<br/>
                     입력하신 내용을 다시 확인해주세요.
                 </div>
-                <input type="submit" id="loginBtn"
-                       class="btn btn-outline-success form-control"
-                       value="로그인"/> <a class="btn"
-                                        href="https://kauth.kakao.com/oauth/authorize?client_id=ec9680b53803006c0f80b409abf45501&redirect_uri=http://localhost:8081/ohdogcat/user/signin/kakaoLogin
+                <div class="input-group">
+                    <input type="submit" id="loginBtn"
+                           class="btn btn-outline-success form-control"
+                           value="로그인"/>
+                    <a class="btn"
+                                            href="https://kauth.kakao.com/oauth/authorize?client_id=ec9680b53803006c0f80b409abf45501&redirect_uri=http://localhost:8081/ohdogcat/user/signin/kakaoLogin
 &response_type=code">
-                <img class="img-fluid"
-                     src="../../images/kakao_login_medium_narrow.png">
-            </a>
+                    <img class="img-fluid" style="object-fit:fill"
+                         src="../images/kakao_login_medium_narrow.png">
+                </a>
+                </div>
             </div>
         </form>
     </div>
@@ -71,7 +73,6 @@
         style="width: 100%">
 
 </div>
-
 
 
 <script

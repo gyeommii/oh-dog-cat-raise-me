@@ -2,6 +2,7 @@ package com.ohdogcat.service;
 
 import com.ohdogcat.dto.member.MemberJoinDto;
 import com.ohdogcat.dto.member.MemberLoginDto;
+import com.ohdogcat.dto.member.MemberResetPasswordDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
@@ -68,7 +69,9 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public boolean resetPassword() {
-        return false;
+    public boolean resetPassword(MemberResetPasswordDto dto) {
+        Integer re =  memberDao.updatePassword(dto.toMember());
+        log.debug("re={}", re);
+        return re == 1;
     }
 }

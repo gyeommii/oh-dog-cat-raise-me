@@ -13,7 +13,9 @@
 </head>
 <body>
 <%@include file="../../../fragments/header.jspf" %>
-
+<c:if test="${empty memberid}">
+    <span id="nothing"></span>
+</c:if>
 
 <main id="login-form-wrapper m-3" style="width: 50%; margin: auto; padding-top: 3%;">
     <div id="searchDiv" class="mb-3 card p-3" style="width: 70%; margin:auto">
@@ -42,5 +44,12 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
+<script>
+
+  const nothingDi = document.getElementById("nothing");
+  if (nothingDi) {
+    location.href = "../memberid?result=none";
+  }
+</script>
 </body>
 </html>

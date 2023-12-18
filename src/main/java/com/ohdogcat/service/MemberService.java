@@ -3,6 +3,7 @@ package com.ohdogcat.service;
 
 import com.ohdogcat.dto.member.MemberJoinDto;
 import com.ohdogcat.dto.member.MemberLoginDto;
+import com.ohdogcat.dto.member.MemberResetPasswordDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
 
 public interface MemberService {
@@ -17,5 +18,5 @@ public interface MemberService {
 
     String findMemberId(String email);
 
-    boolean resetPassword();
+    boolean resetPassword(MemberResetPasswordDto dto);
 }

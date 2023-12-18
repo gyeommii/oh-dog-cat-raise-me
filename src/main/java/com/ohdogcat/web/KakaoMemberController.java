@@ -30,7 +30,6 @@ public class KakaoMemberController {
         session.setAttribute("signedMember", tokenData);
 
         return "redirect:/";
-
     }
 
 }
