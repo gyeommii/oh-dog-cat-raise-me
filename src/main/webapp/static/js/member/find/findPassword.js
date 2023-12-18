@@ -1,27 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
+  // 1.  회원가입으로 이동
   const btnradio1 = document.getElementById("btnradio1");
+
+  // 2. 스크롤 위치 설정
+  const searchDiv = document.getElementById("searchDiv");
+  const a = searchDiv.getBoundingClientRect();
+  window.scrollTo(a.x, a.y); // 2
 
   btnradio1.addEventListener("click", () => {
     location.href = "./memberid";
-  });
-
-  const loginBtn = document.getElementById('loginBtn');
-  const toastLiveExample = document.getElementById('liveToast');
-
-  if (loginBtn) {
-    loginBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      const toast = new bootstrap.Toast(toastLiveExample);
-
-      const memberIdResulted = document.getElementById("memberIdResulted");
-      memberIdResulted.innerHTML = "심채원";
-      toast.show()
-    })
-  }
-
-  const searchDiv = document.getElementById("searchDiv");
-
-  const a = searchDiv.getBoundingClientRect();
-  window.scrollTo(a.x, a.y);
+  }); // 1
 
 })

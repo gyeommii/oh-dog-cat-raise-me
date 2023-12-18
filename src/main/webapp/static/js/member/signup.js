@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  if(location.href.includes("result=fail")) {
+  if (location.href.includes("result=fail")) {
     alert("로그인에 실패하였습니다. 다시 시도해주세요!");
   }
 
@@ -138,6 +138,8 @@ document.addEventListener("DOMContentLoaded", () => {
       pwHelp.classList.remove("text-success");
       pwHelp.classList.add("text-danger");
     }
+
+    isBtnActivatable();
   }
 
   function onKeyUpAtPasswordCheck() {

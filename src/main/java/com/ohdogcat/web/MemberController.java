@@ -109,9 +109,9 @@ public class MemberController {
         model.addAttribute("memberid", memberid);
     }
 
-    @PostMapping("/find/result/password")
-    public void notifyPassword() {
-
+    @GetMapping("/find/result/password")
+    public void resetPassword() {
     }
+
 
 }

@@ -37,16 +37,17 @@
     <%--비밀번호 재설정--%>
     <div id="searchDiv" class="mb-3 card p-3" style="width: 70%; margin:auto;">
         <h2 class="my-4" style="margin: auto;">비밀번호 찾기</h2>
-        <form class="mb-3 card-body" method="post" action="./result/memberid">
+        <form class="mb-3 card-body" method="get" action="./result/password">
             <div class="mb-3 mt-3">
-                <label for="inputUserId" class="form-label py-2"><span
-                        class="fs-6">@ </span>아이디 입력</label>
-                <input type="text" class="form-control my-1" id="inputUserId" name="member_id"
+                <label for="inputEmail" class="form-label py-2"><span
+                        class="fs-6">@ </span>이메일 입력</label>
+                <input type="email" class="form-control my-1" id="inputEmail" name="email"
                        required>
             </div>
             <div class="mb-3 my-2">
-                <label for="inputEmail" class="form-label"><span class="fs-6">📱</span>이메일 받기</label>
-                <input type="email" class="form-control my-1" id="inputEmail" name="email"
+                <label for="inputUserId" class="form-label"><span class="fs-6">📱</span>아이디
+                    입력</label>
+                <input type="text" class="form-control my-1" id="inputUserId" name="member_id"
                        required>
             </div>
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
@@ -56,8 +57,8 @@
                 <a class="btn btn-primary btn-sm" href="${signUpUrl}">회원가입할래요!</a>
             </div>
             <div class="mb-1" style="margin-top: 4%;">
-                <input type="submit" id="loginBtn" class="btn btn-outline-success form-control"
-                       value="로그인"/>
+                <input type="submit" class="btn btn-outline-success form-control"
+                       value="비밀번호 찾기"/>
             </div>
         </form>
     </div>
