@@ -30,6 +30,8 @@
         <div class="text-center  mt-5 input-group">
             <a class="btn btn-outline-warning form-control" href="../password">비밀번호 바꾸러 가기 가기!</a>
             <a class="btn btn-outline-success form-control" href="../../signin">로그인하러 가기!</a>
+            <c:url var="signUpUrl" value="/user/signup"/>
+            <a class="btn btn-primary btn-sm" href="${signUpUrl}">회원가입할래요!</a>
         </div>
     </div>
 

@@ -41,6 +41,8 @@
                 <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                     <c:url var="signInUrl" value="/user/signin"/>
                     <a class="btn btn-primary btn-sm" href="${signInUrl}">로그인으로 돌아갈래요!</a>
+                    <c:url var="signUpUrl" value="/user/signup"/>
+                    <a class="btn btn-primary btn-sm" href="${signUpUrl}">회원가입할래요!</a>
                 </div>
             </div>
         <div class="mb-1" style="margin-top: 4%;">

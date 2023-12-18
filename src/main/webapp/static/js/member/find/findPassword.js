@@ -19,4 +19,9 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   }
 
+  const searchDiv = document.getElementById("searchDiv");
+
+  const a = searchDiv.getBoundingClientRect();
+  window.scrollTo(a.x, a.y);
+
 })

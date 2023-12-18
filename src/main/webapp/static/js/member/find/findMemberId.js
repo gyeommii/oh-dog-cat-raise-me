@@ -6,4 +6,7 @@ document.addEventListener("DOMContentLoaded", () => {
   btnradio2.addEventListener("click", () => {
     location.href = "./password";
   });
+
+  const a = searchDiv.getBoundingClientRect();
+  window.scrollTo(a.x, a.y);
 })

@@ -35,7 +35,7 @@
     </div>
 
     <%--비밀번호 재설정--%>
-    <div class="mb-3 card p-3" style="width: 70%; margin:auto;">
+    <div id="searchDiv" class="mb-3 card p-3" style="width: 70%; margin:auto;">
         <h2 class="my-4" style="margin: auto;">비밀번호 찾기</h2>
         <form class="mb-3 card-body" method="post" action="./result/memberid">
             <div class="mb-3 mt-3">
@@ -52,6 +52,8 @@
             <div class="d-grid gap-2 d-md-flex justify-content-md-end">
                 <c:url var="signInUrl" value="/user/signin"/>
                 <a class="btn btn-primary btn-sm" href="${signInUrl}">로그인으로 돌아갈래요!</a>
+                <c:url var="signUpUrl" value="/user/signup"/>
+                <a class="btn btn-primary btn-sm" href="${signUpUrl}">회원가입할래요!</a>
             </div>
             <div class="mb-1" style="margin-top: 4%;">
                 <input type="submit" id="loginBtn" class="btn btn-outline-success form-control"
