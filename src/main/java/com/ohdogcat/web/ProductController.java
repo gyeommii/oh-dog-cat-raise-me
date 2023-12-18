@@ -1,11 +1,18 @@
 package com.ohdogcat.web;
 
+import java.util.List;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.ohdogcat.dto.product.ProductOptionListDto;
+import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,8 +28,18 @@ public class ProductController {
 	@GetMapping("/details")
 	public void details(@RequestParam(name = "productPk") long productPk, Model model) {
 		log.debug("details prodcutPk = {}", productPk);
+		ProductPetTypeDto product = productService.readProduct(productPk);
+		log.debug("product ={}", product);
+		model.addAttribute("p", product);
 	}
 	
+	@GetMapping("/optionlist/{productPk}")
+	@ResponseBody
+	public ResponseEntity<List<ProductOptionListDto>> getOptionlist(@PathVariable long productPk) {
+		log.debug("getOptionList(prodcutPk={})", productPk);
+		List<ProductOptionListDto> productOption = productService.readProductOption(productPk);
+		return ResponseEntity.ok(productOption);
+	}
 	
 	
 }

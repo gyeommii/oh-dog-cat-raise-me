@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.model.Product;
 import com.ohdogcat.repository.ProductDao;
@@ -38,6 +39,18 @@ public class ProductService {
 	public List<ProductPetTypeDto> readCatOrderByBest(){
 		log.debug("readCatOrderByBest()");
 		List<ProductPetTypeDto> list = productDao.selectCatTypeOrderBySoldDesc();
+		return list;
+	}
+
+	public ProductPetTypeDto readProduct(long productPk) {
+		log.debug("readProduct()");
+		ProductPetTypeDto product = productDao.selectByProductPk(productPk);
+		return product;
+	}
+
+	public List<ProductOptionListDto> readProductOption(long productPk) {
+		log.debug("readProductOption()");
+		List<ProductOptionListDto> list = productDao.selectOptionByProduckPk(productPk);
 		return list;
 	}
 	
