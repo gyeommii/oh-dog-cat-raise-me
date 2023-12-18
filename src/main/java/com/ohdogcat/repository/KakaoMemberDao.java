@@ -1,8 +1,7 @@
 package com.ohdogcat.repository;
 
+import com.ohdogcat.dto.member.MemberSessionDto;
 import java.util.HashMap;
-import com.ohdogcat.dto.KakaoMemberDto;
-import com.ohdogcat.dto.MemberSessionDto;
 
 public interface KakaoMemberDao {
 
