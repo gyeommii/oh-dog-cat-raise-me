@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+
+<!--  PRODUCT 테이블에서 CRUD에 필요한 SQL 문장들을 선언 -->
+<mapper namespace="com.ohdogcat.repository.ProductDao"> 
+    
+    <resultMap type="ProductListDto" id="productListDtoMap">
+        <result property="productPk" column="product_pk"/>
+        <result property="productName" column="product_name"/>
+        <result property="categoryFk" column="category_fk"/>
+        <result property="imgUrl" column="img_url"/>
+        <result property="minPrice" column="min_price"/>
+        <result property="sold" column="sold"/>
+        <result property="createDate" column="create_date"/>
+        <result property="petType" column="pet_type"/>
+        <result property="score" column="score"/>
+        <result property="stock" column="stock"/>
+        
+    </resultMap>
+
+    <!-- 동적 쿼리를 위한 select문 -->
+    <select id="selectProducts" resultMap="productListDtoMap">
+        SELECT DISTINCT p.product_pk, p.product_name, p.category_fk, 
+               p.img_url, p.min_price, p.sold, p.create_date, 
+               c.pet_type, r.avg_score AS score, o.stock
+        FROM product p
+        JOIN category c ON p.category_fk = c.category_pk
+        LEFT JOIN (SELECT option_fk, AVG(score) AS avg_score FROM review GROUP BY option_fk) r 
+               ON p.product_pk = r.option_fk
+        LEFT JOIN product_option o ON p.product_pk = o.product_fk
+        <where>
+            <!-- 펫 타입 조건 -->
+            <if test="petType != null">
+                c.pet_type = #{petType}
+            </if>
+            <!-- 키워드 조건 -->
+            <if test="keyword != null or keyword != ''">
+                AND p.product_name LIKE '%' || #{keyword} || '%'
+            </if>
+            <!-- 가격 범위 조건 -->
+            <if test="minPrice != null and maxPrice != null">
+                AND p.min_price BETWEEN #{minPrice} AND #{maxPrice}
+            </if>
+            <!-- 품절 여부 조건 -->
+            <if test="inStock != null and inStock">
+                AND o.stock > 0
+            </if>
+        </where>
+        <choose>
+            <!-- 정렬 조건 -->
+            <when test="orderBy == 'price'">
+                ORDER BY p.min_price
+            </when>
+            <when test="orderBy == 'sold'">
+                ORDER BY p.sold
+            </when>
+            <when test="orderBy == 'reviewScore'">
+                ORDER BY r.score DESC
+            </when>
+            <otherwise>
+                ORDER BY p.create_date DESC
+            </otherwise>
+        </choose>
+    </select>
+
+</mapper>

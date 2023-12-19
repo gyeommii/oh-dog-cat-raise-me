@@ -5,7 +5,7 @@
 
  document.addEventListener("DOMContentLoaded",()=>{
      
-     /* 신상품, 베스트 타이틀 이름 */
+     /* 신상품 타이틀 이름 */
      const newTitle = document.querySelector("h3#newTitle");
      
      /* 강아지 아이템 리스트 */
@@ -23,7 +23,7 @@
      
      /* 고양이 아이템들로 불러오기! */
      function ChangeMainListToCat(){
-        newTitle.innerText ="🐱냥 상품";
+        newTitle.innerText ="🐱냥 전체상품";
         
         dogNewList.classList.add("d-none");
         
@@ -32,7 +32,7 @@
      
      /* 강아지 아이템들로 불러오기! */
      function ChangeMainListToDog(){
-        newTitle.innerText ="🐶멍 상품";
+        newTitle.innerText ="🐶멍 전체상품";
         
         catNewList.classList.add("d-none");
         

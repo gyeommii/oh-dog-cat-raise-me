@@ -35,5 +35,17 @@ public class ProductListItemDto {
 				.createDate(product.getCreateDate())
 				.build();
 	}
+	
+    public ProductListItemDto(Long productPk, String productName, Long categoryFk, String imgUrl, Long minPrice, Long sold, LocalDateTime createDate) {
+        this.productPk = productPk;
+        this.productName = productName;
+        this.categoryFk = categoryFk;
+        this.imgUrl = imgUrl;
+        this.minPrice = minPrice;
+        this.sold = sold;
+        this.createDate = createDate;
+    }
+
+	
 
 }

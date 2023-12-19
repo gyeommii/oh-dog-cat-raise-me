@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
+
 public class Product {
 	private Long productPk;
 	private String productName;
@@ -15,5 +16,4 @@ public class Product {
 	private Long minPrice;
 	private Long sold;
 	private LocalDateTime createDate;
-	
 }
