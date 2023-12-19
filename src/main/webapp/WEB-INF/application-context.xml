@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:context="http://www.springframework.org/schema/context"
     xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
@@ -42,5 +43,6 @@
     <!-- 스프링 컨테이너에서 컴포넌트 빈(예: @Service, @Component, ...)들을 검색할 기본 패키지를 설정 -->
     <context:component-scan
         base-package="com.ohdogcat.service" />
+
 
 </beans>

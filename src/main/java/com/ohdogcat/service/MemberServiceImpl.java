@@ -1,8 +1,9 @@
 package com.ohdogcat.service;
 
-import com.ohdogcat.dto.MemberJoinDto;
-import com.ohdogcat.dto.MemberLoginDto;
-import com.ohdogcat.dto.MemberSessionDto;
+import com.ohdogcat.dto.member.MemberJoinDto;
+import com.ohdogcat.dto.member.MemberLoginDto;
+import com.ohdogcat.dto.member.MemberResetPasswordDto;
+import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
@@ -58,5 +59,19 @@ public class MemberServiceImpl implements MemberService {
         log.debug("dto={}", dto);
         Member memberInDb = memberDao.login(dto.toMember());
         return MemberSessionDto.fromMember(memberInDb);
+    }
+
+    @Override
+    public String findMemberId(String email) {
+        String member_id = memberDao.findMemberId(email);
+
+        return member_id;
+    }
+
+    @Override
+    public boolean resetPassword(MemberResetPasswordDto dto) {
+        Integer re =  memberDao.updatePassword(dto.toMember());
+        log.debug("re={}", re);
+        return re == 1;
     }
 }

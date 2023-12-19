@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ohdogcat.repository.KakaoMemberDao">
+
+    <!-- 정보 저장 -->
+    <insert id="kakaoInsert" parameterType="java.util.HashMap">
+        insert into MEMBER
+        (KAKAO_CLIENT_ID, EMAIL, MEMBER_ID)
+        values(#{kakao_client_id},
+        #{email}, #{member_id})
+    </insert>
+
+    <!-- 세션 -->
+    <select id="kakaoLogin" parameterType="java.util.HashMap"
+        resultType="com.ohdogcat.dto.member.MemberSessionDto">
+        select MEMBER_PK, MEMBER_ID from MEMBER where KAKAO_CLIENT_ID =
+        #{kakao_client_id}
+    </select>
+
+
+</mapper>

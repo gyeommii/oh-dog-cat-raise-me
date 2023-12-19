@@ -33,10 +33,29 @@
 
   <select id="login" parameterType="Member" resultType="Member">
     select
-      member_pk,
-      member_id
+    member_pk,
+    member_id
     from member
     where member_id = #{member_id} and password = #{password}
   </select>
+
+  <select id="findMemberId" parameterType="String" resultType="String">
+    select
+    member_id
+    from member
+    where email = #{email}
+  </select>
+
+  <update id="updatePassword" parameterType="Member">
+    update member
+    set password = #{password}
+    where
+    <if test="member_pk != null">
+      member_pk = #{member_pk}
+    </if>
+    <if test="member_id != null and email != null">
+      member_id = #{member_id} and email = #{email}
+    </if>
+  </update>
 
 </mapper>
