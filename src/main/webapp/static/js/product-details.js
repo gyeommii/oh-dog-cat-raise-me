@@ -7,11 +7,15 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 	
-	// 옵션 선택 버튼
-	const btnOption = document.querySelector("button#btnOption");
+	// 옵션 버튼
+	const btnOption = document.querySelector("button#btnOption");	
+	// 옵션 선택 시 추가 될 영역
+	const optionAddArea = document.querySelector("div#optionAddArea");
+	
+	
+	// 옵션 버튼 클릭 시 실행
 	btnOption.addEventListener("click", getOptionList);
-
-
+	
 	async function getOptionList() {
 		const productPk = document.querySelector("input#productPk").value;
 		const uri = `option/all/${productPk}`;
@@ -21,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
 	}
 
 	function makeOptionListElements(data) {
-		// 옵션 리스트 목록
 		const optionList = document.querySelector("ul#optionList");
 
 		let htmlStr = "";
@@ -29,44 +32,57 @@ document.addEventListener('DOMContentLoaded', () => {
 		for (let option of data) {
 			htmlStr += `
 			 	<li class = "optionItem">
-			 		<div class="dropdown-item" data-id="${option.option_Pk}" data-stock="${option.stock}" style ="cursor: pointer">
+			 		<div class="dropdown-item" data-id="${option.option_Pk}" style ="cursor: pointer">
 			 			 ${option.option_Name} ${option.price} - 재고: ${option.stock}
 		 			</div>
 	 			</li>`
 		}
 		optionList.innerHTML = htmlStr;
 
-		// 옵션 리스트의 아이템들을 저장
 		const optionItems = document.querySelectorAll("div.dropdown-item");
 
 		for (let item of optionItems) {
 			item.addEventListener("click", clickOption);
 		}
-	} // end makeOptionListElements()
-
+	} 	
 	
+	// 옵션 상품 선택 시 실행
  	async function clickOption(e) {
-		const stock = e.target.getAttribute("data-stock");
-		if(stock <= 0){
-			alert("현재 해당 옵션은 재고가 부족합니다!")
-			return;
-		}
-
         const optionPk = e.target.getAttribute("data-id");
         const uri = `option/${optionPk}`;
         const response = await axios.get(uri);
         const option = response.data;
-        paintAddOption(option);
+
+		if(option.stock <= 0){
+			alert("현재 해당 옵션은 재고가 부족합니다!")
+			return;
+		}	
+	
+		paintAddOption(option);
+
     }
 
+	// 옵션 상품 선택 시 옵션 카드 추가
     function paintAddOption(option) {
-        const optionAddArea = document.querySelector("div#optionAddArea");
-        const optionCard = document.createElement('div');
+        
+        // 이미 추가 된 옵션이 있다면 수량 증가
+		if(optionAddArea.querySelector("div.option-card") != null){
+			const addedOptions = optionAddArea.querySelectorAll("div.option-card");
+			for(let added of addedOptions){	
+				const addedOptionPk = added.getAttribute("data-id");
+				if(addedOptionPk == option.optionPk){	
+					pushPlusBtn(added, option);
+					return;
+				}
+			}	
+		}
+
+		const optionCard = document.createElement('div');
         optionCard.classList.add("card", "card-body", "bg-light", "mb-2", "option-card");
         optionCard.setAttribute("data-id", option.optionPk);
 
         optionCard.innerHTML = `
-			    <div row class="d-flex justify-content-between align-items-center">
+			    <div row class="d-flex justify-content-between align-items-center" id= "addOptionCard">
 			        <div class="col-8">
 			            <p class="card-text fw-semibold" style="font-size: 1em;">${option.optionName}</p>
 			            <div class="input-group">
@@ -85,31 +101,62 @@ document.addEventListener('DOMContentLoaded', () => {
 		`;
 
         optionAddArea.appendChild(optionCard);
+		updateTotalPrice(option.price);
         
         const btnClose = optionCard.querySelector("button.btn-close");
-        btnClose.addEventListener("click", () => deleteAddOption(optionCard));
-        
-        updateTotalPrice(option.price);
+        btnClose.addEventListener("click", () => deleteAddOption(optionCard, option));
         
         const btnMinus = optionCard.querySelector("#btnMinus");
+		btnMinus.addEventListener("click",() => pushMinusBtn(optionCard, option));
+
    		const btnPlus = optionCard.querySelector("#btnPlus");
+		btnPlus.addEventListener("click",() => pushPlusBtn(optionCard, option));
         
     } // end paintAddOption()
-
-
-    function deleteAddOption(optionCard) {
+	
+	// 추가된 옵션 삭제
+    function deleteAddOption(optionCard,option) {
+		let count = optionCard.querySelector("input#count").value;
         optionCard.remove();
+		updateTotalPrice(-option.price * count);
     }
-    function updateTotalPrice(price) {
-	let totalPrice = document.querySelector("span#totalPrice");
-    let currentTotal = parseInt(totalPrice.innerText.replace(/[^\d.-]/g, '')) || 0;
-    currentTotal += price;
-    totalPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
-/*    let totalPrice = document.querySelector("span#totalPrice");
-    let currentTotal = parseInt(totalPrice.innerText);
-    currentTotal += price;
-    totalPrice.innerText = currentTotal;*/
-}
+	
+	// 수량 - 버튼
+	function pushMinusBtn(optionCard, option){
+		let count = optionCard.querySelector("input#count");
+		let currentCount = parseInt(count.value);
+		if(currentCount == 1) {
+			alert("1개 이상부터 구매할 수 있습니다!")
+			return;
+		}
+		currentCount += -1;
+		count.setAttribute("value", currentCount);
+
+		updateTotalPrice(-option.price);
+	}
+	
+	// 수량 + 버튼
+	function pushPlusBtn(optionCard, option){
+		let count = optionCard.querySelector("input#count");
+		let currentCount = parseInt(count.value);
+
+		if(currentCount >= option.stock) {
+			alert(`현재 구매 가능한 수량은 ${option.stock}개 입니다! `)
+			return;
+		}
+		currentCount += 1;
+		count.setAttribute("value", currentCount);
+		
+		updateTotalPrice(option.price);
+	}
+	
+	// 총 상품 금액
+	function updateTotalPrice(price) {
+		let totalPrice = document.querySelector("span#totalPrice");
+		let currentTotal = parseInt(totalPrice.innerText.replace(/[^\d.-]/g, '')) || 0;
+		currentTotal += price;
+		totalPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
+	}	
     
     
 
