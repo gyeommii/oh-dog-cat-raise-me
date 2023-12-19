@@ -37,6 +37,18 @@
         </div>
         <!-- 상품 목록 여기 -->
         <div id="productsContainer" class="row">
+        <c:forEach var="product" items="${products}">
+             <div class="col-3">
+                    <div class="card mb-5">
+                        <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
+                        <div class="card-body">
+                            <h5 class="card-title">${product.productName}</h5>
+                            <p class="card-text">가격: ${product.minPrice}</p>
+                            
+                        </div>
+                    </div>
+                </div>
+        </c:forEach>
         
         </div>
     </div>
@@ -83,11 +95,7 @@
                         <div class="card-body">
                             <h5 class="card-title">${product.productName}</h5>
                             <p class="card-text">가격: ${product.minPrice}</p>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="btn-group">
-                                    <button type="button" onclick="" class="btn btn-sm btn-outline-secondary"></button>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
