@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
-import com.ohdogcat.model.Product;
+import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.repository.ProductDao;
 
 import lombok.RequiredArgsConstructor;
@@ -52,6 +52,12 @@ public class ProductService {
 		log.debug("readProductOption()");
 		List<ProductOptionListDto> list = productDao.selectOptionByProduckPk(productPk);
 		return list;
+	}
+
+	public ProductOption readOption(long optionPk) {
+		log.debug("readOption()");
+		ProductOption option = productDao.selectOptionByOptionPk(optionPk);
+		return option;
 	}
 	
 	

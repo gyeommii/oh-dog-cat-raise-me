@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
+import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.service.ProductService;
 
 import lombok.RequiredArgsConstructor;
@@ -33,12 +34,23 @@ public class ProductController {
 		model.addAttribute("p", product);
 	}
 	
-	@GetMapping("/optionlist/{productPk}")
+	// 상품PK에 따른 옵션 리스트 정보 불러오기
+	@GetMapping("/option/all/{productPk}")
 	@ResponseBody
 	public ResponseEntity<List<ProductOptionListDto>> getOptionlist(@PathVariable long productPk) {
 		log.debug("getOptionList(prodcutPk={})", productPk);
 		List<ProductOptionListDto> productOption = productService.readProductOption(productPk);
+		
 		return ResponseEntity.ok(productOption);
+	}
+	
+	// 옵션Pk에 따른 옵션 정보 불러오기
+	@GetMapping("option/{optionPk}")
+	@ResponseBody
+	public ResponseEntity<ProductOption> getOption(@PathVariable long optionPk){
+		log.debug("getOption(optionPk={})",optionPk);
+		ProductOption option = productService.readOption(optionPk);
+		return ResponseEntity.ok(option);
 	}
 	
 	
