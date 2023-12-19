@@ -1,4 +1,4 @@
-package com.ohdogcat.dto;
+package com.ohdogcat.dto.member;
 
 import com.ohdogcat.model.Member;
 import lombok.AllArgsConstructor;
@@ -32,4 +32,5 @@ public class MemberSessionDto {
             .member_id(member_id)
             .build();
     }
+
 }

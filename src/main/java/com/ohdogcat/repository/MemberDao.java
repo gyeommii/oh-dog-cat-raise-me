@@ -11,4 +11,8 @@ public interface MemberDao {
     Integer join(Member member);
 
     Member login(Member member);
+
+    String findMemberId(String email);
+
+    Integer updatePassword (Member member);
 }
