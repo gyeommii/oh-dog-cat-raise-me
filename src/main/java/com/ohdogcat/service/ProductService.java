@@ -25,103 +25,16 @@ public class ProductService {
 	private final ProductDao productDao;
 	
 	public List<ProductListDto> getProducts(Long petType, String orderBy) {
-        return productDao.selectProducts("", petType, null, null, null, orderBy);
+		log.debug("getProducts()");
+        return productDao.selectProducts(petType, "",  null, null, null, orderBy);
     }
 
 	
 	public List<ProductListDto> getFilteredProducts(String keyword, Long petType, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
-        return productDao.selectProducts(keyword, petType, minPrice, maxPrice, inStock, orderBy);
+        return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
     }
 	
-//	public List<ProductListDto> sortProducts(Long petType, String orderBy) {
-//	    // 정렬 로직 구현
-//	    return productDao.sortProductsByPetType(petType, orderBy);
-//	}
-	
-	
-	
-	// 상품
-	
-	
-//	public List<ProductListItemDto> readNewProducts() {
-//        log.debug("readNewProducts");
-//        List<ProductPetTypeDto> list = productDao.selectByCreatedDesc();
-//        return convertToProductListItemDto(list);
-//    }
-//
-//    public List<ProductListItemDto> readBestSellers() {
-//        log.debug("readBestSellers");
-//        List<ProductPetTypeDto> list = productDao.selectByBestSellerDesc();
-//        return convertToProductListItemDto(list);
-//    }
-//
-//    public List<ProductListItemDto> readLowestPrice() {
-//        log.debug("readLowestPrice");
-//        List<ProductPetTypeDto> list = productDao.selectByLowestPrice();
-//        return convertToProductListItemDto(list);
-//    }
-//
-//    public List<ProductListItemDto> readHighestPrice() {
-//        log.debug("readHighestPrice");
-//        List<ProductPetTypeDto> list = productDao.selectByHighestPrice();
-//        return convertToProductListItemDto(list);
-//    }
-    
-//	//@쓰는거@
-//    public SortedProductData getSortedProducts(String sortType, String petType) {
-//        List<ProductPetTypeDto> sortedList;
-//        if ("dog".equals(petType)) {
-//            sortedList = getDogSortedList(sortType);
-//        } else if ("cat".equals(petType)) {
-//            sortedList = getCatSortedList(sortType);
-//        } else {
-//            sortedList = getSortedList(sortType);
-//        }
-//        return SortedProductData.fromList(sortedList);
-//    }
-    
-//    // ProductPetTypeDto 리스트를 ProductListItemDto 리스트로 변환
-//    private List<ProductListItemDto> convertToProductListItemDto(List<ProductPetTypeDto> productList) {
-//        return productList.stream()
-//                          .map(p -> new ProductListItemDto(
-//                              p.getProductPk(),
-//                              p.getProductName(),
-//                              p.getCategoryFk(),
-//                              p.getImgUrl(),
-//                              p.getMinPrice(),
-//                              p.getSold(),
-//                              p.getCreateDate()
-//                          ))
-//                          .collect(Collectors.toList());
-//    }
-//	
-//	public SortedProductData getSortedProducts(String sortType, String petType) {
-//        List<ProductPetTypeDto> sortedList;
-//        if ("dog".equals(petType)) {
-//            sortedList = getDogSortedList(sortType);
-//        } else if ("cat".equals(petType)) {
-//            sortedList = getCatSortedList(sortType);
-//        } else {
-//            List<ProductPetTypeDto> productList = getSortedList(sortType);
-//            sortedList = productList.stream()
-//                                    .map(this::convertProductToDto)
-//                                    .collect(Collectors.toList());
-//        }
-//        return SortedProductData.fromList(sortedList);
-//    }
-//	// Product를 ProductPetTypeDto로 변환
-//    private ProductPetTypeDto convertProductToDto(Product product) {
-//        return ProductPetTypeDto.builder()
-//                .productPk(product.getProductPk())
-//                .productName(product.getProductName())
-//                .categoryFk(product.getCategoryFk())
-//                .imgUrl(product.getImgUrl())
-//                .minPrice(product.getMinPrice())
-//                .sold(product.getSold())
-//                .createDate(product.getCreateDate())
-////                .petType(product.getPetType())
-//                .build();
-//    }
+
 	
 	// 강아지 상품에 대한 정렬
     private List<ProductPetTypeDto> getDogSortedList(String sortType) {
@@ -266,7 +179,7 @@ public class ProductService {
 
 	public List<ProductListDto> filterProducts(Long petType, Long minPrice, Long maxPrice, Boolean inStock,
 			String orderBy) {
-		return productDao.selectProducts(null, petType, minPrice, maxPrice, inStock, orderBy);
+		return productDao.selectProducts(petType, null, minPrice, maxPrice, inStock, orderBy);
 	}
 
 }

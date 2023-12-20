@@ -15,13 +15,16 @@ public interface ProductDao {
 	 */
 //	List<ProductListDto> selectProducts(String keyword, Long petType, Long minPrice, Long maxPrice, Boolean inStock, String orderBy);
 	
-	// 처음 펫타입과 최신순으로 불러오는 설정
-	
+//	// 처음 펫타입과 조건별로 불러오는 설정
+//	List<ProductListDto> selectProductsPetTypeSoldDesc(
+//			@Param("petType") Long petType,
+//	        @Param("orderBy") String orderBy
+//	    );
 	
 	// 정렬, 검색 시 사용
 	List<ProductListDto> selectProducts(
+			@Param("petType") Long petType,
 	        @Param("keyword") String keyword,
-	        @Param("petType") Long petType,
 	        @Param("minPrice") Long minPrice,
 	        @Param("maxPrice") Long maxPrice,
 	        @Param("inStock") Boolean inStock,

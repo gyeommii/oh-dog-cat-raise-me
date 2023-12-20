@@ -55,7 +55,7 @@
                 ORDER BY p.min_price
             </when>
             <when test="orderBy == 'sold'">
-                ORDER BY p.sold
+                ORDER BY p.sold DESC
             </when>
             <when test="orderBy == 'reviewScore'">
                 ORDER BY r.score DESC
