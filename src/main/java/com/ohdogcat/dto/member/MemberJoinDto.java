@@ -1,4 +1,4 @@
-package com.ohdogcat.dto;
+package com.ohdogcat.dto.member;
 
 
 import com.ohdogcat.model.Address;

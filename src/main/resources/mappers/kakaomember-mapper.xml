@@ -15,7 +15,7 @@
 
     <!-- 세션 -->
     <select id="kakaoLogin" parameterType="java.util.HashMap"
-        resultType="com.ohdogcat.dto.MemberSessionDto">
+        resultType="com.ohdogcat.dto.member.MemberSessionDto">
         select MEMBER_PK, MEMBER_ID from MEMBER where KAKAO_CLIENT_ID =
         #{kakao_client_id}
     </select>
