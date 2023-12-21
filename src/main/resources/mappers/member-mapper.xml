@@ -65,4 +65,22 @@
     where member_pk = #{member_pk}
   </select>
 
+  <update id="updateUserInfo" parameterType="Member">
+    update member
+    set
+    <if test="password != null">
+      password = #{password}
+    </if>
+    <if test="password != null and phone != null">,</if>
+    <if test="phone != null">
+      phone = #{phone}
+    </if>
+    where member_pk = #{member_pk}
+  </update>
+
+  <select id="getMemberPassword" parameterType="Member" resultType="String">
+    select phone
+    from member
+    where member_pk = #{member_pk} and password = #{password}
+  </select>
 </mapper>

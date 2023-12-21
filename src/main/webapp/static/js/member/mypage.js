@@ -63,8 +63,9 @@ function canChangeUserInfo() {
       && pwReg.test(inputNewPwCheck.value);
   const inputPhoneValid = !(inputPhone.value.trim().length === 0)
       && phoneReg.test(inputPhone.value);
-  const isNewPwValuesSame = inputNewPw.value.trim()
-      === inputNewPwCheck.value.trim();
+  console.log("hihihi");
+  const isNewPwValuesSame = inputNewPw.value
+      === inputNewPwCheck.value;
 
   infoChangeBtn.disabled = !(inputPwValid && inputPhoneValid) || !(inputPwValid
       && inputNewPwValid && inputNewPwCheckValid && isNewPwValuesSame);

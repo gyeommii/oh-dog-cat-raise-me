@@ -17,4 +17,8 @@ public interface MemberDao {
     Integer updatePassword(Member member);
 
     Member getMemberMyPageInfo(Long memberPk);
+
+    Integer updateUserInfo(Member member);
+
+    String getMemberPassword(Member member);
 }
