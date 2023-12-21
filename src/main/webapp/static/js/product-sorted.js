@@ -57,7 +57,7 @@
     });
 });
 
-    // 신상품순 버튼 클릭 
+// 신상품순 버튼 클릭 
     document.querySelector("button#new").addEventListener("click", function() {
         // 현재 펫 타입(멍멍이/야옹이) // 멍멍이버튼 선택되어있으면 true -> 1 고양이버튼 선택되어있으면 faulse -> 2
         let petType = document.querySelector("input#btnradio1").checked ? 1 : 2; 
@@ -170,4 +170,34 @@
             alert('제품 목록을 로드하는 데 실패했습니다.');
         });
     });
+
+// ProductRestController를 통해 받아온 데이터로 다시 상품목록을 만듦
+function showProductsCards(products) {
+    var productsContainer = document.getElementById('productsContainer');
+    productsContainer.innerHTML = ''; // 상품목록 초기화
+
+    if (!Array.isArray(products)) {
+        console.error('products는 배열이 아님:', products);
+        return; // 배열 아니면 종료
+    }
     
+
+    products.forEach(function (product) {
+        var cardHtml = `
+            <div class="col-3">
+            <div class="card mb-5">
+                <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
+                <div class="card-body">
+                    <h5 class="card-title">${product.productName}</h5>
+                    <p class="card-text">${product.minPrice}</p>
+                </div>
+            </div>
+        </div>
+        `;
+        productsContainer.innerHTML += cardHtml;
+    });
+}
+
+
+
+

@@ -91,7 +91,6 @@
         crossorigin="anonymous"></script>
     
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script src="../../js/product-Display.js"></script>
     <script src="../../js/product-sorted.js"></script>
     
     

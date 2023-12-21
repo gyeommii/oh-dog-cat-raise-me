@@ -23,17 +23,16 @@
     <select id="selectProducts" resultMap="productListDtoMap">
     SELECT p.product_pk, p.product_name, p.category_fk, 
            p.img_url, p.min_price, p.sold, p.create_date, 
-           c.pet_type, MAX(r.avg_score) AS score, MAX(o.stock) AS stock
+           c.pet_type, AVG(r.score) AS score, MAX(o.stock) AS stock
     FROM product p
     JOIN category c ON p.category_fk = c.category_pk
-    LEFT JOIN (SELECT option_fk, AVG(score) AS avg_score FROM review GROUP BY option_fk) r 
-           ON p.product_pk = r.option_fk
     LEFT JOIN product_option o ON p.product_pk = o.product_fk
+    LEFT JOIN review r ON o.option_pk = r.option_fk
     <where>
         <if test="petType != null">
             c.pet_type = #{petType}
         </if>
-        <if test="keyword != null or keyword != ''">
+        <if test="keyword != null and keyword != ''">
             AND p.product_name LIKE '%' || #{keyword} || '%'
         </if>
         <if test="minPrice != null and maxPrice != null">
@@ -47,20 +46,24 @@
              p.img_url, p.min_price, p.sold, p.create_date, 
              c.pet_type
     <choose>
-        <when test="orderBy == 'price'"> <!-- TODO: price를 lowest로 바꾸고 ORDER BY p.min_price desc는 highest 로 하나더추가 -->
+        <when test="orderBy == 'lowest'">
             ORDER BY p.min_price
+        </when>
+        <when test="orderBy == 'highest'">
+            ORDER BY p.min_price DESC
         </when>
         <when test="orderBy == 'sold'">
             ORDER BY p.sold DESC
         </when>
         <when test="orderBy == 'reviewScore'">
-            ORDER BY MAX(r.avg_score) DESC
+            ORDER BY AVG(r.score) DESC NULLS LAST
         </when>
         <otherwise>
             ORDER BY p.create_date DESC
         </otherwise>
     </choose>
 </select>
+
 
 
 
