@@ -14,11 +14,13 @@ import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPReply;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
 import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
+@Configuration
 public class FtpImgLoaderUtil {
 
     private String host = "192.168.20.11";
@@ -30,17 +32,16 @@ public class FtpImgLoaderUtil {
 
     public FtpImgLoaderUtil() {
         ftpClient = new FTPClient();
-        try {
-            boolean hasConnected = connect();
-            if (hasConnected) {
-                log.debug("::FTP 서버 연결 완료");
-            }
-        } catch (IOException e) {
-            log.error(e.getMessage());
-        }
     }
 
-
+    /**
+     * DB 서버 내에 파일 저장하여 저장된 경로를 반환하는 메서드
+     *
+     * @param file 업로드할 MultipartFile
+     * @param req  HttpServletRequest 타입의 request
+     * @return 업로드된 이미지의 경로
+     * @throws IOException 아마자 업로드 시 문제 발생 시 IOException qkftod
+     */
     public String upload(MultipartFile file, HttpServletRequest req) throws IOException {
 
         String result = null;
@@ -64,6 +65,14 @@ public class FtpImgLoaderUtil {
         return result;
     }
 
+
+    /**
+     * 경로를 주면 file 정보가 담겨있는 Resource 타입의 객체 반환
+     *
+     * @param imgUrl upload 메서드 시 제공된 경로
+     * @return 해당 파일의 binary 데이터가 담긴 Resource 객체
+     * @throws IOException
+     */
     public Resource download(String imgUrl) throws IOException {
         setFtpClientConfig();
 
@@ -77,8 +86,23 @@ public class FtpImgLoaderUtil {
 
         Resource resource = new ByteArrayResource(result);
         imgStream.close();
-        disconnect();
         return resource;
+    }
+
+    /**
+     * 해당 경로의 파일 삭제하는 메서드
+     *
+     * @param imgUrl 삭제할 파일의 경로
+     * @return 성공 시 true, 실패 시 false 반환
+     */
+    public boolean delete(String imgUrl) {
+        boolean result = false;
+        try {
+            result = ftpClient.deleteFile(imgUrl);
+        } catch (IOException e) {
+            return result;
+        }
+        return result;
     }
 
     public boolean connect() throws IOException {
@@ -91,8 +115,12 @@ public class FtpImgLoaderUtil {
         int reply = ftpClient.getReplyCode();
 
         if (!FTPReply.isPositiveCompletion(reply)) {
-            disconnect();
-            throw new RuntimeException("FTP_ERROR_IS_NOT_GOOD");
+            try {
+                disconnect();
+            } catch (IOException e) {
+                log.error("연결에 실패하였습니다. {}", e.getMessage());
+                return false;
+            }
         }
 
         return ftpClient.login(user, password);
