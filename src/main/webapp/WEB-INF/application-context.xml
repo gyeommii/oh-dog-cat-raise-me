@@ -34,6 +34,8 @@
       value="classpath:mybatis-config.xml"/>
   </bean>
 
+  <bean id="fileUtil" class="com.ohdogcat.util.FtpImgLoaderUtil"/>
+
 
   <!-- MyBatis 프레임워크에서 생성하고 관리하는 빈(bean)들을 base-package와 그 하위 패키지에서 찾음. PostDao,
     UserDao 인터페이스들을 작성하는 패키지. -->

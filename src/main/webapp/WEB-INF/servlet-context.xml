@@ -19,8 +19,19 @@
           </list>
         </property>
       </bean>
+
+      <bean class="org.springframework.http.converter.ByteArrayHttpMessageConverter">
+        <property name="supportedMediaTypes">
+          <list>
+            <value>application/octet-stream</value>
+          </list>
+        </property>
+      </bean>
+
     </mvc:message-converters>
   </mvc:annotation-driven>
+
+
 
   <!-- Spring MVC에서 dispatcherServlet이 처리하지 않는 정적 요청에 필요한 파일들 (image, css,
     javascript, ...)이 있는 폴더 위치를 설정. 정적 리소스(이미지, CSS, JS)의 폴더를 /webapp/static/

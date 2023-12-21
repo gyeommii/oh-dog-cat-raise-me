@@ -43,6 +43,8 @@ public class FtpImgLoaderUtil {
      */
     public String upload(MultipartFile file, String servletPath) throws IOException {
 
+        connect();
+
         String result = null;
 
         List<String> filePath = mkDirByRequestUri(servletPath);
@@ -61,6 +63,7 @@ public class FtpImgLoaderUtil {
             result = String.join("/", filePath);
         }
 
+        disconnect();
         return result;
     }
 
@@ -73,8 +76,8 @@ public class FtpImgLoaderUtil {
      * @throws IOException
      */
     public Resource download(String imgUrl) throws IOException {
+        connect();
         setFtpClientConfig();
-
         InputStream imgStream = ftpClient.retrieveFileStream(imgUrl);
         byte[] result = IOUtils.toByteArray(imgStream);
 
@@ -85,6 +88,7 @@ public class FtpImgLoaderUtil {
 
         Resource resource = new ByteArrayResource(result);
         imgStream.close();
+        disconnect();
         return resource;
     }
 
@@ -94,13 +98,13 @@ public class FtpImgLoaderUtil {
      * @param imgUrl 삭제할 파일의 경로
      * @return 성공 시 true, 실패 시 false 반환
      */
-    public boolean delete(String imgUrl) {
+    public boolean delete(String imgUrl) throws IOException {
         boolean result = false;
-        try {
-            result = ftpClient.deleteFile(imgUrl);
-        } catch (IOException e) {
-            return result;
-        }
+
+        connect();
+        result = ftpClient.deleteFile(imgUrl);
+        disconnect();
+
         return result;
     }
 
