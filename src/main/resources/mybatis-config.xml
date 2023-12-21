@@ -10,6 +10,7 @@
 	<typeAliases>
 		<typeAlias type="com.ohdogcat.model.Product" alias="Product" />
 		<typeAlias type="com.ohdogcat.model.ProductOption" alias="ProductOption" />
+		<typeAlias type="com.ohdogcat.model.Cart" alias="Cart" />
 		<typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto" alias="ProductPetTypeDto" />
 		<typeAlias type="com.ohdogcat.dto.product.ProductOptionListDto" alias="ProductOptionListDto" />
 		<typeAlias type="com.ohdogcat.model.Member" alias="Member" />

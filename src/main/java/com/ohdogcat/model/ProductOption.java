@@ -8,7 +8,7 @@ import lombok.Data;
 public class ProductOption {
 	private Long optionPk;
 	private String optionName;
-	private Long productPk;
+	private Long productFk;
 	private Long stock;
 	private Long price;
 

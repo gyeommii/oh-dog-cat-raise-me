@@ -3,6 +3,8 @@
  * 상품PK 별 옵션 목록 확인
  * 옵션 및 수량 선택 기능
  * 
+ * 장바구니 버튼 기능
+ * 
  */
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -11,10 +13,45 @@ document.addEventListener('DOMContentLoaded', () => {
 	const btnOption = document.querySelector("button#btnOption");	
 	// 옵션 선택 시 추가 될 영역
 	const optionAddArea = document.querySelector("div#optionAddArea");
+	// 장바구니 버튼
+	const btnCart = document.getElementById("btnCart");
 	
-	
+
 	// 옵션 버튼 클릭 시 실행
 	btnOption.addEventListener("click", getOptionList);
+
+	// 장바구니 버튼 클릭 시 실행
+	btnCart.addEventListener("click", addToCart);
+
+	async function addToCart(){	
+		if(optionAddArea.querySelector("div.option-card") == null){
+			alert("상품을 선택해주세요!");
+			return;
+		}
+		let cartItems =[];
+		const addedOptions = optionAddArea.querySelectorAll("div.option-card");
+
+		for(let added of addedOptions){
+			let optionFk = added.getAttribute("data-id");
+			//let productFk = added.getAttribute("product-id"); productFk 필요한가?
+			let count = added.querySelector("input#count").value;
+
+			//cartItems.push({"product_Fk": productFk, "option_Pk": optionPk, "count": count});
+			cartItems.push({"option_fk": optionFk, "count": count});
+			
+		}
+		console.log(cartItems);
+			
+		try {
+			const response = await axios.post("../cart/add",cartItems);
+			console.log(response.data);
+		} catch(error){
+			console.log(error);
+		}
+		
+		cartItems = [];	
+	}
+	
 	
 	async function getOptionList() {
 		const productPk = document.querySelector("input#productPk").value;
@@ -80,9 +117,10 @@ document.addEventListener('DOMContentLoaded', () => {
 		const optionCard = document.createElement('div');
         optionCard.classList.add("card", "card-body", "bg-light", "mb-2", "option-card");
         optionCard.setAttribute("data-id", option.optionPk);
+		optionCard.setAttribute("product-id", option.productFk);
 
         optionCard.innerHTML = `
-			    <div row class="d-flex justify-content-between align-items-center" id= "addOptionCard">
+			    <div row class="d-flex justify-content-between align-items-center">
 			        <div class="col-8">
 			            <p class="card-text fw-semibold" style="font-size: 1em;">${option.optionName}</p>
 			            <div class="input-group">
@@ -157,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		currentTotal += price;
 		totalPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
 	}	
-    
+
     
 
 }); // end document.addEventListener

@@ -56,7 +56,8 @@
 
 							<!-- 옵션 리스트 -->
 							<div class="dropdown pb-3">
-								<button class="btn btn-outline text-black dropdown-toggle w-100" id="btnOption"
+								<button class="btn btn-outline text-black dropdown-toggle w-100"
+									id="btnOption"
 									style="border-color: lightgray; background: none;"
 									type="button" data-bs-toggle="dropdown" aria-expanded="false">
 									상품 옵션을 선택하세요</button>
@@ -67,27 +68,31 @@
 
 							<!--옵션 선택 시 추가 될 영역-->
 							<!-- 옵션명 / 가격 / 수량조절 버튼 있어야함 -->
-							<div class="card" style="border: 0;" id="optionAddArea">
-							</div>
+							<div class="card" style="border: 0;" id="optionAddArea"></div>
 
 							<!-- 총 금액 -->
 							<div class="card-text my-4" id="prd_total_price">
 								<input type="hidden" id="totalCnt" value="0" name="totalCnt">
 								<input type="hidden" id="totalPrc" value="0" name="totalPrc">
-								<span class="card-text pb-3 pt-3 fs-5 text-danger fw-semibold mx-auto">
-									총 상품금액 
-									<span class="float-end fs-3" id="totalPrice"> <f:formatNumber value="0" pattern="#,###" />원</span>
+								<span
+									class="card-text pb-3 pt-3 fs-5 text-danger fw-semibold mx-auto">
+									총 상품금액 <span class="float-end fs-3" id="totalPrice"> <f:formatNumber
+											value="0" pattern="#,###" />원
+								</span>
 								</span>
 							</div>
 
 							<!-- 버튼 선택 -->
-							<div class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
+							<div
+								class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
 								<button
 									class="col-md-2 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
-									id="btnZzim" type="button" style="background: none; border-radius: 8px;">찜</button>
+									id="btnZzim" type="button"
+									style="background: none; border-radius: 8px;">찜</button>
 								<button
 									class="col-md-3 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
-									id="btnCart "type="button" style="background: none; border-radius: 8px;">장바구니</button>
+									id="btnCart" type="button"
+									style="background: none; border-radius: 8px;">장바구니</button>
 								<button
 									class="col-md-6 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
 									id="btnBuy" type="button" style="border-radius: 8px;">바로구매</button>
