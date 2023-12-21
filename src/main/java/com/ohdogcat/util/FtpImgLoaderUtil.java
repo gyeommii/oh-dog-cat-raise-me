@@ -32,6 +32,11 @@ public class FtpImgLoaderUtil {
 
     public FtpImgLoaderUtil() {
         ftpClient = new FTPClient();
+        try {
+            boolean result = connect();
+        } catch (IOException e) {
+            log.error("FTP 연결 실패, {}", e.getMessage());
+        }
     }
 
     /**
