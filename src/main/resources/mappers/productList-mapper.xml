@@ -47,7 +47,7 @@
              p.img_url, p.min_price, p.sold, p.create_date, 
              c.pet_type
     <choose>
-        <when test="orderBy == 'price'">
+        <when test="orderBy == 'price'"> <!-- TODO: price를 lowest로 바꾸고 ORDER BY p.min_price desc는 highest 로 하나더추가 -->
             ORDER BY p.min_price
         </when>
         <when test="orderBy == 'sold'">

@@ -25,9 +25,9 @@ public interface ProductDao {
 	List<ProductListDto> selectProducts(
 			@Param("petType") Long petType,
 	        @Param("keyword") String keyword,
-	        @Param("minPrice") Long minPrice,
+	        @Param("minPrice") Long minPrice, // minPrice, maxPrice는 가격 별 옵션 필터.
 	        @Param("maxPrice") Long maxPrice,
-	        @Param("inStock") Boolean inStock,
+	        @Param("inStock") Boolean inStock, // 품절상품 여부 확인.
 	        @Param("orderBy") String orderBy
 	    );
 	 

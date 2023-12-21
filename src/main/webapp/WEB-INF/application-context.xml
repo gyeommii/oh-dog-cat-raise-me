@@ -14,8 +14,8 @@
             value="oracle.jdbc.OracleDriver" />
         <property name="jdbcUrl"
             value="jdbc:oracle:thin:@192.168.20.11:1521:xe" /> <!-- 192.168.20.11 -->
-        <property name="username" value="ohdogcat" />
-        <property name="password" value="raiseme" />
+        <property name="username" value="scott" />
+        <property name="password" value="tiger" />
     </bean>
 
     <!-- HikariDataSource 객체(bean) 생서을 위한 설정 -->
