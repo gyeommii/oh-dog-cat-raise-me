@@ -1,6 +1,5 @@
 package com.ohdogcat.util;
 
-import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -38,15 +37,15 @@ public class FtpImgLoaderUtil {
      * DB 서버 내에 파일 저장하여 저장된 경로를 반환하는 메서드
      *
      * @param file 업로드할 MultipartFile
-     * @param req  HttpServletRequest 타입의 request
+     * @param servletPath  HttpServletRequest 타입의 request
      * @return 업로드된 이미지의 경로
      * @throws IOException 아마자 업로드 시 문제 발생 시 IOException qkftod
      */
-    public String upload(MultipartFile file, HttpServletRequest req) throws IOException {
+    public String upload(MultipartFile file, String servletPath) throws IOException {
 
         String result = null;
 
-        List<String> filePath = mkDirByRequestUri(req);
+        List<String> filePath = mkDirByRequestUri(servletPath);
         InputStream inputStream = file.getInputStream();
 
         setFtpClientConfig();
@@ -140,15 +139,11 @@ public class FtpImgLoaderUtil {
         ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
     }
 
-    public List<String> mkDirByRequestUri(HttpServletRequest req)
+    public List<String> mkDirByRequestUri(String servletPath)
         throws RuntimeException, IOException {
         List<String> result = new ArrayList<>();
 
-        String contextPath = req.getContextPath();
-        String uri = req.getRequestURI();
-        String uriPath = uri.replace(contextPath, "");
-
-        List<String> paths = Arrays.stream(uriPath.split("/")).toList();
+        List<String> paths = Arrays.stream(servletPath.split("/")).toList();
 
         log.debug("paths={}", paths);
         for (String path : paths) {
