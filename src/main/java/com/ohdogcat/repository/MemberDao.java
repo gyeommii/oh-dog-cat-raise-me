@@ -14,5 +14,7 @@ public interface MemberDao {
 
     String findMemberId(String email);
 
-    Integer updatePassword (Member member);
+    Integer updatePassword(Member member);
+
+    Member getMemberMyPageInfo(Long memberPk);
 }

@@ -58,4 +58,11 @@
     </if>
   </update>
 
+  <select id="getMemberMyPageInfo" parameterType="Long" resultType="Member">
+    select
+    member_id, email, kakao_client_id, phone, address_fk, created_date
+    from member
+    where member_pk = #{member_pk}
+  </select>
+
 </mapper>
