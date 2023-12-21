@@ -32,7 +32,12 @@ public class PetService {
   public void addPet(PetAddDto dto) {
     log.debug("addPet(dto={})", dto);
     
-    petDao.insertPet(dto.toEntity());    
+    byte[] imageData = dto.getImg();
+    
+    Pet pet = dto.toEntity();
+    pet.setImg(imageData);
+    
+    petDao.insertPet(pet);    
   }
   
   public void modifyPet(PetModifyDto dto) {

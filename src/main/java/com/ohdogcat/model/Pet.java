@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 public class Pet {
   private long pet_pk;
   private long member_fk;
-  private String img;
+  private byte[] img;
   private String pet_name;
   private String pet_type;
   private String age;

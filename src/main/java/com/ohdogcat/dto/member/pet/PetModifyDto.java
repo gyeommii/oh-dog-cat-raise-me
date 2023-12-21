@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class PetModifyDto {
   private long pet_pk;
-  private String img;
+  private byte[] img;
   private String pet_name;
   private String pet_type;
   private String age;

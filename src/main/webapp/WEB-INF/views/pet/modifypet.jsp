@@ -44,15 +44,15 @@
                             <hr class="border border-dark border-3 opacity-75">
                         </div>
                         <div class="card">
-                            <form class="card-body" id="modifyForm">                                
-                                <div class="my-2">
-                                    <label class="d-none" for="pet_pk">펫 고유키</label>
-                                    <input class="d-none" id="pet_pk" name="pet_pk" type="text" value="${petList.pet_pk}" readonly />
-                                </div>
+                            <form class="card-body" id="modifyForm" enctype="multipart/form-data">                                
                                 <div class="my-2">
                                     <label class="form-label" for="img">이미지</label>
                                     <input class="form-control" id="img" type="file" value="이미지" name="img" />
                                 </div>                                                           
+                                <div class="my-2">
+                                    <label class="d-none" for="pet_pk">펫 고유키</label>
+                                    <input class="d-none" id="pet_pk" name="pet_pk" type="text" value="${petList.pet_pk}" readonly />
+                                </div>
                                 <div class="my-2">
                                     <label class="form-label" for="pet_name">이름</label> 
                                     <input class="form-control" id="pet_name" name="pet_name" type="text" value="${petList.pet_name}" autofocus />
