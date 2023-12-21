@@ -22,27 +22,22 @@
     <div class="mb-3">
         <div class="mb-3">
             <div class="mb-3">
-                <label class="form-label mx-2">아이디<span
-                        class="text-danger">**수정 불가</span></label>
+                <label class="form-label mx-2">아이디</label>
                 <div class="input-group  mx-2">
                     <div class="form-control" style="width: 80%"
                          aria-describedby="userIdDesc">${memberInfo.member_id}</div>
                 </div>
             </div>
             <div class="mb-3">
-                <label class="form-label mx-2">이메일 주소<span
-                        class="text-danger">**수정 불가</span></label>
+                <label class="form-label mx-2">이메일 주소</label>
                 <div id="toFocusAtViewer" class="form-control mx-2"
                 >${memberInfo.email}</div>
             </div>
             <div class="mb-3">
-                <label for="inputPhone" class="form-label mx-2">핸드폰 번호<span
-                        class="text-danger">*</span></label>
+                <label for="inputPhone" class="form-label mx-2">핸드폰 번호</label>
                 <input type="text" class="form-control mx-2"
                        value="${memberInfo.phone}" readonly/>
                 <div class="form-text mx-2">"-"로 구분하여 작성해주세요.</div>
-                <div class="text-secondary text-opacity-50 mx-2">예) 010-0000-0000</div>
-                <div class="text-secondary text-opacity-50 mx-2 d-none">변경 시 비밀번호 확인란을 작성해주세요.</div>
             </div>
         </div>
     </div>
@@ -120,8 +115,9 @@
                 <div class="text-secondary text-opacity-50 mx-2">예) 010-0000-0000</div>
             </div>
             <div class="mb-3">
-            <input type="button" id="pwChangeBtn" class="btn btn-outline-success mx-2 form-control"
-                   value="비밀번호 변경"/>
+                <input type="button" id="infoChangeBtn"
+                       class="btn btn-outline-success mx-2 form-control"
+                       value="정보 수정하기" disabled/>
             </div>
         </div>
     </div>
@@ -136,7 +132,7 @@
             </div>
         </c:if>
         <div id="address-div" class="mb-3">
-            <input type="hidden" id="addressPk" value="${memberInfo.address_pk}"/>
+            <input type="hidden" id="address_pk" value="${memberInfo.address_pk}"/>
             <div class="input-group m-2">
                 <input type="text" id="zonecode" class="form-control" placeholder="우편번호"
                        value="${memberInfo.zonecode}" readonly>
@@ -153,7 +149,8 @@
                 배송지
                 초기화
             </button>
-            <button id="address-update-btn" class="btn btn-outline-danger form-control mx-2">배송지
+            <button id="address-update-btn" class="btn btn-outline-danger form-control mx-2"
+                    disabled>배송지
                 수정하기
             </button>
 

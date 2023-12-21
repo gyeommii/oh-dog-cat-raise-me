@@ -29,7 +29,7 @@ public class MyPageController {
 
     @ResponseBody
     @PatchMapping("/member")
-    public void patchAddress(HttpSession session) {
+    public void updateAddress(HttpSession session) {
     }
 
 }

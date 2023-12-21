@@ -40,9 +40,35 @@ const toFocusAtViewer = document.getElementById(
     "toFocusAtViewer").getBoundingClientRect();
 window.scrollTo(toFocusAtViewer.left, toFocusAtViewer.top);
 
+const infoChangeBtn = document.getElementById("infoChangeBtn");
 const inputPw = document.getElementById("inputPw");
 const inputNewPw = document.getElementById("inputNewPw");
 const inputNewPwCheck = document.getElementById("inputNewPwCheck");
+const inputPhone = document.getElementById("inputPhone");
+
+inputPw.addEventListener("keyup", canChangeUserInfo);
+inputNewPw.addEventListener("keyup", canChangeUserInfo);
+inputNewPwCheck.addEventListener("keyup", canChangeUserInfo);
+inputPhone.addEventListener("keyup", canChangeUserInfo);
+
+function canChangeUserInfo() {
+  const pwReg = /^(?=.*[A-Za-z])(?=.*\d)(?!.*\s).{8,}$/;
+  const phoneReg = /^(02|010)-?\d{3,4}-?\d{4}$/;
+
+  const inputPwValid = !(inputPw.value.trim().length < 5) && pwReg.test(
+      inputPw.value);
+  const inputNewPwValid = !(inputNewPw.value.trim().length < 5)
+      && pwReg.test(inputNewPw.value);
+  const inputNewPwCheckValid = !(inputNewPwCheck.value.trim().length < 5)
+      && pwReg.test(inputNewPwCheck.value);
+  const inputPhoneValid = !(inputPhone.value.trim().length === 0)
+      && phoneReg.test(inputPhone.value);
+  const isNewPwValuesSame = inputNewPw.value.trim()
+      === inputNewPwCheck.value.trim();
+
+  infoChangeBtn.disabled = !(inputPwValid && inputPhoneValid) || !(inputPwValid
+      && inputNewPwValid && inputNewPwCheckValid && isNewPwValuesSame);
+}
 
 // 수정하기 컴포넌트로 이동하는 이벤트 추가
 toModifyBtn.addEventListener("click", () => {
@@ -64,9 +90,21 @@ toViewInfoBtn.addEventListener("click", () => {
   foldDaumPostcode();
 })
 
+function checkCanSubmitAddress() {
+  addressUpdateBtn.disabled = !(zoneCodeInput.value.length
+      && addressInput.value.length
+      && detailAddressInput.value.length && recipientInput.value.length)
+}
+
+detailAddressInput.addEventListener("keyup", checkCanSubmitAddress);
+recipientInput.addEventListener("keyup", checkCanSubmitAddress);
+
 // 배송지 업데이트
 addressUpdateBtn.addEventListener("click", async () => {
+  const address_pk = document.getElementById("address_pk").value;
+
   const data = {
+    address_pk,
     zonecode: zoneCodeInput.value,
     address: addressInput.value,
     detailAddress: detailAddressInput.value,
