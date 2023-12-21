@@ -32,11 +32,6 @@ public class FtpImgLoaderUtil {
 
     public FtpImgLoaderUtil() {
         ftpClient = new FTPClient();
-        try {
-            boolean result = connect();
-        } catch (IOException e) {
-            log.error("FTP 연결 실패, {}", e.getMessage());
-        }
     }
 
     /**
@@ -48,6 +43,8 @@ public class FtpImgLoaderUtil {
      * @throws IOException 아마자 업로드 시 문제 발생 시 IOException qkftod
      */
     public String upload(MultipartFile file, HttpServletRequest req) throws IOException {
+
+        connect();
 
         String result = null;
 
@@ -67,6 +64,7 @@ public class FtpImgLoaderUtil {
             result = String.join("/", filePath);
         }
 
+        disconnect();
         return result;
     }
 
@@ -79,8 +77,8 @@ public class FtpImgLoaderUtil {
      * @throws IOException
      */
     public Resource download(String imgUrl) throws IOException {
+        connect();
         setFtpClientConfig();
-
         InputStream imgStream = ftpClient.retrieveFileStream(imgUrl);
         byte[] result = IOUtils.toByteArray(imgStream);
 
@@ -91,6 +89,7 @@ public class FtpImgLoaderUtil {
 
         Resource resource = new ByteArrayResource(result);
         imgStream.close();
+        disconnect();
         return resource;
     }
 
@@ -100,13 +99,13 @@ public class FtpImgLoaderUtil {
      * @param imgUrl 삭제할 파일의 경로
      * @return 성공 시 true, 실패 시 false 반환
      */
-    public boolean delete(String imgUrl) {
+    public boolean delete(String imgUrl) throws IOException {
         boolean result = false;
-        try {
-            result = ftpClient.deleteFile(imgUrl);
-        } catch (IOException e) {
-            return result;
-        }
+
+        connect();
+        result = ftpClient.deleteFile(imgUrl);
+        disconnect();
+
         return result;
     }
 
