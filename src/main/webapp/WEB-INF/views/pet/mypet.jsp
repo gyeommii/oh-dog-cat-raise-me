@@ -72,9 +72,10 @@
                                         </div>
                                             <div class="card-body d-flex justify-content-center">
                                                 <div class="text-center">
-                                                    <img
-                                                        src="${pet.img}"
-                                                        alt="펫 이미지">
+                                                <c:url var="imgGetUrl" value="/img">
+                                                    <c:param name="imgUrl" value="${pet.img_url}" />
+                                                </c:url>
+                                                    <img src="${imgGetUrl}" alt="펫 이미지">
                                                 </div>
                                             </div>
                                             </td>

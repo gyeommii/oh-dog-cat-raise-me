@@ -30,14 +30,10 @@ public class PetService {
   }
   
   public void addPet(PetAddDto dto) {
-    log.debug("addPet(dto={})", dto);
+    log.debug("addPet(dto={})", dto);    
     
-    byte[] imageData = dto.getImg();
     
-    Pet pet = dto.toEntity();
-    pet.setImg(imageData);
-    
-    petDao.insertPet(pet);    
+    petDao.insertPet(dto.toEntity()); 
   }
   
   public void modifyPet(PetModifyDto dto) {

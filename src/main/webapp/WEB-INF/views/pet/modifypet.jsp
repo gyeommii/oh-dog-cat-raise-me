@@ -44,7 +44,8 @@
                             <hr class="border border-dark border-3 opacity-75">
                         </div>
                         <div class="card">
-                            <form class="card-body" id="modifyForm" enctype="multipart/form-data">                                
+                            <c:url var="modifyPet" value="mypage/pet" />
+                            <form class="card-body" id="modifyForm" action="${modifyPet}" method="POST" enctype="multipart/form-data">                                
                                 <div class="my-2">
                                     <label class="form-label" for="img">이미지</label>
                                     <input class="form-control" id="img" type="file" value="이미지" name="img" />
@@ -55,7 +56,7 @@
                                 </div>
                                 <div class="my-2">
                                     <label class="form-label" for="pet_name">이름</label> 
-                                    <input class="form-control" id="pet_name" name="pet_name" type="text" value="${petList.pet_name}" autofocus />
+                                    <input class="form-control" id="pet_name" name="pet_name" type="text" value="${petList.pet_name}" autofocus required/>
                                 </div>
                                 <div class="my-2">
                                     <label class="form-label" for="pet_type">🐶🐱</label> 
@@ -83,11 +84,10 @@
                                         <option value="대형">대형</option>
                                     </select>
                                 </div>
+                                <div>
+                                    <input class="form-control btn btn-success" type="submit" value="수정완료" />
+                                </div>
                             </form>
-                            <div class="card-footer">
-                                <button class="btn btn-danger" id="btnDelete">삭제하기</button>
-                                <button class="btn btn-success" id="btnUpdate">수정하기</button>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -99,8 +99,7 @@
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-    
-    <script src="../js/pet/modifypet.js"></script>    
+     
 
 </body>
 </html>

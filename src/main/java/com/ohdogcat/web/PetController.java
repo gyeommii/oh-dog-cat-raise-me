@@ -1,17 +1,22 @@
 package com.ohdogcat.web;
 
+import java.io.IOException;
 import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.member.pet.PetAddDto;
 import com.ohdogcat.dto.member.pet.PetModifyDto;
 import com.ohdogcat.model.Pet;
 import com.ohdogcat.service.PetService;
+import com.ohdogcat.util.FtpImgLoaderUtil;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,6 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PetController {
 
   private final PetService petService;
+  private final FtpImgLoaderUtil ftpImgLoaderUtil;
 
   @GetMapping("/pet")
   public String myPet(HttpSession session, Model model) {
@@ -32,7 +38,7 @@ public class PetController {
     if (memberSessionDto != null) {
       long member_fk = memberSessionDto.getMember_pk();
       List<Pet> list = petService.readMemberPet(member_fk);
-
+      log.debug("list={}", list);
       model.addAttribute("petList", list);
 
       return "pet/mypet";
@@ -45,24 +51,48 @@ public class PetController {
   }
 
   @GetMapping("/addpet")
-  public String addPet(@RequestParam(name = "member_fk") long member_fk, Model model) {
+  public String addPet(@RequestParam(name = "member_fk") long member_fk, HttpSession session, Model model) {
     log.debug("GET - addPet()");
+    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
+    if (memberSessionDto != null) {
 
-    return "pet/addpet";
+      return "pet/addpet";
+    }
+
+    return "redirect:/user/signin";
   }
 
-  @PostMapping("/addpet")
-  public String addPet(HttpSession session, PetAddDto dto) {
+  @PostMapping("/pet")
+  public String addPet(@RequestParam(name = "img") MultipartFile img, HttpSession session ,HttpServletRequest req, PetAddDto dto) throws IOException {
     log.debug("POST create(dto={})", dto);
-
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     if (memberSessionDto != null) {
       long member_fk = memberSessionDto.getMember_pk();
       dto.setMember_fk(member_fk);
-    }
-    petService.addPet(dto);
+      log.debug("POST create(dto={})", dto);
 
-    return "redirect:/mypage/pet";
+    } else {
+
+      return "redirect:/user/signin";
+    }
+
+    if (!img.isEmpty()) {
+      log.debug("MultipartFile img={}", img);
+      
+      String imgPath = ftpImgLoaderUtil.upload(img, req.getServletPath());
+      dto.setImg_url(imgPath);
+      log.debug("addPet(success)");
+      log.debug("POST create(dto={})", dto);
+      petService.addPet(dto);
+      
+      return "redirect:/mypage/pet";      
+    } else {
+      
+      log.debug("addPet(fail)");
+
+      return "redirect:/mypage/addpet";
+    }
+
   }
 
   @GetMapping("/modifypet")
@@ -74,12 +104,32 @@ public class PetController {
     return "pet/modifypet";
   }
 
-  @PostMapping("/modifypet")
-  public String modifyPet(PetModifyDto dto) {
+  @PatchMapping("/pet")
+  public String modifyPet(@RequestParam(name = "img") MultipartFile img, HttpServletRequest req, HttpSession session,PetModifyDto dto) throws IOException {
     log.debug("modifyPet(dto={})", dto);
-    petService.modifyPet(dto);
+    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
+    if (memberSessionDto == null) {
+      
+      return "redirect:/user/signin";
+    }
+    
+    if(!img.isEmpty()) {
+      log.debug("MultipartFile img={}", img);
+      
+      String imgPath = ftpImgLoaderUtil.upload(img, req.getServletPath());
+      dto.setImg_url(imgPath);
+      log.debug("modifyPet(success)");
+      log.debug("POST create(dto={})", dto);
+      petService.modifyPet(dto);
+      
+      return "redirect:/mypage/pet";
+      
+    } else {
+      
+      log.debug("modifyPet(fail)");
+      return "redirect:/mypage/pet";
+    }
 
-    return "redirect:/mypage/pet";
   }
 
   @GetMapping("/delete")

@@ -43,13 +43,12 @@
                         <div class="bg-secondary bg-opacity-10">
                             <hr class="border border-dark border-3 opacity-75">
                         </div>
-                        <div class="card">
-                            
-                            <c:url var="addPet" value="/mypage/addpet"/>
-                            <form class="card-body" action="${addPet}" method="POST" enctype="multipart/form-data">                                
+                        <div class="card">                            
+                            <c:url var="addPet" value="/mypage/pet"/>
+                            <form class="card-body" action="${addPet}" method="POST" enctype="multipart/form-data">   
                                 <div class="my-2">
                                     <label class="form-label" for="img">이미지</label>
-                                    <input class="form-control" id="img" type="file" value="이미지" name="img" />
+                                    <input class="form-control" id="img" type="file" value="이미지" name="img" multiple/>
                                 </div>                                
                                 <div class="my-2">
                                     <label class="form-label" for="pet_name">펫 이름</label>
@@ -58,8 +57,8 @@
                                 <div class="my-2">
                                     <label class="form-label" for="pet_type">펫 유형</label> 
                                     <select class="form-select" name="pet_type">
-                                        <option value="dog">강아지</option>
-                                        <option value="cat">고양이</option>
+                                        <option value="강아지">강아지</option>
+                                        <option value="고양이">고양이</option>
                                     </select>
                                 </div>
                                 <div class="my-2">
@@ -69,16 +68,16 @@
                                 <div class="my-2">
                                     <label class="form-label" for="gender">성별</label> 
                                     <select class="form-select" name="gender">
-                                        <option value="male">남자</option>
-                                        <option value="female">여자</option>
+                                        <option value="남자">남자</option>
+                                        <option value="여자">여자</option>
                                     </select>
                                 </div>
                                 <div class="my-2">
                                     <label class="form-label" for="chehyeong">체형</label> 
                                     <select class="form-select" name="chehyeong">
-                                        <option value="small">소형</option>
-                                        <option value="middle">중형</option>
-                                        <option value="big">대형</option>
+                                        <option value="소형">소형</option>
+                                        <option value="중형">중형</option>
+                                        <option value="대형">대형</option>
                                     </select>
                                 </div>
                                 <div>

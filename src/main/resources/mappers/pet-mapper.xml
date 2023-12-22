@@ -9,7 +9,7 @@
     </select>
     
     <select id="selectById" resultType="Pet">
-        select * from PET where PET_PK = #{pet_pk} order by PET_PK desc
+        select IMG as img_url from PET where PET_PK = #{pet_pk} order by PET_PK desc
     </select>
     
     <select id="selectByMemberFk" resultType="Pet">
@@ -17,11 +17,11 @@
     </select>
 
     <insert id="insertPet">
-        insert into PET (MEMBER_FK, IMG, PET_NAME, PET_TYPE, AGE, GENDER, CHEHYEONG) values (#{member_fk}, #{img}, #{pet_name}, #{pet_type}, #{age}, #{gender}, #{chehyeong})
+        insert into PET (MEMBER_FK, IMG, PET_NAME, PET_TYPE, AGE, GENDER, CHEHYEONG) values (#{member_fk}, #{img_url}, #{pet_name}, #{pet_type}, #{age}, #{gender}, #{chehyeong})
     </insert>
 
     <update id="updatePet">
-        update PET set IMG = #{img}, PET_NAME = #{pet_name}, PET_TYPE = #{pet_type}, AGE = #{age}, GENDER = #{gender}, CHEHYEONG = #{chehyeong} where PET_PK = #{pet_pk}
+        update PET set IMG = #{img_url}, PET_NAME = #{pet_name}, PET_TYPE = #{pet_type}, AGE = #{age}, GENDER = #{gender}, CHEHYEONG = #{chehyeong} where PET_PK = #{pet_pk}
     </update>
 
     <delete id="deletePet">

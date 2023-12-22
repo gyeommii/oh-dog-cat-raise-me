@@ -1,7 +1,7 @@
 /**
  * modifypet.js
  */
-
+/*
 document.addEventListener('DOMContentLoaded', () => {
     const form = document.querySelector('form#modifyForm');
     
@@ -38,4 +38,4 @@ document.addEventListener('DOMContentLoaded', () => {
         
     });
     
-});
+});*/
