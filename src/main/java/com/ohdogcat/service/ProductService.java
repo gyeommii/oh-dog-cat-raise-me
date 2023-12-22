@@ -25,12 +25,12 @@ public class ProductService {
 	private final ProductDao productDao;
 	
 	public List<ProductListDto> getProducts(Long petType, String orderBy) {
-		log.debug("getProducts()");
+		log.debug("getProducts(petType={}, orderBy={})", petType, orderBy);
         return productDao.selectProducts(petType, "",  null, null, null, orderBy);
     }
 
 	
-	public List<ProductListDto> getFilteredProducts(String keyword, Long petType, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
+	public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
         return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
     }
 	

@@ -34,6 +34,29 @@ public class ProductRestController {
 
 		return ResponseEntity.ok(products);
 	}
+	
+	@GetMapping("/filter")
+	public ResponseEntity<List<ProductListDto>> getFilterProducts(
+			@RequestParam Long petType,
+			@RequestParam(defaultValue = "") String keyword,
+//			@RequestParam String keyword,
+			@RequestParam Long minPrice,
+			@RequestParam Long maxPrice,
+			@RequestParam Boolean inStock,
+			@RequestParam (defaultValue = "") String orderBy) {
+		log.debug("getFilterProducts(petType={}, orderBy={}, inStock={},)", petType, keyword, minPrice, maxPrice, inStock, orderBy);
+		
+		List<ProductListDto> products = productService.getFilteredProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
+
+		
+		return ResponseEntity.ok(products);
+	}
+	/*
+	 * public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
+        return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
+    }
+	 * */
+	
 
 //	@GetMapping("best/{petType}/{orderBy}") //product/collection/best${petType}/${orderBy}
 //	public void getSortedProducts(
