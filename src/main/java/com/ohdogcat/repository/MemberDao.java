@@ -14,5 +14,13 @@ public interface MemberDao {
 
     String findMemberId(String email);
 
-    Integer updatePassword (Member member);
+    Integer updatePassword(Member member);
+
+    Member getMemberMyPageInfo(Long memberPk);
+
+    Integer updateUserInfo(Member member);
+
+    String getMemberPhone(Member member);
+
+    Long updateUserDefaultAddress(Member member);
 }
