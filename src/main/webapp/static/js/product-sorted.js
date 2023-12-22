@@ -4,10 +4,22 @@
  */
 
 document.addEventListener("DOMContentLoaded", function() {
+    // *현재 페이지 확인*
+    const currentPage = window.location.pathname;
+    
+    // *정렬조건*
+    let newPageDefaultOrderBy;
+    if (currentPage.includes('/ohdogcat/product/collection/best')) {
+        newPageDefaultOrderBy = 'sold'; // 베스트셀러 페이지 -> 기본값'sold'
+    } else if (currentPage.includes('/ohdogcat/product/collection/new')) {
+        newPageDefaultOrderBy = 'createDate'; // 신상품 페이지 -> 기본값 'createDate'
+    }
+    
     // *펫타입*
     function getCurrentPetType() {
         return document.querySelector("input#btnradio1").checked ? 1 : 2;
     }
+    
     // *정렬조건*
     let currentOrderBy = 'new'; // 기본값으로 'new'를 설정
     document.querySelectorAll(".btn-group button").forEach(button => {
@@ -27,10 +39,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // 고양이 버튼 클릭 
     document.querySelector("input#btnradio2").addEventListener("click", function() {
         let petType = 2; // 고양이
-        let orderBy = 'sold';
+        let orderBy = newPageDefaultOrderBy;
         let newTitle = document.getElementById("newTitle");
     
-        newTitle.innerHTML = "🐱냥 베스트"; // 타이틀 텍스트 변경
+        if (newTitle.innerHTML === "🐶멍 베스트") {
+            newTitle.innerHTML = "🐱냥 베스트"; // 멍멍이 베스트에서 냥냥이 베스트로 변경
+        } else if (newTitle.innerHTML === "🐶멍 신상품") {
+            newTitle.innerHTML = "🐱냥 신상품"; // 멍멍이 신상품에서 냥냥이 신상품으로 변경
+        }
         
         const uri = `/ohdogcat/aaa/bbb/best`; 
 
@@ -52,10 +68,14 @@ document.addEventListener("DOMContentLoaded", function() {
     // 강아지 버튼 클릭 
     document.querySelector("input#btnradio1").addEventListener("click", function() {
         let petType = 1; // 멍멍이
-        let orderBy = 'sold';
+        let orderBy = newPageDefaultOrderBy;
         let newTitle = document.getElementById("newTitle");
 
-        newTitle.innerHTML = "🐶멍 베스트"; 
+        if (newTitle.innerHTML === "🐱냥 베스트") {
+            newTitle.innerHTML = "🐶멍 베스트"; // 멍멍이 베스트에서 냥냥이 베스트로 변경
+        } else if (newTitle.innerHTML === "🐱냥 신상품") {
+            newTitle.innerHTML = "🐶멍 신상품"; // 멍멍이 신상품에서 냥냥이 신상품으로 변경
+        }
 
         const uri = `/ohdogcat/aaa/bbb/best`;
 

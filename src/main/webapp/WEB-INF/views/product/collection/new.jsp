@@ -49,7 +49,7 @@
 
     <div class="row">
         <div class="col-12 text-center my-5">
-            <h3 id="newTitle">🐶멍 베스트</h3>
+            <h3 id="newTitle">🐶멍 신상품</h3>
         </div>
         <div class="text-center mt-3 mb-4">
 
