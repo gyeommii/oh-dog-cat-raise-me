@@ -58,4 +58,35 @@
     </if>
   </update>
 
+  <select id="getMemberMyPageInfo" parameterType="Long" resultType="Member">
+    select
+    member_id, email, kakao_client_id, phone, address_fk, created_date
+    from member
+    where member_pk = #{member_pk}
+  </select>
+
+  <update id="updateUserInfo" parameterType="Member">
+    update member
+    set
+    <if test="password != null">
+      password = #{password}
+    </if>
+    <if test="password != null and phone != null">,</if>
+    <if test="phone != null">
+      phone = #{phone}
+    </if>
+    where member_pk = #{member_pk}
+  </update>
+
+  <select id="getMemberPhone" parameterType="Member" resultType="String">
+    select phone
+    from member
+    where member_pk = #{member_pk} and password = #{password}
+  </select>
+
+  <update id="updateUserDefaultAddress" parameterType="Member">
+    update member
+    set address_fk = #{address_fk}
+    where member_pk = #{member_pk}
+  </update>
 </mapper>

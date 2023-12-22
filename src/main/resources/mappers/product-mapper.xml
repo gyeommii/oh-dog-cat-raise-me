@@ -155,17 +155,19 @@
 		select * from PRODUCT order by CREATE_DATE desc
 	</select>
 	
+
 	<!-- ****** 메인 리스트 신상품/베스트 상품 불러올 때 사용! ****** -->
-    <!-- 강아지 타입 신규 상품 상위 8개 -->
-    <select id="selectDogTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by create_date desc
-            fetch first 8 rows only
-        ) p join category c on p.category_fk = c.category_pk
+	<!-- 강아지 타입 신규 상품 상위 8개 -->
+	<select id="selectDogTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
+		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
+	    from (
+	        select *
+	        from product
+	        where category_fk in (select category_pk from category where pet_type = 1)
+	        order by create_date desc
+	        fetch first 8 rows only
+	    ) p join category c on p.category_fk = c.category_pk
+
     </select>
     
 
@@ -193,18 +195,40 @@
         ) p join category c on p.category_fk = c.category_pk
     </select>
 
-    <!-- 고양이 타입 베스트 상품 상위 8개-->
-    <select id="selectCatTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by sold desc
-            fetch first 8 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    
+
+	<!-- 고양이 타입 베스트 상품 상위 8개-->
+	<select id="selectCatTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
+		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
+	    from (
+	        select *
+	        from product
+	        where category_fk in (select category_pk from category where pet_type = 2)
+	        order by sold desc
+	        fetch first 8 rows only
+	    ) p join category c on p.category_fk = c.category_pk
+	</select>
+	
+	<!-- 상품 정보 (petType 포함) -->
+	<select id="selectByProductPk" resultType="ProductPetTypeDto">
+		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
+		from category c join product p 
+		on c.category_pk = p.category_fk
+		where p.product_pk = #{productPk}
+	</select>
+	
+	<!-- 상품Pk 별 옵션 목록 -->
+	<select id="selectOptionByProduckPk" resultType="ProductOptionListDto">
+		select o.option_pk, o.option_name, o.stock, o.price
+		from product p join product_option o
+		on p.product_pk = o.product_fk
+		where p.product_pk = #{productPk}
+	</select>
+	
+	<!-- 옵션PK 별 정보 -->
+	<select id="selectOptionByOptionPk" resultType="ProductOption">
+		select * from product_option where option_pk = #{optionPk}
+	</select>
+	
+	
 
 </mapper>

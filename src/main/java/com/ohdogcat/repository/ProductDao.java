@@ -4,10 +4,15 @@ package com.ohdogcat.repository;
 
 import java.util.List;
 
+
 import org.apache.ibatis.annotations.Param;
 
 import com.ohdogcat.dto.product.ProductListDto;
+
+import com.ohdogcat.dto.product.ProductOptionListDto;
+
 import com.ohdogcat.dto.product.ProductPetTypeDto;
+import com.ohdogcat.model.ProductOption;
 
 public interface ProductDao {
 
@@ -39,8 +44,11 @@ public interface ProductDao {
 	
 
 
-
-
+	ProductPetTypeDto selectByProductPk(long productPk);
 	
+	List<ProductOptionListDto> selectOptionByProduckPk(long productPk);
+
+	ProductOption selectOptionByOptionPk(long optionPk);
+
 	
 }
