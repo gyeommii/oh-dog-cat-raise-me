@@ -247,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
     // ProductRestController를 통해 받아온 데이터로 다시 상품목록을 만듦
     function showProductsCards(products) {
-        var productsContainer = document.getElementById('productsContainer');
+        let productsContainer = document.getElementById('productsContainer');
         productsContainer.innerHTML = ''; // 상품목록 초기화
 
         if (!Array.isArray(products)) {
@@ -256,8 +256,8 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
         products.forEach(function (product) {
-            var cardHtml = `
-                <div class="col-3">
+            let cardHtml = `
+            <div class="col-3">
                 <div class="card mb-5">
                     <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
                     <div class="card-body">
@@ -270,4 +270,9 @@ document.addEventListener("DOMContentLoaded", function() {
             productsContainer.innerHTML += cardHtml;
         });
     }
-});
+    
+    
+    
+    
+    
+}); //end

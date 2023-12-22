@@ -28,3 +28,5 @@ function showProductsCards(products) {
         productsContainer.innerHTML += cardHtml;
     });
 }
+
+

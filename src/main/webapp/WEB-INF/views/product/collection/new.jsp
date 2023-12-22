@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ohdogcat</title>
+<title>🐾ohdogcat🐾</title>
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -110,8 +110,7 @@
 
                 <!-- 상품 컨테이너 -->
                 <div class="container">
-                    <div
-                        class="text-center mt-3 d-md-flex justify-content-md-end">
+                    <div class="text-center mt-3 d-md-flex justify-content-md-end">
                         <!-- 정렬 버튼 -->
                         <div class="btn-group" role="group"
                             aria-label="Basic example">

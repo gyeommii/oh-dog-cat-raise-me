@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>ohdogcat</title>
+<title>🐾ohdogcat🐾</title>
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -37,6 +37,38 @@
     width: 200px;      /* 버튼의 너비 */
     height: 30px;     /* 버튼의 높이 */
     font-size: 12px;  /* 버튼 내부의 텍스트 크기 */
+}
+
+{
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+li {
+  list-style-type: none;
+}
+
+.post-container {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #d7d7d7;
+  margin: 15px;
+}
+
+.post-title {
+  font-size: 20px;
+}
+
+.post-number {
+  font-size: 15px;
+  padding: 15px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
 }
 
 </style>   
@@ -110,8 +142,7 @@
 
                 <!-- 상품 컨테이너 -->
                 <div class="container">
-                    <div
-                        class="text-center mt-3 d-md-flex justify-content-md-end">
+                    <div class="text-center mt-3 d-md-flex justify-content-md-end">
                         <!-- 정렬 버튼 -->
                         <div class="btn-group" role="group"
                             aria-label="Basic example">
@@ -139,6 +170,15 @@
                             </div>
                         </c:forEach>
                     </div>
+                </div>
+
+                
+                <div class="pagination-container">
+                    <button class="prev-button">◀</button>
+                        <div class="number-button-wrapper">
+                            <button class="number-button" id="pageNumberBtn">1</button>
+                        </div>
+                    <button class="next-button">▶</button>
                 </div>
             </main>
 
