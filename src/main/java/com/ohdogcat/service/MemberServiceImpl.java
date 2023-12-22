@@ -42,10 +42,10 @@ public class MemberServiceImpl implements MemberService {
         Member member = dto.getMember();
 
         if (address != null) {
-            Integer result = addressDao.registerAddress(address);
+            Long result = addressDao.registerAddress(address);
             log.debug("result = {}", result);
             log.debug("address_pk={}", address.getAddress_pk());
-            member.setAddress_fk(address.getAddress_pk());
+            member.setAddress_fk(result);
         }
 
         Integer isMemberCreated = memberDao.join(member);

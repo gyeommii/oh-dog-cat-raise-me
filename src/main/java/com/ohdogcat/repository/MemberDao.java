@@ -20,5 +20,7 @@ public interface MemberDao {
 
     Integer updateUserInfo(Member member);
 
-    String getMemberPassword(Member member);
+    String getMemberPhone(Member member);
+
+    Long updateUserDefaultAddress(Member member);
 }

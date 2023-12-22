@@ -18,8 +18,12 @@ public class MemberChangeInfoDto {
     private String newPassword;
     private String phone;
 
-    public Member toMember () {
-        return Member.builder().password(newPassword).phone(phone).build();
+    public Member toMemberToCheck () {
+        return Member.builder().password(password).phone(phone).member_pk(member_pk).build();
+    }
+
+    public Member toMemberToChange () {
+        return Member.builder().password(newPassword).phone(phone).member_pk(member_pk).build();
     }
 
 }

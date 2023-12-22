@@ -1,5 +1,6 @@
 package com.ohdogcat.web;
 
+import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
@@ -12,6 +13,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -33,14 +36,15 @@ public class MyPageController {
 
     @ResponseBody
     @PatchMapping("/member")
-    public ResponseEntity<String> updateMemberInfo(HttpSession session, MemberChangeInfoDto dto) {
-        MemberSessionDto signedUser = (MemberSessionDto) session.getAttribute("signedUser");
-        dto.setMember_pk(signedUser.getMember_pk());
+    public ResponseEntity<String> updateMemberInfo(HttpSession session, @RequestBody MemberChangeInfoDto dto) {
+
+        MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+        dto.setMember_pk(signedMember.getMember_pk());
         Boolean result = false;
-        log.debug("updateAddressupdateAddress={}", dto);
+
         try {
             result = service.updateUserInfo(dto);
-        } catch (IllegalArgumentException e) {
+        } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
         if (Boolean.FALSE.equals(result)) {
@@ -51,8 +55,18 @@ public class MyPageController {
 
     @ResponseBody
     @PatchMapping("/address")
-    public ResponseEntity<String> updateAddress (HttpSession session) {
-        return null;
+    public ResponseEntity<String> updateAddress(HttpSession session, MemberAddressUpdateDto dto) {
+        MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+
+        dto.setMember_pk(signedMember.getMember_pk());
+
+        Boolean result = service.updateUserAddress(dto);
+
+        if (!result) {
+            return ResponseEntity.badRequest().body("failed");
+        }
+
+        return ResponseEntity.ok("success");
     }
 
 }

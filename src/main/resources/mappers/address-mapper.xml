@@ -23,8 +23,7 @@
     select
     address_pk, address, zonecode, detail_addr, recipient
     from address
-    where address_pk = #{addressPk};
+    where address_pk = #{addressPk}
   </select>
-
 
 </mapper>

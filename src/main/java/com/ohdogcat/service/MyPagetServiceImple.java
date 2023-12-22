@@ -1,5 +1,6 @@
 package com.ohdogcat.service;
 
+import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.model.Address;
@@ -7,9 +8,10 @@ import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class MyPagetServiceImple implements MyPageService {
@@ -34,16 +36,36 @@ public class MyPagetServiceImple implements MyPageService {
 
     @Override
     public Boolean updateUserInfo(MemberChangeInfoDto dto) throws IllegalArgumentException {
-        String phone = memberDao.getMemberPassword(dto.toMember());
+        Member member = dto.toMemberToCheck();
+
+        String phone = memberDao.getMemberPhone(member);
+
+        log.debug(phone);
 
         if (phone == null) {
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 
+        log.debug("헤헤헤헤헿");
         if (phone.equals(dto.getPhone())) {
             dto.setPhone(null);
         }
 
-        return memberDao.updateUserInfo(dto.toMember()) == 1;
+        return memberDao.updateUserInfo(dto.toMemberToChange()) == 1;
+    }
+
+    @Override
+    public Boolean updateUserAddress(MemberAddressUpdateDto dto) {
+//  새로운 Address 등록
+//        user 기본 배송지로 등록
+        Long address_fk = addressDao.registerAddress(dto.toAddress());
+
+        Member memberToUpdateAddress = Member.builder()
+            .member_pk(dto.getMember_pk())
+            .address_fk(address_fk).build();
+
+        Long result = memberDao.updateUserDefaultAddress(memberToUpdateAddress);
+
+        return result == 1;
     }
 }

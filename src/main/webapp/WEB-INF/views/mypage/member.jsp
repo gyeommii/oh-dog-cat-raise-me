@@ -90,18 +90,20 @@
                             class="text-danger">*</span></label>
                     <input type="password" class="form-control mx-2" id="inputPw"/>
                     <div id="pwHelp" class="form-text mx-2">비밀번호 변경을 위해 본래 비밀번호를 입력해주세요!</div>
+                    <div id="pwDesc" class="form-text mx-2"></div>
                 </div>
                 <div class="mb-3">
                     <label for="inputNewPw" class="form-label  mx-2">새 비밀번호<span
                             class="text-danger">*</span></label>
                     <input type="password" class="form-control mx-2" id="inputNewPw">
                     <div id="newPwHelp" class="form-text mx-2">1) 영문 숫자 혼합. 2)공백 제외 6글자 이상.</div>
+                    <div id="newPwDesc" class="form-text mx-2 text-danger"></div>
                 </div>
                 <div class="mb-3">
                     <label for="inputNewPwCheck" class="form-label mx-2">새 비밀번호 확인<span
                             class="text-danger">*</span></label>
                     <input type="password" class="form-control mx-2" id="inputNewPwCheck"/>
-                    <div id="inputNewPwCheckHelp" class="form-text mx-2"></div>
+                    <div id="newPwCheckDesc" class="form-text mx-2"></div>
                 </div>
 
             </div>
@@ -110,7 +112,6 @@
                         class="text-danger">*</span></label>
                 <input type="text" class="form-control mx-2" id="inputPhone"
                        value="${memberInfo.phone}"/>
-                <div class="form-text mx-2"></div>
                 <div id="phoneHelp" class="form-text mx-2">"-"로 구분하여 작성해주세요.</div>
                 <div class="text-secondary text-opacity-50 mx-2">예) 010-0000-0000</div>
             </div>
@@ -145,6 +146,7 @@
                    value="${memberInfo.detail_addr}" placeholder="상세주소">
             <input type="text" id="recipient" class="form-control m-2"
                    value="${memberInfo.recipient}" placeholder="배송 받는 사람">
+
             <button id="address-reset-btn" class="btn btn-outline-warning form-control my-1 mx-2">
                 배송지
                 초기화

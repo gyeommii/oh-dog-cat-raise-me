@@ -78,9 +78,15 @@
     where member_pk = #{member_pk}
   </update>
 
-  <select id="getMemberPassword" parameterType="Member" resultType="String">
+  <select id="getMemberPhone" parameterType="Member" resultType="String">
     select phone
     from member
     where member_pk = #{member_pk} and password = #{password}
   </select>
+
+  <update id="updateUserDefaultAddress" parameterType="Member">
+    update member
+    address_fk = #{address_fk}
+    where member_pk = #{member_pk}
+  </update>
 </mapper>
