@@ -2,22 +2,35 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="com.ohdogcat.repository.CartDao">
-	
+
+	<!-- 카트에 담겨있는 상품인지 확인 -->
 	<select id="selectCartByMemberAndOption" resultType="Cart">
-		select * from cart 
+		select *
+		from cart
 		where member_fk = #{member_fk} and option_fk = #{option_fk}
 	</select>
-	
+
+	<!-- 새 상품 카트 추가 -->
 	<insert id="insertCartNewItem">
-		insert into cart 
+		insert into cart
 		values (#{member_fk}, #{option_fk}, #{count})
 	</insert>
-	
+
+	<!-- 카트에 이미 추가된 상품 수량 변경 -->
 	<update id="updateCartCount">
-		update cart 
-		set count = (select count from cart where member_fk = #{member_fk} and option_fk = #{option_fk}) + #{count}
-		where member_fk = #{member_fk} and option_fk = #{option_fk}
+		update cart
+		set count = (select count from cart where member_fk = #{member_fk} and
+		option_fk = #{option_fk}) + #{count}
+		where member_fk = #{member_fk} and
+		option_fk = #{option_fk}
 	</update>
+
+	<!-- 옵션 별 수량 정보 -->
+	<select id="selectStockByOption" resultType="java.lang.Long">
+		select stock from
+		product_option where option_pk = #{option_fk}
+	</select>
+	
 </mapper>

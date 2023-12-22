@@ -1,8 +1,7 @@
 /**
  * product/details.jsp에 포함되는 js
  * 상품PK 별 옵션 목록 확인
- * 옵션 및 수량 선택 기능
- * 
+ * 옵션 및 수량 선택 로직 처리
  * 장바구니 버튼 기능
  * 
  */
@@ -13,16 +12,26 @@ document.addEventListener('DOMContentLoaded', () => {
 	const btnOption = document.querySelector("button#btnOption");	
 	// 옵션 선택 시 추가 될 영역
 	const optionAddArea = document.querySelector("div#optionAddArea");
+
 	// 장바구니 버튼
 	const btnCart = document.getElementById("btnCart");
+	// 장바구니 모달
+	const cartModal = new bootstrap.Modal('div#toCartModal',{backdrop: true}); 
+	// 로그인 모달
+	const loginModal = new bootstrap.Modal('div#toLoginModal',{backdrop: true}); 
 	
-
 	// 옵션 버튼 클릭 시 실행
 	btnOption.addEventListener("click", getOptionList);
 
-	// 장바구니 버튼 클릭 시 실행
+	// 장바구니 버튼 클릭 시 실행 
 	btnCart.addEventListener("click", addToCart);
 
+
+
+ 	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
+ 	
+	
+	// 장바구니 담기
 	async function addToCart(){	
 		if(optionAddArea.querySelector("div.option-card") == null){
 			alert("상품을 선택해주세요!");
@@ -33,10 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		for(let added of addedOptions){
 			let optionFk = added.getAttribute("data-id");
-			//let productFk = added.getAttribute("product-id"); productFk 필요한가?
 			let count = added.querySelector("input#count").value;
 
-			//cartItems.push({"product_Fk": productFk, "option_Pk": optionPk, "count": count});
 			cartItems.push({"option_fk": optionFk, "count": count});
 			
 		}
@@ -44,15 +51,33 @@ document.addEventListener('DOMContentLoaded', () => {
 			
 		try {
 			const response = await axios.post("../cart/add",cartItems);
-			console.log(response.data);
+			const result = response.data;
+			
+			switch(result){
+				case "overStock":
+					alert("재고보다 많은 수량을 담으실 수 없습니다!");
+					break;
+				case "overCount":
+					alert("장바구니에 있는 상품이며 \n옵션별 최대 10개까지 구매할 수 있습니다!");
+					break;
+				case "notLogin":
+					loginModal.show();
+					break;
+				case "add":
+					cartModal.show();
+					break;
+			}
+
 		} catch(error){
 			console.log(error);
 		}
 		
 		cartItems = [];	
-	}
+		
+		}
+		
 	
-	
+	// 상품별 옵션 리스트
 	async function getOptionList() {
 		const productPk = document.querySelector("input#productPk").value;
 		const uri = `option/all/${productPk}`;
@@ -60,7 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		makeOptionListElements(response.data);
 	}
-
 	function makeOptionListElements(data) {
 		const optionList = document.querySelector("ul#optionList");
 
@@ -117,7 +141,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		const optionCard = document.createElement('div');
         optionCard.classList.add("card", "card-body", "bg-light", "mb-2", "option-card");
         optionCard.setAttribute("data-id", option.optionPk);
-		optionCard.setAttribute("product-id", option.productFk);
+		// optionCard.setAttribute("product-id", option.productFk); 필요 없으면 지우기
 
         optionCard.innerHTML = `
 			    <div row class="d-flex justify-content-between align-items-center">
@@ -150,10 +174,10 @@ document.addEventListener('DOMContentLoaded', () => {
    		const btnPlus = optionCard.querySelector("#btnPlus");
 		btnPlus.addEventListener("click",() => pushPlusBtn(optionCard, option));
         
-    } // end paintAddOption()
+    } 
 	
 	// 추가된 옵션 삭제
-    function deleteAddOption(optionCard,option) {
+    function deleteAddOption(optionCard, option) {
 		let count = optionCard.querySelector("input#count").value;
         optionCard.remove();
 		updateTotalPrice(-option.price * count);
@@ -178,10 +202,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		let count = optionCard.querySelector("input#count");
 		let currentCount = parseInt(count.value);
 
-		if(currentCount >= option.stock) {
+		if(currentCount >= option.stock && option.stock <= 10) {
 			alert(`현재 구매 가능한 수량은 ${option.stock}개 입니다! `)
 			return;
-		}
+		} else if(currentCount >= 10 ) {
+			alert(`옵션별 최대 10개까지 구매할 수 있습니다!`)
+			return;			
+		} 
 		currentCount += 1;
 		count.setAttribute("value", currentCount);
 		

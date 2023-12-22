@@ -95,13 +95,59 @@
 									style="background: none; border-radius: 8px;">장바구니</button>
 								<button
 									class="col-md-6 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
-									id="btnBuy" type="button" style="border-radius: 8px;">바로구매</button>
+									id="btnBuy" type="button" style="border-radius: 8px; background-color: #ffc107 !important;">바로구매</button>
+									
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
+		<!--  장바구니 버튼 선택 시 로그인 Ok-->
+			<div id="toCartModal" class="modal" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title fw-semibold">선택 완료</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body my-2">
+							<div class="fw-semibold text-black-50 text-center mt-3" style="font-size: 18px;"> 장바구니에 추가되었습니다!</div>
+						</div>
+						<div class="modal-footer text-center d-flex justify-content-center mb-2" style="border: 0px;">
+							<button type="button" class="btn btn-outline-warning text-warning"
+								style="background: none; border-radius: 8px;" data-bs-dismiss="modal">쇼핑 계속 하기 </button>
+							<c:url var="cartListPage" value="/cart/list"/>
+							<a href="${cartListPage}" type="button" class="btn btn-warning text-white fw-semibold shadow-sm" 
+								style="border-radius: 8px;" id="btnTocart">장바구니 확인</a>
+						</div>
+					</div>
+				</div>
+			</div> <!-- end 모달 -->
+			
+			<!--  장바구니 버튼 선택 시 로그인 No-->
+			<div id="toLoginModal" class="modal" tabindex="-1">
+				<div class="modal-dialog modal-dialog-centered">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title fw-semibold">ohdogcat</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="modal"
+								aria-label="Close"></button>
+						</div>
+						<div class="modal-body my-2">
+							<div class="fw-semibold text-black-50 text-center mt-3" style="font-size: 18px;"> 로그인 후 이용 가능합니다!</div>
+						</div>
+						<div class="modal-footer text-center d-flex justify-content-center mb-2" style="border: 0px;">
+							<c:url var="loginPage" value="/user/signin"/>
+							<a href="${loginPage}" type="button" class="btn btn-warning text-white fw-semibold shadow-sm" 
+								style="border-radius: 8px;" id="btnLogin">로그인 하러가기</a>
+						</div>
+					</div>
+				</div>
+			</div> <!-- end 모달 -->
+		
+		
 	</main>
 
 	<!-- Footer-->

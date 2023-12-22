@@ -10,4 +10,6 @@ public interface CartDao {
 
 	int updateCartCount(Cart cartItem);
 
+	Long selectStockByOption(long option_fk); 
+
 }
