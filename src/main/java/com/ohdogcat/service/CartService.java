@@ -18,8 +18,8 @@ import lombok.extern.slf4j.Slf4j;
 public class CartService {
 	private final CartDao cartDao;
 
-	public String saveTocart(List<CartAddDto> cartAddDto, long memberFk) {
-		log.debug("saveTocart(member_fk ={})", memberFk);
+	public String addTocart(List<CartAddDto> cartAddDto, long memberFk) {
+		log.debug("addTocart(member_fk ={})", memberFk);
 
 		List<Cart> cartList = new ArrayList<>();
 		String addResult = "";

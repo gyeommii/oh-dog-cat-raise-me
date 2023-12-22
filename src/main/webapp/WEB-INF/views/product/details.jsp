@@ -103,7 +103,7 @@
 				</div>
 			</div>
 		</div>
-		<!--  장바구니 버튼 선택 시 로그인 Ok-->
+			<!--  장바구니 버튼 선택 모달 : 로그인 한 상태-->
 			<div id="toCartModal" class="modal" tabindex="-1">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">
@@ -126,7 +126,7 @@
 				</div>
 			</div> <!-- end 모달 -->
 			
-			<!--  장바구니 버튼 선택 시 로그인 No-->
+			<!--  장바구니 버튼 선택 모달 : 로그인 안 한 상태-->
 			<div id="toLoginModal" class="modal" tabindex="-1">
 				<div class="modal-dialog modal-dialog-centered">
 					<div class="modal-content">

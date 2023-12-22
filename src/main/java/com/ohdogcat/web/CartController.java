@@ -37,7 +37,7 @@ public class CartController {
 		}
 		
 		long memberFk = signedMember.getMember_pk();
-		String result = cartService.saveTocart(cartAddDto, memberFk);
+		String result = cartService.addTocart(cartAddDto, memberFk);
 		
 		return ResponseEntity.ok(result); 
 	
