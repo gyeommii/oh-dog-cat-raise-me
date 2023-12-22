@@ -56,13 +56,14 @@ public class MyPagetServiceImple implements MyPageService {
 
     @Override
     public Boolean updateUserAddress(MemberAddressUpdateDto dto) {
-//  새로운 Address 등록
-//        user 기본 배송지로 등록
-        Long address_fk = addressDao.registerAddress(dto.toAddress());
+        log.debug("updateUserAddress(dto={})", dto);
+
+        Address address = dto.toAddress();
+        addressDao.registerAddress(address);
 
         Member memberToUpdateAddress = Member.builder()
             .member_pk(dto.getMember_pk())
-            .address_fk(address_fk).build();
+            .address_fk(address.getAddress_pk()).build();
 
         Long result = memberDao.updateUserDefaultAddress(memberToUpdateAddress);
 

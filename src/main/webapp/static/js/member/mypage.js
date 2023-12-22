@@ -155,22 +155,33 @@ detailAddressInput.addEventListener("keyup", checkCanSubmitAddress);
 recipientInput.addEventListener("keyup", checkCanSubmitAddress);
 
 // 배송지 업데이트
-addressUpdateBtn.addEventListener("click", async () => {
+addressUpdateBtn.addEventListener("click",  () => {
   const address_pk = document.getElementById("address_pk").value;
 
   const data = {
     address_pk,
     zonecode: zoneCodeInput.value,
     address: addressInput.value,
-    detailAddress: detailAddressInput.value,
+    detail_addr: detailAddressInput.value,
     recipient: recipientInput.value
   };
 
   console.log("data==", data)
   const url = "./address";
 
-  const {data: result} = await axios.patch(url, data);
-  console.log("result : " + result);
+  axios.patch(url, data)
+  .then((res) => {
+    console.log("res={}", res);
+    if (res.data === "success") {
+      alert("배송지 변경이 완료되었습니다.");
+      location.reload();
+    } else {
+      alert("배송지 변경에 실패하였습니다. 다시 시도해주세요.");
+    }
+
+  }).catch(err => {
+    alert("배송지 변경에 실패하였습니다. 다시 시도해주세요.\n" + err.message);
+  });
 
 })
 
@@ -195,7 +206,7 @@ infoChangeBtn.addEventListener("click", () => {
     console.log("result=", res);
   }).catch(e => {
     e.status = 400;
-    alert("정보 수정에 실패하였습니다. 다시 시도해주세요.")
+    alert("정보 수정에 실패하였습니다. 다시 시도해주세요.\n" + e.message);
   })
 
 })

@@ -55,7 +55,8 @@ public class MyPageController {
 
     @ResponseBody
     @PatchMapping("/address")
-    public ResponseEntity<String> updateAddress(HttpSession session, MemberAddressUpdateDto dto) {
+    public ResponseEntity<String> updateAddress(HttpSession session,@RequestBody MemberAddressUpdateDto dto) {
+        log.debug("updateAddress(dto={})", dto);
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
 
         dto.setMember_pk(signedMember.getMember_pk());
