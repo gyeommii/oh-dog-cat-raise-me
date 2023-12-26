@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OptionOrderDto {
-private String dd;
-
+    private Long option_fk;
+    private Integer count;
 }
