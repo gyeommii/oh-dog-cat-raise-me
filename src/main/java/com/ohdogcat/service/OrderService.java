@@ -56,6 +56,11 @@ public class OrderService {
         }
 
         result.put("totalPrice", totalPrice);
+        OptionOrderDto mainPd = products.get(0);
+        String orderName =
+            products.size() > 1 ? mainPd.getProduct_name() + " 외 " + products.size() + "개"
+                : mainPd.getProduct_name();
+        result.put("orderName", orderName);
         return result;
     }
 

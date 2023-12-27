@@ -95,3 +95,14 @@ function addAddressToSelectComponent(e) {
   addAddress.classList.add("d-none");
 }
 
+const accordionBtn = document.getElementById("accordion-button-id");
+accordionBtn.addEventListener("click", clickAccordion)
+function clickAccordion () {
+  if (accordionBtn.classList.contains("collapsed")) {
+    accordionBtn.innerHTML = "▼";
+  } else {
+    accordionBtn.innerHTML = "▲";
+  }
+}
+
+
