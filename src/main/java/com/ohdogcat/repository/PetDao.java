@@ -6,7 +6,7 @@ import com.ohdogcat.model.Pet;
 public interface PetDao {  
   
   // pet_pk로 검색하기
-  Pet selectById(long pet_pk);
+  Pet selectByPetPk(long pet_pk);
   
   // member_fk로 검색하기
   List<Pet> selectByMemberFk(long member_fk);
