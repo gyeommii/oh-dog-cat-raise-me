@@ -106,7 +106,7 @@ li {
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <!-- 상품 키워드 검색 폼 -->
+                            <!-- 상품 키워드 검색 -->
                             <form action="/search-url" method="get"><!-- 'action'은 폼데이터를 처리할 서버의 URL, 'method'는 데이터 전송 방식 -->
                                 <label>
                                     <input type="text" title="상품 검색" placeholder="상품 키워드" id="keyword" class="input-medium"> 
@@ -147,7 +147,7 @@ li {
                         <div class="btn-group" role="group"
                             aria-label="Basic example">
                             <button type="button" id="new" class="btn">신상품순</button>
-                            <button type="button" id="best" class="btn">판매량순</button>
+                            <button type="button" id="sold" class="btn">판매량순</button>
                             <button type="button" id="lowest" class="btn">낮은가격순</button>
                             <button type="button" id="highest" class="btn">높은가격순</button>
                             <button type="button" id="topRated" class="btn">리뷰평점순</button>
@@ -176,7 +176,7 @@ li {
                 <div class="pagination-container">
                     <button class="prev-button">◀</button>
                         <div class="number-button-wrapper">
-                            <button class="number-button" id="pageNumberBtn">1</button>
+                            <button class="page-number-button" id="pageNumberBtn">1</button>
                         </div>
                     <button class="next-button">▶</button>
                 </div>
@@ -195,5 +195,6 @@ li {
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../../js/product-sorted.js"></script>
+    <script>let totalPages = ${totalPages};</script>
 </body>
 </html>

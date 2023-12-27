@@ -3,10 +3,7 @@
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
     
-
-<!--  PRODUCT 테이블에서 CRUD에 필요한 SQL 문장들을 선언 -->
 <mapper namespace="com.ohdogcat.repository.ProductDao"> 
-    
     <resultMap type="ProductListDto" id="productListDtoMap">
         <result property="productPk" column="product_pk"/>
         <result property="productName" column="product_name"/>
@@ -20,51 +17,70 @@
         <result property="stock" column="stock"/>
     </resultMap>
     
+    <select id="countProducts" resultType="int">
+        SELECT COUNT(*) FROM product p
+        JOIN category c ON p.category_fk = c.category_pk
+        <!-- 필터 조건 -->
+        <where>
+            <if test="petType != null">
+                AND c.pet_type = #{petType}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND p.product_name LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="minPrice != null and maxPrice != null">
+                AND p.min_price BETWEEN #{minPrice} AND #{maxPrice}
+            </if>
+            <if test="inStock != null and inStock">
+                AND o.stock > 0
+            </if>
+        </where>
+    </select>
+
+    
+    
     <select id="selectProducts" resultMap="productListDtoMap">
-    SELECT p.product_pk, p.product_name, p.category_fk, 
-           p.img_url, p.min_price, p.sold, p.create_date, 
-           c.pet_type, AVG(r.score) AS score, MAX(o.stock) AS stock
-    FROM product p
-    JOIN category c ON p.category_fk = c.category_pk
-    LEFT JOIN product_option o ON p.product_pk = o.product_fk
-    LEFT JOIN review r ON o.option_pk = r.option_fk
-    <where>
-        <if test="petType != null">
-            c.pet_type = #{petType}
-        </if>
-        <if test="keyword != null and keyword != ''">
-            AND p.product_name LIKE '%' || #{keyword} || '%'
-        </if>
-        <if test="minPrice != null and maxPrice != null">
-            AND p.min_price BETWEEN #{minPrice} AND #{maxPrice}
-        </if>
-        <if test="inStock != null and inStock">
-            AND o.stock > 0
-        </if>
-    </where>
-    GROUP BY p.product_pk, p.product_name, p.category_fk, 
-             p.img_url, p.min_price, p.sold, p.create_date, 
-             c.pet_type
-    <choose>
-        <when test="orderBy == 'lowest'">
-            ORDER BY p.min_price
-        </when>
-        <when test="orderBy == 'highest'">
-            ORDER BY p.min_price DESC
-        </when>
-        <when test="orderBy == 'sold'">
-            ORDER BY p.sold DESC
-        </when>
-        <when test="orderBy == 'reviewScore'">
-            ORDER BY AVG(r.score) DESC NULLS LAST
-        </when>
-        <otherwise>
-            ORDER BY p.create_date DESC
-        </otherwise>
-    </choose>
-</select>
-
-
-
-
+        SELECT p.product_pk, p.product_name, p.category_fk, 
+               p.img_url, p.min_price, p.sold, p.create_date, 
+               c.pet_type, AVG(r.score) AS score, MAX(o.stock) AS stock
+        FROM product p
+        JOIN category c ON p.category_fk = c.category_pk
+        LEFT JOIN product_option o ON p.product_pk = o.product_fk
+        LEFT JOIN review r ON o.option_pk = r.option_fk
+        <where>
+            <if test="petType != null">
+                c.pet_type = #{petType}
+            </if>
+            <if test="keyword != null and keyword != ''">
+                AND p.product_name LIKE '%' || #{keyword} || '%'
+            </if>
+            <if test="minPrice != null and maxPrice != null">
+                AND p.min_price BETWEEN #{minPrice} AND #{maxPrice}
+            </if>
+            <if test="inStock != null and inStock">
+                AND o.stock > 0
+            </if>
+        </where>
+        GROUP BY p.product_pk, p.product_name, p.category_fk, 
+                 p.img_url, p.min_price, p.sold, p.create_date, 
+                 c.pet_type
+        <choose>
+            <when test="orderBy == 'lowest'">
+                ORDER BY p.min_price
+            </when>
+            <when test="orderBy == 'highest'">
+                ORDER BY p.min_price DESC
+            </when>
+            <when test="orderBy == 'sold'">
+                ORDER BY p.sold DESC
+            </when>
+            <when test="orderBy == 'reviewScore'">
+                ORDER BY AVG(r.score) DESC NULLS LAST
+            </when>
+            <otherwise>
+                ORDER BY p.create_date DESC
+            </otherwise>
+        </choose>
+        OFFSET #{offset} ROWS FETCH NEXT 20 ROWS ONLY
+    </select>
 </mapper>

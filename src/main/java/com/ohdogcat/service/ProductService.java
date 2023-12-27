@@ -27,14 +27,35 @@ public class ProductService {
 
 	private final ProductDao productDao;
 	
-	public List<ProductListDto> getProducts(Long petType, String orderBy) {
-		log.debug("getProducts(petType={}, orderBy={})", petType, orderBy);
-        return productDao.selectProducts(petType, "",  null, null, null, orderBy);
-    }
+//	// 기존 getProducts
+//    public List<ProductListDto> getProducts(Long petType, String orderBy) {
+//        log.debug("getProducts(petType={}, orderBy={})", petType, orderBy);
+//        return productDao.selectProducts(petType, "", null, null, null, orderBy);
+//    }
 
+    // 페이지네이션 getProducts
+	public List<ProductListDto> getProducts(Long petType, String orderBy, int page, int size) {
+	    int offset = (page - 1) * size;
+	    return productDao.selectProducts(petType, "", null, null, null, orderBy, size, offset);
+	}
 	
-	public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
-        return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
+	// 총 상품 수를 계산
+	public int getTotalProductsCount(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock) {
+	    return productDao.countProducts(petType, keyword, minPrice, maxPrice, inStock);
+	}
+
+
+
+
+
+
+//	public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
+//        return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
+//    }
+//	
+    public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy, int page, int size) {
+        int offset = (page - 1) * size;
+        return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy, size, offset);
     }
 	
 	

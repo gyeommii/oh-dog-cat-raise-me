@@ -29,25 +29,43 @@ public class ProductController {
 	private ProductService productService;
 
 	
-	@GetMapping("/collection/best") 
+	@GetMapping("/collection/best")
 	public void getBestProducts(@RequestParam(defaultValue = "1") Long petType,
-			@RequestParam(defaultValue = "sold") String orderBy, Model model) {
-		log.debug("getBestProducts()");
-		List<ProductListDto> products = productService.getProducts(petType, orderBy);
-		
-		log.debug("products={}",products);
-		model.addAttribute("products", products);
+	                              @RequestParam(defaultValue = "sold") String orderBy,
+	                              @RequestParam(defaultValue = "1") int page,
+	                              @RequestParam(defaultValue = "20") int size,
+	                              Model model) {
+	    List<ProductListDto> products = productService.getProducts(petType, orderBy, page, size);
+	    int totalProducts = productService.getTotalProductsCount(petType, null, null, null, null); 
+	    int totalPages = (int) Math.ceil((double) totalProducts / size);
+	    
+	    model.addAttribute("products", products);
+	    model.addAttribute("totalPages", totalPages);
+	    
+	    log.debug("products={}",products);
+	    log.debug("totalProducts={}, size={}", totalProducts, size);
+	    log.debug("totalPages={}",totalPages);
 	}
 	
-	@GetMapping("/collection/new") 
-	public void getNewestProducts(@RequestParam(defaultValue = "1") Long petType,
-			@RequestParam(defaultValue = "createDate") String orderBy, Model model) {
-		log.debug("getBestProducts()");
-		List<ProductListDto> products = productService.getProducts(petType, orderBy);
-		
-		log.debug("products={}",products);
-		model.addAttribute("products", products);
-	}
+//	@GetMapping("/collection/best") 
+//	public void getBestProducts(@RequestParam(defaultValue = "1") Long petType,
+//			@RequestParam(defaultValue = "sold") String orderBy, Model model) {
+//		log.debug("getBestProducts()");
+//		List<ProductListDto> products = productService.getProducts(petType, orderBy);
+//		
+//		log.debug("products={}",products);
+//		model.addAttribute("products", products);
+//	}
+//	
+//	@GetMapping("/collection/new") 
+//	public void getNewestProducts(@RequestParam(defaultValue = "1") Long petType,
+//			@RequestParam(defaultValue = "createDate") String orderBy, Model model) {
+//		log.debug("getBestProducts()");
+//		List<ProductListDto> products = productService.getProducts(petType, orderBy);
+//		
+//		log.debug("products={}",products);
+//		model.addAttribute("products", products);
+//	}
 	
 	
 	
