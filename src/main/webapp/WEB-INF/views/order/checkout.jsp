@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
          pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt"%>
+
 <!DOCTYPE html>
 
 <html>
@@ -10,12 +12,12 @@
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
-    <link href="./css/order/order-page.css" rel="stylesheet"/>
+    <link href="../css/order/order-page.css" rel="stylesheet"/>
 </head>
 
 <body>
 
-<%@ include file="fragments/header.jspf" %>
+<%@ include file="../fragments/header.jspf" %>
 
 <main>
     <div class="order-wrapper outer-wrapper-content mb-3">
@@ -53,21 +55,21 @@
                     <div class="py-1 inner-wrapper-content">
                         <span class="display-key fw-bold font-small">보내는 분 아이디</span>
                         <div class="inner-content fw-light text-opacity-75 font-small">
-                            tlacodnjs667
+                            ${member.member_id}
                         </div>
                     </div>
 
                     <div class="py-1 inner-wrapper-content">
                         <span class="display-key fw-bold font-small">전화번호</span>
                         <div class="inner-content fw-light text-opacity-75 font-small">
-                            010-0000-0000
+                            ${member.phone}
                         </div>
                     </div>
 
                     <div class="py-1 inner-wrapper-content">
                         <span class="display-key fw-bold font-small">이메일</span>
                         <div class="inner-content fw-light text-opacity-75 font-small">
-                            tlacodnjs667@gmail.com
+                            ${member.email}
                         </div>
                     </div>
                 </div>
@@ -87,9 +89,18 @@
                             <select id="addr-selected" class="form-select form-select-sm"
                                     style="font-size: 12px;"
                                     aria-label="Small select example">
-                                <option value="경기도 광명시 철산동 55-1 광복현대아파트 104-289" selected>경기도 광명시
-                                    철산동 55-1 광복현대아파트 104-289 (기본 배송지)
+                                <option value=${address.address_pk} selected>
+                                    ${address.address} ${address.detail_addr} | ${address.recipient}
+                                    <span class="text-secondary">(기본 배송지)</span>
                                 </option>
+                                <c:if test="${not empty addressOrdered}">
+                                    <c:forEach var="addr" items="${addressOrdered}">
+                                        <option value=${addr.address_pk} selected>
+                                                ${addr.address} ${addr.detail_addr} | ${addr.recipient}
+                                            <span class="text-lighter">(최근 주문 내역)</span>
+                                        </option>
+                                    </c:forEach>
+                                </c:if>
                             </select>
                             <input type="button" id="daumPostOpenBtn"
                                    class="btn btn-outline-warning font-small text-wrap"
@@ -138,7 +149,7 @@
                     <div class="py-1 inner-wrapper-content">
                         <span class="display-key fw-bold font-small">사용 가능 포인트</span>
                         <div class="inner-content fw-light text-opacity-75 font-small">
-                            <span>1,000 원</span>
+                            <span class="float-end fs-3" id="memberPoint"> <f:formatNumber value="${member.point}" pattern="#,###" />원</span>
                         </div>
                     </div>
 
@@ -155,7 +166,7 @@
                     <div class="py-1 inner-wrapper-content">
                         <div class="display-key fw-bold font-small fs-6">예상 잔여 포인트</div>
                         <div class="inner-content fw-light text-opacity-75 font-small input-group">
-                            <div class="font-small fs-5">1000원</div>
+                            <div class="font-small fs-5"> <f:formatNumber value="${member.point}" pattern="#,###" />원</div>
                         </div>
                     </div>
                 </div>
@@ -204,14 +215,14 @@
 </main>
 
 
-<script src="./js/order/iamport.js"></script>
+<script src="../js/order/iamport.js"></script>
 
-<script src="./js/order/order-pay.js"></script>
+<script src="../js/order/order-pay.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-<script src="./js/member/postcode.v2.js"></script>
-<script src="./js/order/order-page.js"></script>
+<script src="../js/member/postcode.v2.js"></script>
+<script src="../js/order/order-page.js"></script>
 </body>
 </html>

@@ -1,5 +1,7 @@
 package com.ohdogcat.repository;
 
+import com.ohdogcat.dto.option.OptionOrderDto;
+import com.ohdogcat.dto.option.OrderParameterDto;
 import java.util.List;
 
 import com.ohdogcat.dto.product.ProductOptionListDto;
@@ -26,5 +28,7 @@ public interface ProductDao {
 	List<ProductOptionListDto> selectOptionByProduckPk(long productPk);
 
 	ProductOption selectOptionByOptionPk(long optionPk);
+
+	List<OptionOrderDto> selectProductInfoForOrder (OrderParameterDto dto);
 	
 }

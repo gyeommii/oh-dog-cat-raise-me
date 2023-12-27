@@ -157,7 +157,5 @@ document.addEventListener('DOMContentLoaded', () => {
 		currentTotal += price;
 		totalPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
 	}	
-    
-    
 
 }); // end document.addEventListener

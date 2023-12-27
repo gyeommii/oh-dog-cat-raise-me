@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+
 <mapper namespace="com.ohdogcat.repository.ProductDao">
 	
 	<!--PRODUCT 테이블 전체 검색. 상품 신규 등록 순 정렬용 -->
@@ -81,6 +81,19 @@
 		select * from product_option where option_pk = #{optionPk}
 	</select>
 	
-	
-
+	<!-- 구매 페이지에서 사용할 상품 정보	-->
+	<select id="selectProductInfoForOrder" parameterType="OrderParameterDto" resultType="OptionOrderDto">
+		select
+			option_fk, product_fk, product_name, option_name, img_url, price, stock, count
+		from cart
+		left join product_option on option_pk = option_fk
+		left join product on product_pk = product_fk
+		where cart.member_fk = #{member_fk}
+		<if test="optionList.size != 0">
+			and option_fk in
+			<foreach collection="optionList" item="item" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</if>
+	</select>
 </mapper>

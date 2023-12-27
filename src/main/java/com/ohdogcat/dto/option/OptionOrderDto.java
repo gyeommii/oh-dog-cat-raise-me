@@ -11,5 +11,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class OptionOrderDto {
     private Long option_fk;
+    private Long product_fk;
     private Integer count;
+    private Integer stock;
+    private Integer price;
+    private String product_name;
+    private String img_url;
+    private String option_name;
 }
