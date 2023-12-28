@@ -5,26 +5,39 @@
 
 <mapper namespace="com.ohdogcat.repository.CartDao">
 
-	<!-- 카트에 담겨있는 상품인지 확인 -->
+	<!-- 장바구니에 있는 상품인지 확인 -->
 	<select id="selectCartByMemberAndOption" resultType="Cart">
 		select *
 		from cart
 		where member_fk = #{member_fk} and option_fk = #{option_fk}
 	</select>
 
-	<!-- 새 상품 카트 추가 -->
+	<!-- 새 상품 장바구니 추가 -->
 	<insert id="insertCartNewItem">
 		insert into cart
 		values (#{member_fk}, #{option_fk}, #{count})
 	</insert>
 
-	<!-- 카트에 이미 추가된 상품 수량 변경 -->
-	<update id="updateCartCount">
+	<!-- 장바구니 상품 수량 변경(기존 수량에 추가) -->
+	<update id="updateAmountCount">
 		update cart
 		set count = (select count from cart where member_fk = #{member_fk} and
 		option_fk = #{option_fk}) + #{count}
-		where member_fk = #{member_fk} and
-		option_fk = #{option_fk}
+		where member_fk = #{member_fk} and option_fk = #{option_fk}
+	</update>
+	
+	<!-- 장바구니 페이지에서 새 수량으로 변경-->
+	<update id="updateNewCount">
+		update cart 
+		set count = #{count} 
+		where member_fk = #{member_fk} and option_fk = #{option_fk}
+	</update>
+	
+	<!-- 옵션 변경 -->
+	<update id="updateOption">
+		update cart 
+		set option_fk = #{afterOption_fk} 
+		where member_fk = #{member_fk} and option_fk = #{beforeOption_fk}
 	</update>
 
 	<!-- 옵션 별 수량 정보 -->
@@ -32,5 +45,28 @@
 		select stock from
 		product_option where option_pk = #{option_fk}
 	</select>
+	
+	<!-- 멤버 별 장바구니 정보 -->
+	<select id="selectCartListByMember" resultType="CartListDto">
+		select 
+		    c.option_fk, c.count, cg.pet_type,
+		    p.product_pk, p.product_name, p.min_price, p.img_url, 
+		    o.option_name, o.price, o.stock
+		from cart c 
+		    join product_option o on c.option_fk = o.option_pk
+		    join product p on p.product_pk = o.product_fk
+		    join category cg on cg.category_pk = p.category_fk
+		where c.member_fk = #{member}
+		order by p.product_pk
+	</select>
+	
+	<!-- 장바구니 상품 삭제 -->
+	<delete id="deleteCartItemByOptionAndMember">
+		delete from cart where option_fk = #{option_fk} and member_fk = #{member_fk}
+	</delete>
+	
+
+	
+
 	
 </mapper>

@@ -1,4 +1,4 @@
-package com.ohdogcat.model;
+package com.ohdogcat.dto.cart;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
-public class Cart {
+public class CartUpdateOptionDto {
 	private Long member_fk;
-	private Long option_fk;
-	private Long count;
+	private Long beforeOption_fk;
+	private Long afterOption_fk;
 }

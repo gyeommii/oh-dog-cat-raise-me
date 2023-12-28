@@ -116,11 +116,11 @@
 							<div class="fw-semibold text-black-50 text-center mt-3" style="font-size: 18px;"> 장바구니에 추가되었습니다!</div>
 						</div>
 						<div class="modal-footer text-center d-flex justify-content-center mb-2" style="border: 0px;">
-							<button type="button" class="btn btn-outline-warning text-warning"
-								style="background: none; border-radius: 8px;" data-bs-dismiss="modal">쇼핑 계속 하기 </button>
+							<button type="button" class="btn btn-outline-warning text-warning btn-lg"
+								style="background: none; border-radius: 8px; height: 44px; font-size: 16px;" data-bs-dismiss="modal">쇼핑 계속 하기 </button>
 							<c:url var="cartListPage" value="/cart/list"/>
-							<a href="${cartListPage}" type="button" class="btn btn-warning text-white fw-semibold shadow-sm" 
-								style="border-radius: 8px;" id="btnTocart">장바구니 확인</a>
+							<a href="${cartListPage}" type="button" class="btn btn-warning text-white fw-semibold shadow-sm btn-lg" 
+								style="border-radius: 8px; height: 44px; font-size: 16px;" id="btnTocart">장바구니 확인</a>
 						</div>
 					</div>
 				</div>
@@ -136,12 +136,12 @@
 								aria-label="Close"></button>
 						</div>
 						<div class="modal-body my-2">
-							<div class="fw-semibold text-black-50 text-center mt-3" style="font-size: 18px;"> 로그인 후 이용 가능합니다!</div>
+							<div class="fw-semibold text-black-50 text-center mt-3  btn-lg" style="font-size: 18px;"> 로그인 후 이용 가능합니다!</div>
 						</div>
 						<div class="modal-footer text-center d-flex justify-content-center mb-2" style="border: 0px;">
 							<c:url var="loginPage" value="/user/signin"/>
-							<a href="${loginPage}" type="button" class="btn btn-warning text-white fw-semibold shadow-sm" 
-								style="border-radius: 8px;" id="btnLogin">로그인 하러가기</a>
+							<a href="${loginPage}" type="button" class="btn btn-warning text-white fw-semibold shadow-sm btn-lg" 
+								style="border-radius: 8px; height: 44px; font-size: 16px;" id="btnLogin">로그인 하러가기</a>
 						</div>
 					</div>
 				</div>

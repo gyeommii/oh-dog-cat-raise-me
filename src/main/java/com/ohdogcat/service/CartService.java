@@ -6,9 +6,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.ohdogcat.dto.cart.CartAddDto;
+import com.ohdogcat.dto.cart.CartListDto;
+import com.ohdogcat.dto.cart.CartUpdateOptionDto;
+import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.model.Cart;
 import com.ohdogcat.repository.CartDao;
 
+import io.micrometer.common.util.internal.logging.AbstractInternalLogger;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,12 +21,13 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CartService {
 	private final CartDao cartDao;
-
+	
+	// 상세 페이지에서 장바구니 담을 때
 	public String addTocart(List<CartAddDto> cartAddDto, long memberFk) {
 		log.debug("addTocart(member_fk ={})", memberFk);
 
 		List<Cart> cartList = new ArrayList<>();
-		String addResult = "";
+		String result = "";
 
 		for (CartAddDto cartItem : cartAddDto) {
 			Cart cart = Cart.builder()
@@ -48,22 +53,58 @@ public class CartService {
 				// 1. countTotal : 현재 재고를 넘으면 안됨 . 재고 넘으면 바로 리턴!
 				// 2. countTotal : 재고가 있다면, 최대 갯수 제한 10개 . 최대 갯수 넘으면 바로 리턴!
 				if(countTotal > stock) {
-					return addResult = "overStock"; 
+					return result = "overStock"; 
 				} else if(countTotal > 10) {
-					return addResult = "overCount"; 
+					return result = "overCount"; 
 				} else {
 					log.debug("updateCartCount()");
-					cartDao.updateCartCount(cartItem);
-					addResult = "add";
+					cartDao.updateAmountCount(cartItem);
+					result = "add";
 				}
 				
 			// 장바구니에 없는 상품이라면
 			} else {
 				log.debug("insertCartNewItem()");
 				cartDao.insertCartNewItem(cartItem);
-				addResult = "add";
+				result = "add";
 			}
 		}
-		return addResult;
+		return result;
+	}
+
+	public List<CartListDto> getCartList(Long member) {
+		log.debug("getCartList()");
+		List<CartListDto> cartList = cartDao.selectCartListByMember(member);
+		return cartList;
+	}
+
+	public int deleteCartItem(Long option_fk, Long member) {
+		log.debug("deleteCartItem(option ={}, memeber={})", option_fk, member);
+		int result = cartDao.deleteCartItemByOptionAndMember(Cart.builder().option_fk(option_fk).member_fk(member).build());
+		return result;
+	}
+	
+	// 장바구니 페이지에서 수량 변경할 때
+	public String updateCartCount(long memberFk, Cart cart) {
+		log.debug("updateCartItem()");
+		String result = "";
+		cart.setMember_fk(memberFk);
+		long stock = cartDao.selectStockByOption(cart.getOption_fk());
+
+		if(cart.getCount() > stock) {
+			return result = "overStock"; 
+		} else if(cart.getCount() > 10) {
+			return result = "overCount"; 
+		} else {
+			cartDao.updateNewCount(cart);
+			result = "add";
+		}	
+		return result;
+	}
+
+	public int updateCartOpiton(CartUpdateOptionDto updateOptionDto) {
+		log.debug("updateCartOpiton()");
+		int result = cartDao.updateOption(updateOptionDto);
+		return result;
 	}
 }
