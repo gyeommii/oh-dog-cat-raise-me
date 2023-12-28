@@ -157,11 +157,9 @@ li {
                     <!-- 상품 목록 -->
                     <div id="productsContainer" class="row">
                         <c:forEach var="product" items="${products}">
-                            <div class="col-3">
+                            <div class="col-3 product-card" data-product-pk="${product.productPk}">
                                 <div class="card mb-5">
-                                    <img class="card-img-top"
-                                        src="${product.imgUrl}"
-                                        alt="Product image">
+                                    <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
                                     <div class="card-body">
                                         <h5 class="card-title">${product.productName}</h5>
                                         <p class="card-text">${product.minPrice}</p>
@@ -170,7 +168,6 @@ li {
                             </div>
                         </c:forEach>
                     </div>
-                </div>
 
                 
                 <div class="pagination-container">

@@ -28,7 +28,6 @@ public interface ProductDao {
 	        @Param("limit") int limit,  // 페이지당 상품 수
 	        @Param("offset") int offset // 건너뛸 상품 수
 	    );
-	// List<ProductListDto> products = productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy, limit, offset);
 	
 	int countProducts(
 			@Param("petType") Long petType, 
@@ -39,7 +38,6 @@ public interface ProductDao {
             );
 	 
 
-	
 	// 강아지/고양이 전체 신규 등록 순
 	List<ProductPetTypeDto> selectOrderByCreateDesc();
 	

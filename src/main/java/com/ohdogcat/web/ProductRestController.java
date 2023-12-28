@@ -25,7 +25,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductRestController {
 
 	private final ProductService productService;
-
+	
 	@GetMapping("/best")
 	public ResponseEntity<List<ProductListDto>> getSortedProducts(
 			@RequestParam Long petType,
@@ -64,7 +64,6 @@ public class ProductRestController {
 		return ResponseEntity.ok(products);
 	}
 	
-
 	 @GetMapping("/collection/best")
 	    public ResponseEntity<?> getBestProducts(
 	            @RequestParam(defaultValue = "1") Long petType,

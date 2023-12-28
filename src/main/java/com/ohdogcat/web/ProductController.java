@@ -28,7 +28,7 @@ public class ProductController {
 	@Autowired
 	private ProductService productService;
 
-	
+	// best페이지
 	@GetMapping("/collection/best")
 	public void getBestProducts(@RequestParam(defaultValue = "1") Long petType,
 	                              @RequestParam(defaultValue = "sold") String orderBy,
@@ -41,33 +41,8 @@ public class ProductController {
 	    
 	    model.addAttribute("products", products);
 	    model.addAttribute("totalPages", totalPages);
-	    
-//	    log.debug("products={}",products);
-//	    log.debug("totalProducts={}, size={}", totalProducts, size);
-//	    log.debug("totalPages={}",totalPages);
+
 	}
-	
-//	@GetMapping("/collection/best") 
-//	public void getBestProducts(@RequestParam(defaultValue = "1") Long petType,
-//			@RequestParam(defaultValue = "sold") String orderBy, Model model) {
-//		log.debug("getBestProducts()");
-//		List<ProductListDto> products = productService.getProducts(petType, orderBy);
-//		
-//		log.debug("products={}",products);
-//		model.addAttribute("products", products);
-//	}
-//	
-//	@GetMapping("/collection/new") 
-//	public void getNewestProducts(@RequestParam(defaultValue = "1") Long petType,
-//			@RequestParam(defaultValue = "createDate") String orderBy, Model model) {
-//		log.debug("getBestProducts()");
-//		List<ProductListDto> products = productService.getProducts(petType, orderBy);
-//		
-//		log.debug("products={}",products);
-//		model.addAttribute("products", products);
-//	}
-	
-	
 	
 	@GetMapping("/details")
 	public void details(@RequestParam(name = "productPk") long productPk, Model model) {

@@ -367,24 +367,19 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     
     // ----------------------------------------------------*상품목록(showProductsCards)*-------------------------------------------------------
+    
     // 상품목록 생성
     function showProductsCards(products) {
         if (!Array.isArray(products)) {
             console.error('products는 배열이 아님:', products);
             return; // 배열 아니면 종료
         }
-        
         let productsContainer = document.getElementById('productsContainer');
         productsContainer.innerHTML = ''; // 상품목록 초기화
 
-        if (!Array.isArray(products)) {
-            console.error('products는 배열이 아님:', products);
-            return; // 배열 아니면 종료
-        }
-
         products.forEach(function (product) {
             let cardHtml = `
-            <div class="col-3">
+            <div class="col-3 product-card" data-product-pk="${product.productPk}">
                 <div class="card mb-5">
                     <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
                     <div class="card-body">
@@ -396,7 +391,16 @@ document.addEventListener("DOMContentLoaded", function() {
             `;
             productsContainer.innerHTML += cardHtml;
         });
+    
+        // 각 상품 카드에 클릭 이벤트 리스너 추가
+        document.querySelectorAll('.product-card').forEach(card => {
+            card.addEventListener('click', function() {
+                const productPk = this.getAttribute('data-product-pk');
+                window.location.href = `/ohdogcat/product/details?productPk=${productPk}`;
+            });
+        });
     }
+
     
     // 초기 페이지 로드 시 생성
     fetchProducts(1);
