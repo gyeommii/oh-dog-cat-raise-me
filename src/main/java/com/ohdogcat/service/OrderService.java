@@ -1,5 +1,6 @@
 package com.ohdogcat.service;
 
+import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.order.OptionOrderDto;
 import com.ohdogcat.dto.order.OrderInfoDto;
 import com.ohdogcat.dto.order.OrderParameterDto;
@@ -24,6 +25,14 @@ public class OrderService {
     private final MemberDao memberDao;
     private final AddressDao addressDao;
     private final ProductDao productDao;
+
+    public Long addAddress (MemberAddressUpdateDto addressInfo) {
+        Address address = addressInfo.toAddress();
+        Long result = addressDao.registerAddress(address);
+        log.debug("result={}", result);
+
+        return address.getAddress_pk();
+    }
 
     public Map<String, Object> checkOrderInfoToPurchase(Long memberPk, List<Long> options_in_cart) {
 //        Product 정보
@@ -65,9 +74,7 @@ public class OrderService {
         return result;
     }
 
-    public void createOrderThroughCart (Long memberPk, OrderInfoDto infoToOrder) {
-
-
+    public void createOrderThroughCart (OrderInfoDto infoToOrder) {
 
     }
 

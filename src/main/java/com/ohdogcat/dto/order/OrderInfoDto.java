@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OrderInfoDto {
+    private Long memberFk;
     private Long totalPrice;
     private Long pointUsed;
     private List<OptionInfoToCreateOrderDto> optionList;
@@ -20,4 +21,5 @@ public class OrderInfoDto {
     private String payMethod;
     private String paymentSuccess;
     private String merchantUid;
+    private String orderType;
 }

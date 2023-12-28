@@ -40,7 +40,8 @@ function requestPay() {
 }
 
 function sumitOrder (data) {
-  axios.post ("./", data).then (res => {
-    console.log(res);
+  axios.post ("./", data).then (res=> {
+    console.log(res.data)
+    location.href = res.data;
   });
 }

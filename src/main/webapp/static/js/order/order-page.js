@@ -66,7 +66,7 @@ document.getElementById("exec-add-addr").addEventListener("click",
     addAddressToSelectComponent);
 
 // 배송지 추가 후 Select에 옵션으로 추가할 때
-function addAddressToSelectComponent(e) {
+async function addAddressToSelectComponent(e) {
 
   const detail = document.getElementById("input-detail-addr").value;
   const recipient = document.getElementById("input-recipient").value;
@@ -81,7 +81,14 @@ function addAddressToSelectComponent(e) {
   fullAddress += (" | " + recipient);
 
   // 컨트롤러에 요청 보내서 생성 후 fk 값 가져오기
-  let address_fk = 1;
+  let {data: address_fk} = await axios.post("./address", {
+    zonecode : document.getElementById('input-postcode').value,
+    address : document.getElementById('input-address').value,
+    detail_addr : document.getElementById("input-detail-addr").value,
+    recipient : document.getElementById("input-recipient").value
+  });
+
+  console.log("address_fk L "+ address_fk);
 
   const optionDiv = document.createElement("option");
 
