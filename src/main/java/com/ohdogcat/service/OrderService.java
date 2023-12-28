@@ -1,7 +1,8 @@
 package com.ohdogcat.service;
 
-import com.ohdogcat.dto.option.OptionOrderDto;
-import com.ohdogcat.dto.option.OrderParameterDto;
+import com.ohdogcat.dto.order.OptionOrderDto;
+import com.ohdogcat.dto.order.OrderInfoDto;
+import com.ohdogcat.dto.order.OrderParameterDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.model.Membership;
@@ -64,5 +65,10 @@ public class OrderService {
         return result;
     }
 
+    public void createOrderThroughCart (Long memberPk, OrderInfoDto infoToOrder) {
+
+
+
+    }
 
 }

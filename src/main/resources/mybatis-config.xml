@@ -15,8 +15,8 @@
     <typeAlias type="com.ohdogcat.model.Member" alias="Member"/>
     <typeAlias type="com.ohdogcat.model.Address" alias="Address"/>
     <typeAlias type="com.ohdogcat.model.Membership" alias="Membership"/>
-    <typeAlias type="com.ohdogcat.dto.option.OrderParameterDto" alias="OrderParameterDto"/>
-    <typeAlias type="com.ohdogcat.dto.option.OptionOrderDto" alias="OptionOrderDto"/>
+    <typeAlias type="com.ohdogcat.dto.order.OrderParameterDto" alias="OrderParameterDto"/>
+    <typeAlias type="com.ohdogcat.dto.order.OptionOrderDto" alias="OptionOrderDto"/>
     <typeAlias type="com.ohdogcat.model.Pet" alias="Pet"/>
   </typeAliases>
 

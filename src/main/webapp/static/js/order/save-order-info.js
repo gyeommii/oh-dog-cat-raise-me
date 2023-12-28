@@ -5,7 +5,7 @@ const PAYMENT_METHOD = Object.freeze(
 
 const PAYMENT_SUCCESS = Object.freeze({PENDING: "pending", SUCCESS: "success", BEFORE: "before"});
 
-let merchant_uid = `ORD20180131-${crypto.randomUUID()}`;
+let merchantUid = `ORD20180131-${crypto.randomUUID()}`;
 
 
 
@@ -19,15 +19,15 @@ optionDivList.forEach(el => {
 })
 
 const orderInfoToSubmit = {
-  totalPrice: getParsedNumber(totalPrice.innerHTML), // 처리
-  pointUsed: getParsedNumber(pointToUse.innerHTML), // 처리
-  optionList, // 처리
+  totalPrice: getParsedNumber(totalPrice.innerHTML), 
+  pointUsed: getParsedNumber(pointToUse.innerHTML), 
+  optionList, 
   addressFk: null,
   orderName: document.getElementById("orderName").value,
-  paidPrice: 0, // 처리
+  paidPrice: 0, 
   payMethod: undefined,
   paymentSuccess: PAYMENT_SUCCESS.BEFORE,
-  merchant_uid   // 처리
+  merchantUid   
 };
 
 function getParsedNumber(str) {

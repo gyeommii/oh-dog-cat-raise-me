@@ -1,7 +1,7 @@
 package com.ohdogcat.repository;
 
-import com.ohdogcat.dto.option.OptionOrderDto;
-import com.ohdogcat.dto.option.OrderParameterDto;
+import com.ohdogcat.dto.order.OptionOrderDto;
+import com.ohdogcat.dto.order.OrderParameterDto;
 import java.util.List;
 
 import com.ohdogcat.dto.product.ProductOptionListDto;

@@ -1,4 +1,4 @@
-package com.ohdogcat.dto.option;
+package com.ohdogcat.dto.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
