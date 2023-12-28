@@ -35,7 +35,8 @@ public interface ProductDao {
             @Param("keyword") String keyword,
             @Param("minPrice") Long minPrice, 
             @Param("maxPrice") Long maxPrice,
-            @Param("inStock") Boolean inStock);
+            @Param("inStock") Boolean inStock
+            );
 	 
 
 	

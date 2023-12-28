@@ -49,11 +49,18 @@ public class ProductRestController {
 			@RequestParam (defaultValue = "") String orderBy,
 			@RequestParam(defaultValue = "1") int page,
             @RequestParam(defaultValue = "20") int size) {
-		log.debug("getFilterProducts(petType={}, orderBy={}, inStock={},)", petType, keyword, minPrice, maxPrice, inStock, orderBy);
+		log.debug("getFilterProducts(petType={}, keyword={}, minPrice={}, maxPrice={}, inStock={}, orderBy={})", 
+				petType, keyword, minPrice, maxPrice, inStock, orderBy); 
 		
 		List<ProductListDto> products = productService.getFilteredProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy, page, size);
-
+//		int totalProducts = productService.getTotalProductsCount(petType, keyword, minPrice, maxPrice, inStock); 
+//		int totalPages = (int) Math.ceil((double) totalProducts / size);
 		
+	    Map<String, Object> response = new HashMap<>();
+        response.put("products", products);
+//        response.put("totalPages", totalPages);
+//        response.put("totalProducts", totalProducts);
+        
 		return ResponseEntity.ok(products);
 	}
 	
@@ -71,7 +78,7 @@ public class ProductRestController {
 	        Map<String, Object> response = new HashMap<>();
 	        response.put("products", products);
 	        response.put("totalPages", totalPages);
-	        
+		    
 	        return ResponseEntity.ok(response);
 	    }
 	

@@ -44,20 +44,11 @@ public class ProductService {
 	    return productDao.countProducts(petType, keyword, minPrice, maxPrice, inStock);
 	}
 
-
-
-
-
-
-//	public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy) {
-//        return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy);
-//    }
-//	
+	
     public List<ProductListDto> getFilteredProducts(Long petType, String keyword, Long minPrice, Long maxPrice, Boolean inStock, String orderBy, int page, int size) {
         int offset = (page - 1) * size;
         return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy, size, offset);
     }
-	
 	
 	// Dog
 	public List<ProductPetTypeDto> readDogOrderByNew() {

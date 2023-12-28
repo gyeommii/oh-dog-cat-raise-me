@@ -42,9 +42,9 @@ public class ProductController {
 	    model.addAttribute("products", products);
 	    model.addAttribute("totalPages", totalPages);
 	    
-	    log.debug("products={}",products);
-	    log.debug("totalProducts={}, size={}", totalProducts, size);
-	    log.debug("totalPages={}",totalPages);
+//	    log.debug("products={}",products);
+//	    log.debug("totalProducts={}, size={}", totalProducts, size);
+//	    log.debug("totalPages={}",totalPages);
 	}
 	
 //	@GetMapping("/collection/best") 

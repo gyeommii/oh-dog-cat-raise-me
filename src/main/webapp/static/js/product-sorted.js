@@ -1,3 +1,4 @@
+// 세이브 코드
 /**
  * best.jsp / new.jsp 에 포함되는 js
  * RestController를 통해 받아온 데이터로 다시 상품목록을 만듦
@@ -42,26 +43,21 @@ document.addEventListener("DOMContentLoaded", function() {
         filterState.maxPrice = parseInt(document.querySelector("input#maxPrice").value) || 9999000;
         filterState.keyword = document.querySelector("input#keyword").value || '';
         filterState.inStock = document.querySelector("input#soldOutChecked").checked;
-        
          console.log("필터 상태:", filterState);
     }
     
     
+    // ----------------------------------------------------*정렬조건(펫, 정렬 버튼)*-------------------------------------------------------
     // 멍멍이 버튼 클릭 이벤트
     document.querySelector("input#btnradio1").addEventListener("click", function() {
         changePetType(1); // 멍멍이(1)로 설정
-        
     });
     
     // 야옹이 버튼 클릭 이벤트
     document.querySelector("input#btnradio2").addEventListener("click", function() {
         changePetType(2); // 야옹이(2)로 설정
-        
     });
 
-
-    
-    // *정렬조건*
     //let currentOrderBy = newPageDefaultOrderBy;
     document.querySelectorAll(".btn-group button").forEach(button => {
         button.addEventListener("click", function() {
@@ -70,11 +66,9 @@ document.addEventListener("DOMContentLoaded", function() {
             updateFiltersAndFetchProducts(); // 정렬 변경 후 상품 데이터 불러오기
         });
     });
-    
     function getCurrentOrderBy() {
         return currentOrderBy;
     }
-
     // *품절여부 체크박스*
     let inStockCheckbox = document.querySelector("input#soldOutChecked"); // 변경된 체크박스 선택
     let inStock = inStockCheckbox.checked; // 체크박스 상태에 따라 boolean 값 설정
@@ -250,13 +244,11 @@ document.addEventListener("DOMContentLoaded", function() {
             alert('제품 목록을 로드하는 데 실패했습니다.');
         });
     });
+    // ----------------------------------------------------*end*-------------------------------------------------------
     
+    // ----------------------------------------------------*필터버튼*-------------------------------------------------------
     // 필터옵션 버튼
     let submitFilterButton = document.querySelector("input#submitFilter");
-    if (submitFilterButton) {
-        
-        
-        
         submitFilterButton.addEventListener("click", function() {
             console.log("필터 버튼");
             let petType = getCurrentPetType(); // 현재 선택된 petType 가져오기
@@ -271,17 +263,15 @@ document.addEventListener("DOMContentLoaded", function() {
             let keywordInput = document.querySelector("input#keyword") ? document.querySelector("input#keyword").value : '';
             let inStock = document.querySelector("input#soldOutChecked").checked; // 체크박스 상태
             const params= {
-                                petType: petType,
-                                keyword: keywordInput,
-                                minPrice: minPrice,
-                                maxPrice: maxPrice,
-                                inStock: inStock,
-                                orderBy: orderBy
+                            petType: petType,
+                            keyword: keywordInput,
+                            minPrice: minPrice,
+                            maxPrice: maxPrice,
+                            inStock: inStock,
+                            orderBy: orderBy 
                             };
+                            console.log(params);
                             
-
-                  console.log(params);
-                
             // 필터 옵션 적용
             axios.get("/ohdogcat/aaa/bbb/filter", {
              params   
@@ -295,9 +285,88 @@ document.addEventListener("DOMContentLoaded", function() {
             });
         });
         
-        console.dir(submitFilterButton)
+    // 필터 변경시 호출되는 함수
+    function updateFiltersAndFetchProducts() {
+        currentPetType = document.querySelector("input#btnradio1").checked ? 1 : 2;
+        currentOrderBy = getCurrentOrderBy(); // 현재 정렬 조건 가져오기
+        
+        updateFilterState();
+        fetchProducts(1); // 필터 변경시 첫 페이지로 초기화
+    }
+    
+    // ----------------------------------------------------*end*-------------------------------------------------------
+    
+    // ----------------------------------------------------*페이징*-------------------------------------------------------
+    // 현재 페이지 번호와 총 페이지 수
+    let currentPageNum = 1;
+    let totalPages;
+ 
+    let currentPetType = 1; // 기본값은 1로 설정
+    let currentOrderBy = newPageDefaultOrderBy; // 기본값은 ''로 설정
+    
+    // 페이지네이션 버튼을 생성하는 함수
+    function createPagination(totalPages, currentPageNum) {
+        const paginationContainer = document.querySelector('.pagination-container');
+        paginationContainer.innerHTML = ''; // 초기화
+
+        // 이전 페이지 버튼
+        const prevButton = document.createElement('button');
+        prevButton.innerText = '◀';
+        prevButton.disabled = currentPageNum === 1;
+        prevButton.addEventListener('click', () => fetchProducts(currentPageNum - 1));
+        paginationContainer.appendChild(prevButton);
+
+        // 페이지 번호 버튼
+        for (let i = 1; i <= totalPages; i++) {
+            const pageButton = document.createElement('button');
+            pageButton.innerText = i;
+            pageButton.className = 'page-number-button';
+            pageButton.disabled = i === currentPageNum;
+            pageButton.addEventListener('click', () => {
+                console.log("페이지 번호 버튼 클릭됨:", i);
+                fetchProducts(i);
+            });
+            paginationContainer.appendChild(pageButton);
+        }
+
+        // 다음 페이지 버튼
+        const nextButton = document.createElement('button');
+        nextButton.innerText = '▶';
+        nextButton.disabled = currentPageNum === totalPages;
+        nextButton.addEventListener('click', () => fetchProducts(currentPageNum + 1));
+        paginationContainer.appendChild(nextButton);
     }
 
+    // 페이지 번호에 따라 상품 데이터를 가져오는 함수
+    function fetchProducts(pageNumber) {
+        currentPageNum = pageNumber;
+        const params = {
+            petType: currentPetType,
+            orderBy: currentOrderBy,
+            minPrice: filterState.minPrice,
+            maxPrice: filterState.maxPrice,
+            inStock: filterState.inStock,
+            keyword: filterState.keyword,
+            page: pageNumber,
+            size: 20
+        };
+        
+        //let endpoint = filterState.keyword || filterState.minPrice > 0 || filterState.maxPrice < 9999000 || !filterState.inStock
+        //           ? '/ohdogcat/aaa/bbb/filter' // 필터 상태가 적용된 경우
+        //           : '/ohdogcat/aaa/bbb/collection/best'; // 기본 상태
+        
+        axios.get('/ohdogcat/aaa/bbb/collection/best', { params })
+        .then(function(response) {
+            showProductsCards(response.data.products);
+            totalPages = response.data.totalPages;
+            createPagination(totalPages, currentPageNum);
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+        });
+    }
+    
+    // ----------------------------------------------------*상품목록(showProductsCards)*-------------------------------------------------------
     // 상품목록 생성
     function showProductsCards(products) {
         if (!Array.isArray(products)) {
@@ -328,96 +397,6 @@ document.addEventListener("DOMContentLoaded", function() {
             productsContainer.innerHTML += cardHtml;
         });
     }
-    
-    
-    // 현재 페이지 번호와 총 페이지 수
-    let currentPageNum = 1;
-    let totalPages;
- 
-    let currentPetType = 1; // 기본값은 1로 설정
-    let currentOrderBy = newPageDefaultOrderBy; // 기본값은 ''로 설정
-    
-  
-    
-    // 필터 변경시 호출되는 함수
-    function updateFiltersAndFetchProducts() {
-        currentPetType = document.querySelector("input#btnradio1").checked ? 1 : 2;
-        currentOrderBy = getCurrentOrderBy(); // 현재 정렬 조건 가져오기
-        
-        updateFilterState();
-        fetchProducts(1); // 필터 변경시 첫 페이지로 초기화
-    }
-
-        
-        
-    
-    
-    // 페이지네이션 버튼을 생성하는 함수
-    function createPagination(totalPages, currentPageNum) {
-        const paginationContainer = document.querySelector('.pagination-container');
-        paginationContainer.innerHTML = ''; // 초기화
-
-        // 이전 페이지 버튼
-        const prevButton = document.createElement('button');
-        prevButton.innerText = '◀';
-        prevButton.disabled = currentPageNum === 1;
-        prevButton.addEventListener('click', () => fetchProducts(currentPageNum - 1));
-        paginationContainer.appendChild(prevButton);
-
-        // 페이지 번호 버튼
-        for (let i = 1; i <= totalPages; i++) {
-            const pageButton = document.createElement('button');
-            pageButton.innerText = i;
-            pageButton.className = 'page-number-button';
-            pageButton.disabled = i === currentPageNum;
-            pageButton.addEventListener('click', () => {
-                console.log("페이지 번호 버튼 클릭됨:", i);
-                fetchProducts(i);
-            });
-            paginationContainer.appendChild(pageButton);
-        }
-
-
-        // 다음 페이지 버튼
-        const nextButton = document.createElement('button');
-        nextButton.innerText = '▶';
-        nextButton.disabled = currentPageNum === totalPages;
-        nextButton.addEventListener('click', () => fetchProducts(currentPageNum + 1));
-        paginationContainer.appendChild(nextButton);
-    }
-
-    // 페이지 번호에 따라 상품 데이터를 가져오는 함수
-    function fetchProducts(pageNumber) {
-        currentPageNum = pageNumber;
-        
-        const params = {
-            petType: currentPetType,
-            orderBy: currentOrderBy,
-            minPrice: filterState.minPrice,
-            maxPrice: filterState.maxPrice,
-            inStock: filterState.inStock,
-            keyword: filterState.keyword,
-            page: pageNumber,
-            size: 20
-        };
-    
-        //console.log("API요청 매개변수:", params);
-    
-        axios.get('/ohdogcat/aaa/bbb/collection/best', { params })
-        .then(function(response) {
-            showProductsCards(response.data.products);
-            totalPages = response.data.totalPages;
-            createPagination(totalPages, currentPageNum);
-        })
-        .catch(function(error) {
-            console.error('Error:', error);
-        });
-    }
-
-    // 필터 버튼 클릭 이벤트
-    //document.querySelector("input#submitFilter").addEventListener("click", function() {
-       // updateFiltersAndFetchProducts(); // 필터 변경 후 상품 데이터 불러오기
-   // });
     
     // 초기 페이지 로드 시 생성
     fetchProducts(1);
