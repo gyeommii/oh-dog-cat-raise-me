@@ -49,6 +49,8 @@ public class ProductService {
         int offset = (page - 1) * size;
         return productDao.selectProducts(petType, keyword, minPrice, maxPrice, inStock, orderBy, size, offset);
     }
+    
+	
 	
 	// Dog
 	public List<ProductPetTypeDto> readDogOrderByNew() {

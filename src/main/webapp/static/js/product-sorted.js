@@ -16,7 +16,10 @@ document.addEventListener("DOMContentLoaded", function() {
         newPageDefaultOrderBy = 'sold'; // 베스트셀러 페이지 -> 기본값'sold'
     } else if (currentPage.includes('/ohdogcat/product/collection/new')) {
         newPageDefaultOrderBy = 'createDate'; // 신상품 페이지 -> 기본값 'createDate'
+    } else if (currentPage.includes('/ohdogcat/product/list')) {
+        newPageDefaultOrderBy = 'createDate'; // 리스트 페이지 -> 기본값 'createDate'
     }
+    //
     
     // *펫타입*
     function getCurrentPetType() {
@@ -81,8 +84,10 @@ document.addEventListener("DOMContentLoaded", function() {
     
         if (newTitle.innerHTML === "🐶멍 베스트") {
             newTitle.innerHTML = "🐱냥 베스트"; // 멍멍이 베스트에서 냥냥이 베스트로 변경
-        } else if (newTitle.innerHTML === "🐶멍 신상품") {
+        } else if (newTitle.innerHTML === "🐶멍 신상품") {//🐶멍 전체상품
             newTitle.innerHTML = "🐱냥 신상품"; // 멍멍이 신상품에서 냥냥이 신상품으로 변경
+        } else if (newTitle.innerHTML === "🐶멍 전체상품") {
+            newTitle.innerHTML = "🐱냥 전체상품"; // 멍멍이 전체상품에서 냥냥이 전체상품으로 변경
         }
         
         const uri = `/ohdogcat/aaa/bbb/best`; 
@@ -109,9 +114,11 @@ document.addEventListener("DOMContentLoaded", function() {
         let newTitle = document.getElementById("newTitle");
 
         if (newTitle.innerHTML === "🐱냥 베스트") {
-            newTitle.innerHTML = "🐶멍 베스트"; // 멍멍이 베스트에서 냥냥이 베스트로 변경
+            newTitle.innerHTML = "🐶멍 베스트"; // 냥냥이 베스트에서 멍멍이 베스트로 변경
         } else if (newTitle.innerHTML === "🐱냥 신상품") {
-            newTitle.innerHTML = "🐶멍 신상품"; // 멍멍이 신상품에서 냥냥이 신상품으로 변경
+            newTitle.innerHTML = "🐶멍 신상품"; // 냥냥이 신상품에서 멍멍이 신상품으로 변경
+        } else if (newTitle.innerHTML === "🐱냥 전체상품") {
+            newTitle.innerHTML = "🐶멍 전체상품"; // 냥냥이 전체상품에서 멍멍이 전체상품으로 변경
         }
 
         const uri = `/ohdogcat/aaa/bbb/best`;
@@ -380,7 +387,7 @@ document.addEventListener("DOMContentLoaded", function() {
         products.forEach(function (product) {
             let cardHtml = `
             <div class="col-3 product-card" data-product-pk="${product.productPk}">
-                <div class="card mb-5">
+                <div class="card mb-5" style="cursor: pointer;">
                     <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
                     <div class="card-body">
                         <h5 class="card-title">${product.productName}</h5>

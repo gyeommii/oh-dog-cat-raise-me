@@ -39,6 +39,38 @@
     font-size: 12px;  /* 버튼 내부의 텍스트 크기 */
 }
 
+{
+  margin: 0;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+li {
+  list-style-type: none;
+}
+
+.post-container {
+  display: flex;
+  align-items: center;
+  border-radius: 10px;
+  border: 2px solid #d7d7d7;
+  margin: 15px;
+}
+
+.post-title {
+  font-size: 20px;
+}
+
+.post-number {
+  font-size: 15px;
+  padding: 15px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+}
+
 </style>   
     
 </head>
@@ -74,7 +106,7 @@
                 <div class="sidebar-sticky">
                     <ul class="nav flex-column">
                         <li class="nav-item">
-                            <!-- 상품 키워드 검색 폼 -->
+                            <!-- 상품 키워드 검색 -->
                             <form action="/search-url" method="get"><!-- 'action'은 폼데이터를 처리할 서버의 URL, 'method'는 데이터 전송 방식 -->
                                 <label>
                                     <input type="text" title="상품 검색" placeholder="상품 키워드" id="keyword" class="input-medium"> 
@@ -115,7 +147,7 @@
                         <div class="btn-group" role="group"
                             aria-label="Basic example">
                             <button type="button" id="new" class="btn">신상품순</button>
-                            <button type="button" id="best" class="btn">판매량순</button>
+                            <button type="button" id="sold" class="btn">판매량순</button>
                             <button type="button" id="lowest" class="btn">낮은가격순</button>
                             <button type="button" id="highest" class="btn">높은가격순</button>
                             <button type="button" id="topRated" class="btn">리뷰평점순</button>
@@ -125,11 +157,9 @@
                     <!-- 상품 목록 -->
                     <div id="productsContainer" class="row">
                         <c:forEach var="product" items="${products}">
-                            <div class="col-3">
+                            <div class="col-3 product-card" data-product-pk="${product.productPk}">
                                 <div class="card mb-5">
-                                    <img class="card-img-top"
-                                        src="${product.imgUrl}"
-                                        alt="Product image">
+                                    <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
                                     <div class="card-body">
                                         <h5 class="card-title">${product.productName}</h5>
                                         <p class="card-text">${product.minPrice}</p>
@@ -138,6 +168,14 @@
                             </div>
                         </c:forEach>
                     </div>
+
+                
+                <div class="pagination-container">
+                    <button class="prev-button">◀</button>
+                        <div class="number-button-wrapper">
+                            <button class="page-number-button" id="pageNumberBtn">1</button>
+                        </div>
+                    <button class="next-button">▶</button>
                 </div>
             </main>
 
@@ -154,5 +192,6 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../../js/product-sorted.js"></script>
+    <script>let totalPages = ${totalPages};</script>
 </body>
 </html>

@@ -12,7 +12,7 @@
     rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
     crossorigin="anonymous">
-
+<link rel="stylesheet" href="toggle-switchy.css">
 <style>
 .label-large {
     font-size: 20px;
@@ -123,7 +123,7 @@ li {
                             </label>
                             
                             <!-- 품절제외 스위치(체크박스) -->
-                            <div class="form-check form-switch">
+                            <div class="form-check form-switch ">
                                 <input class="form-check-input" type="checkbox" role="switch" id="soldOutChecked" checked>
                                 <label class="form-check-label" for="soldOutChecked"> 품절상품 제외</label>
                             </div>
@@ -157,7 +157,7 @@ li {
                     <!-- 상품 목록 -->
                     <div id="productsContainer" class="row">
                         <c:forEach var="product" items="${products}">
-                            <div class="col-3 product-card" data-product-pk="${product.productPk}">
+                            <div class="col-3 product-card" style="cursor: pointer;"  data-product-pk="${product.productPk}">
                                 <div class="card mb-5">
                                     <img class="card-img-top" src="${product.imgUrl}" alt="Product image">
                                     <div class="card-body">
