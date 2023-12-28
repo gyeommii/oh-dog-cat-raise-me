@@ -36,13 +36,14 @@ public class PetController {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
 
     if (memberSessionDto != null) {
-      long member_fk = memberSessionDto.getMember_pk();
-      List<PetListDto> list = petService.readMemberPet(member_fk);
-
+      long member_fk = memberSessionDto.getMember_pk();      
+      List<PetListDto> list = petService.readMemberPet(member_fk);      
+      
       log.debug("member_fk={}", member_fk);
       log.debug("list={}", list);
       model.addAttribute("petList", list);
-
+      model.addAttribute("member_fk", member_fk);
+      
       return "pet/mypet";
 
     } else {
@@ -53,16 +54,11 @@ public class PetController {
   }
 
   @GetMapping("/addpet")
-  public String addPet(@RequestParam(name = "member_fk") long member_fk, HttpSession session,
-      Model model) {
+  public String addPet() {
     log.debug("GET - addPet()");
-    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
-    if (memberSessionDto != null) {
 
       return "pet/addpet";
-    }
 
-    return "redirect:/user/signin";
   }
 
   @PostMapping("/addpet")
@@ -140,8 +136,8 @@ public class PetController {
 
   }
 
-  @GetMapping("/delete")
-  public String deletePet(@RequestParam(name = "pet_delete_pk") long pet_pk) {
+  @GetMapping("/deletepet")
+  public String deletePet(@RequestParam(name = "pet_pk") long pet_pk) {
     log.debug("deletePet()");
     petService.deletePet(pet_pk);
 

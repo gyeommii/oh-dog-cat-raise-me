@@ -47,13 +47,11 @@
                             class="card-body bg-secondary bg-opacity-10">
                             <h2>
                                 😸마이 펫🐶
-                                <c:forEach var="pet" items="${petList}">
                                 <c:url var="addPet"
                                     value="/mypage/addpet">
                                     <c:param name="member_fk"
-                                        value="${pet.member_fk}" />
+                                        value="${member_fk}" />
                                 </c:url>
-                                </c:forEach>
                                 <a class="btn btn-warning" role="button"
                                     href="${addPet}">➕</a>
                             </h2>
@@ -147,11 +145,9 @@
                                                 value="/mypage/modifypet">
                                                 <c:param name="pet_pk"
                                                     value="${pet.pet_pk}" />
-                                            </c:url> <c:url var="deletePet"
-                                                value="/mypage/delete">
-                                                <c:param
-                                                    name="pet_delete_pk"
-                                                    value="${pet.pet_pk}" />
+                                            </c:url> 
+                                            <c:url var="deletePet" value="/mypage/deletepet">
+                                                <c:param name="pet_pk" value="${pet.pet_pk}" />
                                             </c:url>
                                             <div
                                                 class="d-flex justify-content-center my-5">
