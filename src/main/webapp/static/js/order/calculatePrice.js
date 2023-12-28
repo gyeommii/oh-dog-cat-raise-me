@@ -9,32 +9,35 @@ const applyPointBtn = document.getElementById("applyPointBtn");
 const NUM_REG = /^[0-9]*$/;
 
 pointInput.addEventListener("keyup", () => {
-  if (!NUM_REG.test(pointInput.value)) {
+
+  if (!NUM_REG.test(pointInput.value) || getParsedNumber(pointInput.value)
+      < 0) {
+    applyPointBtn.disabled = true;
     pointInput.value = pointInput.value.slice(0, pointInput.value.length - 1);
   }
 
-  console.log("pointInput.value={}", pointCanUse);
-
   if (getParsedNumber(pointCanUse.innerHTML) < parseInt(pointInput.value)) {
-    console.log("parseInt(pointCanUse)" + getParsedNumber(pointCanUse.innerHTML))
+    console.log(
+        "parseInt(pointCanUse)" + getParsedNumber(pointCanUse.innerHTML))
     alert(`사용하실 수 있는 최대 포인트는 최대 "` + pointCanUse.innerHTML + `원" 입니다.`);
     pointInput.value = getParsedNumber(pointCanUse.innerHTML);
-    applyPoint();
   }
 
   if (parseInt(pointInput.value) > getParsedNumber(totalPrice.innerHTML)) {
     pointInput.value = getParsedNumber(totalPrice.innerHTML);
     alert("포인트 사용 금액은 주문 금액보다 작아야 합니다.");
-    applyPoint();
+  }
+
+  applyPointBtn.disabled = false;
+  orderInfoToSubmit.pointUsed = pointInput.value;
+
+  if (!pointInput.value.length) {
+    applyPointBtn.disabled = true;
   }
 
 });
 
-function getParsedNumber(str) {
-  return parseInt(str.split(",").join(""));
-}
-
-applyPointBtn.addEventListener("click", applyPoint)
+applyPointBtn.addEventListener("click", applyPoint);
 
 function applyPoint() {
   pointToUse.innerHTML = parseInt(pointInput.value).toLocaleString("ko-KR");
@@ -43,12 +46,7 @@ function applyPoint() {
       pointInput.value)).toLocaleString("ko-KR");
   reservedPoint.innerHTML = (getParsedNumber(pointCanUse.innerHTML) - parseInt(
       pointInput.value)).toLocaleString("ko-KR");
+
+  orderInfoToSubmit.paidPrice = getParsedNumber(totalPrice.innerHTML)
+      - parseInt(pointInput.value);
 }
-
-document.getElementById("mutongjangBtn").addEventListener("click", () => {
-  const accountWindow = document.getElementById("account-window");
-  accountWindow.classList.remove("d-none");
-
-  const accountWindowRect = accountWindow.getBoundingClientRect();
-  window.scrollTo(accountWindowRect.left, accountWindowRect.top);
-})

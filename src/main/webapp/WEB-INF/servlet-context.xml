@@ -44,6 +44,9 @@
     <property name="prefix" value="/WEB-INF/views/"/>
     <property name="suffix" value=".jsp"/>
   </bean>
+  
+  <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"></bean>
+  
 
   <!-- 컨트롤러 클래스들을 작성하는 패키지 이름 설정.
   특정 패키지 아래에 컨트롤러 애너테이션(@Controller, @RestController, @Component, ...)이

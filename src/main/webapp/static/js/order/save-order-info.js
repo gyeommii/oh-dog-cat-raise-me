@@ -1,5 +1,13 @@
 const optionDivList = document.querySelectorAll(".option-info-to-order");
 const optionList = [];
+const PAYMENT_METHOD = Object.freeze(
+    {KAKAOPAY: "kakopay", BANK_TRANSFER: "bank_transfer"});
+
+const PAYMENT_SUCCESS = Object.freeze({PENDING: "pending", SUCCESS: "success", BEFORE: "before"});
+
+let merchant_uid = `ORD20180131-${crypto.randomUUID()}`;
+
+
 
 optionDivList.forEach(el => {
   const option = {
@@ -10,4 +18,61 @@ optionDivList.forEach(el => {
   optionList.push(option);
 })
 
-console.log(optionList)
+const orderInfoToSubmit = {
+  totalPrice: getParsedNumber(totalPrice.innerHTML), // 처리
+  pointUsed: getParsedNumber(pointToUse.innerHTML), // 처리
+  optionList, // 처리
+  addressFk: null,
+  orderName: document.getElementById("orderName").value,
+  paidPrice: 0, // 처리
+  payMethod: undefined,
+  paymentSuccess: PAYMENT_SUCCESS.BEFORE,
+  merchant_uid   // 처리
+};
+
+function getParsedNumber(str) {
+  return parseInt(str.split(",").join(""));
+}
+
+const addrSelectComp = document.getElementById("addr-selected");
+addrSelectComp.addEventListener("change", chageLangSelect);
+
+function chageLangSelect() {
+  const addrSelectComp = document.getElementById("addr-selected");
+  // select element에서 선택된 option의 value가 저장된다.
+  const selectedAddr = addrSelectComp.options[addrSelectComp.selectedIndex].value;
+  orderInfoToSubmit.addressFk = getParsedNumber(selectedAddr);
+  console.log("selectedAddr : ", selectedAddr)
+  console.log("orderInfoToSubmit : ", orderInfoToSubmit)
+
+  return getParsedNumber(selectedAddr);
+}
+
+orderInfoToSubmit.addressFk = chageLangSelect();
+
+function checkOrderCanCreate() {
+  if (!orderInfoToSubmit.orderName
+      || !orderInfoToSubmit.payMethod
+      || !orderInfoToSubmit.addressFk
+      || !orderInfoToSubmit.optionList.length
+      || (orderInfoToSubmit.paidPrice !== 0 && !orderInfoToSubmit.paidPrice)
+      || !orderInfoToSubmit.paymentSuccess
+      || (orderInfoToSubmit.pointUsed !== 0 && !orderInfoToSubmit.pointUsed)
+      || (orderInfoToSubmit.totalPrice !== 0
+          && !orderInfoToSubmit.totalPrice)) {
+    return;
+  }
+  console.log("오잉")
+  if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.KAKAOPAY) {
+        document.getElementById("order-submit-btn").disabled = false;
+        return;
+  }
+
+  if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.BANK_TRANSFER) {
+    document.getElementById("order-submit-btn").disabled = false;
+    return;
+  }
+
+  document.getElementById("order-submit-btn").disabled = true;
+}
+

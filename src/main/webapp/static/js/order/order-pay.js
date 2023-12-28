@@ -1,12 +1,20 @@
 const distinguishCode = `imp24187885`;
-const REST_API_KEY = `6075557175583251`;
-const REST_API_SECRET = `CktVTCKBSlu8kS2gVkwLGrmMriWOGz71p3JDqQoy7uxq0viw5Izm2tFufBvuNIBiTL1VnoZ32KhtLPdS`;
-let merchant_uid = `ORD20180131-${crypto.randomUUID()}`;
 
 IMP.init(distinguishCode);
 
+document.getElementById("order-submit-btn").addEventListener("click", requestPay);
+
 function requestPay() {
-  merchant_uid = `ORD20180131-${crypto.randomUUID()}`;
+
+  if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.BANK_TRANSFER) {
+    // 무통장 입금 시 flow
+    sumitOrder(orderInfoToSubmit);
+    return;
+  }
+
+  orderInfoToSubmit.payMethod = PAYMENT_METHOD.KAKAOPAY;
+
+  console.log()
 
   IMP.request_pay({
     pg: "kakaopay",
@@ -18,13 +26,21 @@ function requestPay() {
     buyer_email: document.getElementById("member_email").innerHTML.trim(),
     buyer_tel: document.getElementById("member_phone").innerHTML.trim(),
   }, function (rsp) {
-    if (rsp.success == true) {
-      pointInput.readOnly = true;
-      applyPointBtn.disabled = true;
+    if (rsp.success === true) {
       document.getElementById("success-complete-card").classList.remove(
           "d-none");
+
+      orderInfoToSubmit.paymentSuccess = PAYMENT_SUCCESS.SUCCESS;
+
+      sumitOrder(orderInfoToSubmit);
     }
   });
 
   document.getElementById("account-window").classList.add("d-none");
+}
+
+function sumitOrder (data) {
+  axios.post ("./", data).then (res => {
+    console.log(res);
+  });
 }

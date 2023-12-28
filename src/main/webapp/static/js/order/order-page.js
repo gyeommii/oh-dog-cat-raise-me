@@ -6,6 +6,7 @@ document.getElementById("daumPostOpenBtnInDiv").addEventListener("click",
 const addAddress = document.getElementById("add-address");
 addAddress.classList.add("d-none");
 
+// 다음 포스트 코드 실행
 function execDaumPostcode() {
 
   addAddress.classList.remove("d-none");
@@ -64,18 +65,19 @@ function execDaumPostcode() {
 document.getElementById("exec-add-addr").addEventListener("click",
     addAddressToSelectComponent);
 
+// 배송지 추가 후 Select에 옵션으로 추가할 때
 function addAddressToSelectComponent(e) {
 
   const detail = document.getElementById("input-detail-addr").value;
   const recipient = document.getElementById("input-recipient").value;
 
-  if (detail.length===0 || recipient.length === 0) {
+  if (detail.length === 0 || recipient.length === 0) {
     alert("상세주소와 받는 사람은 필수 정보입니다.");
     return;
   }
 
   let fullAddress = document.getElementById("input-address").value;
-  fullAddress += (" " +detail);
+  fullAddress += (" " + detail);
   fullAddress += (" | " + recipient);
 
   // 컨트롤러에 요청 보내서 생성 후 fk 값 가져오기
@@ -85,7 +87,7 @@ function addAddressToSelectComponent(e) {
 
   optionDiv.value = address_fk;
   optionDiv.innerHTML = fullAddress;
-
+  optionDiv.selected = true;
   // optionDiv.classList.add("")
 
   const addrSelected = document.getElementById("addr-selected");
@@ -95,9 +97,11 @@ function addAddressToSelectComponent(e) {
   addAddress.classList.add("d-none");
 }
 
+// 구매 상품 목록 아코디언 버튼 누를 때 문자 변화 추가
 const accordionBtn = document.getElementById("accordion-button-id");
 accordionBtn.addEventListener("click", clickAccordion)
-function clickAccordion () {
+
+function clickAccordion() {
   if (accordionBtn.classList.contains("collapsed")) {
     accordionBtn.innerHTML = "▼";
   } else {
@@ -105,4 +109,47 @@ function clickAccordion () {
   }
 }
 
+// 결제 방식 선택 버튼
 
+document.getElementById("banktransferBtn").addEventListener("click",
+    execBankTransfer);
+
+function execBankTransfer() {
+  document.getElementById("kakaopay-window").classList.add("d-none");
+
+  const accountWindow = document.getElementById("account-window");
+  accountWindow.classList.remove("d-none");
+
+  const accountWindowRect = accountWindow.getBoundingClientRect();
+  window.scrollTo(accountWindowRect.left, accountWindowRect.top);
+
+  orderInfoToSubmit.payMethod = PAYMENT_METHOD.BANK_TRANSFER;
+  orderInfoToSubmit.paymentSuccess = PAYMENT_SUCCESS.BEFORE;
+
+  const today = new Date();
+  const datToPay = new Date(today.getFullYear(), today.getMonth(),
+      today.getDate() + 2);
+
+  document.getElementById("divAlert").innerHTML = `    
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+           <span class="fw-bold">${datToPay.getFullYear()}년 ${datToPay.getMonth()
+  + 1}월 ${datToPay.getDate()}일</span>까지 미입금 시 자동취소 됩니다.
+           <button type="button" class="btn-close" data-bs-dismiss="alert"
+                   aria-label="Close"></button>
+      </div>`;
+
+  // document.getElementById("order-submit-btn").disabled = false;
+  checkOrderCanCreate();
+}
+
+document.getElementById("kakaopayBtn").addEventListener("click", execKakaoPay);
+
+function execKakaoPay() {
+  document.getElementById("kakaopay-window").classList.remove("d-none");
+  document.getElementById("account-window").classList.add("d-none");
+
+  orderInfoToSubmit.payMethod = PAYMENT_METHOD.KAKAOPAY;
+  orderInfoToSubmit.paymentSuccess = PAYMENT_SUCCESS.PENDING;
+  checkOrderCanCreate();
+  // document.getElementById("order-submit-btn").disabled = false;
+}

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohdogcat.repository.PetDao">
+
+    <select id="selectByIdDesc" resultType="Pet">
+        select * from PET
+        order by PET_PK desc
+    </select>
+
+    <select id="selectByPetPk" resultType="Pet">
+        select * from PET where
+        PET_PK = #{pet_pk} order by PET_PK desc
+    </select>
+
+    <select id="selectByMemberFk" resultType="Pet">
+        select * from PET
+        where MEMBER_FK = #{member_fk} order by PET_PK desc
+    </select>
+
+    <insert id="insertPet">
+        insert into PET (MEMBER_FK, IMG, PET_NAME,
+        PET_TYPE, AGE, GENDER, CHEHYEONG) values (#{member_fk}, #{img},
+        #{pet_name}, #{pet_type}, #{age}, #{gender}, #{chehyeong})
+    </insert>
+
+    <update id="updatePet">
+        update PET set IMG = #{img}, PET_NAME =
+        #{pet_name}, PET_TYPE = #{pet_type}, AGE = #{age}, GENDER =
+        #{gender}, CHEHYEONG = #{chehyeong} where PET_PK = #{pet_pk}
+    </update>
+
+    <delete id="deletePet">
+        delete from PET where PET_PK = #{pet_pk}
+    </delete>
+
+</mapper>

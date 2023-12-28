@@ -13,6 +13,7 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
     <link href="../css/order/order-page.css" rel="stylesheet"/>
+
 </head>
 
 <body>
@@ -240,7 +241,8 @@
                             <span class="fw-bold font-small">사용할 포인트</span></div>
                         <input class="inner-content form-control fw-light text-opacity-75 font-small"
                                id="point-to-use-input" placeholder="숫자만 입력해주세요."/>
-                        <button class="btn btn-outline-secondary" id="applyPointBtn">적용</button>
+                        <button class="btn btn-outline-secondary" id="applyPointBtn" disabled>적용
+                        </button>
                     </div>
 
                     <hr/>
@@ -264,16 +266,27 @@
                 </div>
                 <div class="flex-box inner-wrapper-content my-3">
                     <div class="display-key fw-bold font-small my-1"> 결제 선택</div>
-                    <div class="flex-box input-group" style="flex : 1 1 0%">
-                        <button class="btn btn-outline-warning form-control btn-purchase"
-                                onclick="requestPay()">
-                            카카오로 결제하기
-                        </button>
-                        <button id="mutongjangBtn" class="btn btn-outline-info form-control btn-purchase">
-                            무통장입금
-                            결제하기
-                        </button>
+                    <%--                    test --%>
+                    <div class="btn-group" role="group" aria-label="Basic radio toggle button group"
+                         style="width: 60%">
+                        <input type="radio" class="btn-check" name="btnradio" id="kakaopayBtn"
+                               autocomplete="off">
+                        <label class="btn btn-outline-primary" for="kakaopayBtn">kakao</label>
+
+                        <input type="radio" class="btn-check" name="btnradio" id="banktransferBtn"
+                               autocomplete="off">
+                        <label class="btn btn-outline-primary" for="banktransferBtn">무통장 입금</label>
                     </div>
+                    <%--                  test  --%>
+                </div>
+                <div id="kakaopay-window" class="d-none">
+
+                    <%--                    --%>
+                    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                        <div class="alert-text fw-bold">결제 진행</div>
+                        <p class="mb-0">결제하기 버튼을 눌러 구매를 완료해주세요!</p>
+                    </div>
+                    <%--                    --%>
                 </div>
                 <div id="account-window" class="d-none">
                     <div class="flex-box inner-wrapper-content my-3">
@@ -283,6 +296,14 @@
                         </div>
                         <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
                             무통장 입금 입금 확인 후 배송됩니다.
+                        </div>
+                    </div>
+                    <div id="divAlert">
+                        <div id="alertBankTransferInfo"
+                             class="alert alert-warning alert-dismissible fade show" role="alert">
+                            <strong>2023년 12월 29일</strong>까지 미입금 시 자동취소 됩니다.
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                    aria-label="Close"></button>
                         </div>
                     </div>
                     <div class="outer-wrapper-content">
@@ -343,17 +364,12 @@
                 <p class="card-text">구매를 완료하시려면 하단 구매 완료 버튼을 눌러주세요!</p>
             </div>
         </div>
-        <form>
-            <input type="hidden" name="totalPrice"/>
-            <input type="hidden" name="addressFk"/>
-            <input type="hidden" name="pointUsed"/>
-            <input id="orderName" type="hidden" name="orderName" value="${orderName}"/>
-            <div class="input-group my-3">
-                <input id="order-submit-btn" type="submit"
-                       class="btn btn-outline-success form-control">
-                <a class="btn btn-outline-success form-control" href="/ohdogcat/">메인으로 가기</a>
-            </div>
-        </form>
+        <input id="orderName" type="hidden" name="orderName" value="${orderName}"/>
+        <div class="input-group my-3">
+            <input id="order-submit-btn" type="submit"
+                   class="btn btn-outline-success form-control" value="결제 하기" disabled>
+            <a class="btn btn-outline-success form-control" href="/ohdogcat/">메인으로 가기</a>
+        </div>
 
     </div>
 </main>
@@ -365,15 +381,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 
-<script>
-  const result = {
-    orderName: null,
-    pointUsed: null,
-    addressFk: null,
-    totalPrice: null,
-    optionList: null
-  };
-</script>
+<script src="../js/order/save-order-info.js"></script>
 <script src="../js/order/order-pay.js"></script>
 <script src="../js/member/postcode.v2.js"></script>
 <script src="../js/order/calculatePrice.js"></script>
