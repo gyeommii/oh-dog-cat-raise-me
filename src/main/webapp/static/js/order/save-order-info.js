@@ -27,7 +27,8 @@ const orderInfoToSubmit = {
   paidPrice: 0, 
   payMethod: undefined,
   paymentSuccess: PAYMENT_SUCCESS.BEFORE,
-  merchantUid   
+  merchantUid,
+  orderType: "c"
 };
 
 function getParsedNumber(str) {

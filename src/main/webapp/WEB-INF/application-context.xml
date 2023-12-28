@@ -3,12 +3,17 @@
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xmlns:context="http://www.springframework.org/schema/context"
   xmlns:mybatis="http://mybatis.org/schema/mybatis-spring"
-  xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
-        http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd
-        http://mybatis.org/schema/mybatis-spring https://mybatis.org/schema/mybatis-spring.xsd">
+  xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+  https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://mybatis.org/schema/mybatis-spring
+        https://mybatis.org/schema/mybatis-spring.xsd
+http://www.springframework.org/schema/tx
+  http://www.springframework.org/schema/tx/spring-tx.xsd">
 
   <bean id="hikariConfig" class="com.zaxxer.hikari.HikariConfig">
-    <!-- hikariConfig.setDriverClassName(""); -->
     <property name="driverClassName"
       value="oracle.jdbc.OracleDriver"/>
     <property name="jdbcUrl"
@@ -22,6 +27,7 @@
   <bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
     <constructor-arg ref="hikariConfig"/>
   </bean>
+
 
   <!-- SqlSessionFactoryBean: 데이터 소스(커넥션 풀)을 이용해서 SQL 문장들을 실행/결과 처리를 하고 리턴하는
     객체. -->
@@ -45,4 +51,11 @@
   <context:component-scan
     base-package="com.ohdogcat.service"/>
 
+
+  <bean id="transactionManager"
+    class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <property name="dataSource" ref="ds"/>
+  </bean>
+
+  <tx:annotation-driven/>
 </beans>

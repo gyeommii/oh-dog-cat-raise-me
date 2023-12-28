@@ -59,11 +59,10 @@ public class OrderController {
         HttpServletRequest req, HttpServletResponse res)
         throws IOException {
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-        log.debug("createOrder(OrderInfoDto={})", infoToOrder);
 
         infoToOrder.setMemberFk(signedMember.getMember_pk());
 
-//        orderService.createOrderThroughCart(infoToOrder);
+        orderService.createOrderThroughCart(infoToOrder);
 
         return ResponseEntity.ok("../");
     }

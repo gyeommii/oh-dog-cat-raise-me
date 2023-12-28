@@ -16,23 +16,25 @@ import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class OrderService {
 
     private final MemberDao memberDao;
     private final AddressDao addressDao;
     private final ProductDao productDao;
 
-    public Long addAddress (MemberAddressUpdateDto addressInfo) {
+    public Long addAddress(MemberAddressUpdateDto addressInfo) {
         Address address = addressInfo.toAddress();
         Long result = addressDao.registerAddress(address);
         log.debug("result={}", result);
-
         return address.getAddress_pk();
     }
+
 
     public Map<String, Object> checkOrderInfoToPurchase(Long memberPk, List<Long> options_in_cart) {
 //        Product 정보
@@ -74,8 +76,13 @@ public class OrderService {
         return result;
     }
 
-    public void createOrderThroughCart (OrderInfoDto infoToOrder) {
+    @Transactional(rollbackFor = {RuntimeException.class})
+    public void createOrderThroughCart(OrderInfoDto infoToOrder) throws RuntimeException {
+        if (infoToOrder.getOrderType().equals("c")) {
 
+        } else if (infoToOrder.getOrderType().equals("d")) {
+
+        }
     }
 
 }
