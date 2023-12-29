@@ -1,5 +1,5 @@
 /**
- * modifypet.js
+ * addpet.js
  */
 
 document.addEventListener('DOMContentLoaded', () => {

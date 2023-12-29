@@ -38,6 +38,7 @@ public class PetController {
       long member_fk = memberSessionDto.getMember_pk();      
       List<PetListDto> list = petService.readMemberPet(member_fk);      
       
+
       log.debug("member_fk={}", member_fk);
       log.debug("list={}", list);
       model.addAttribute("petList", list);
@@ -49,6 +50,7 @@ public class PetController {
 
   @GetMapping("/addpet")
   public String addPet() {
+
     log.debug("GET - addPet()");
 
       return "pet/addpet";
@@ -95,7 +97,7 @@ public class PetController {
   public String modifyPet(@RequestParam(name = "img_file") MultipartFile img_file,
       HttpServletRequest req, HttpSession session, PetModifyDto dto) throws IOException {
     log.debug("modifyPet(dto={})", dto);
-    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");    
+    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");   
 
     if (!img_file.isEmpty()) {
       log.debug("MultipartFile img={}", img_file);
@@ -107,6 +109,7 @@ public class PetController {
       log.debug("POST create(dto={})", dto);
     } else {
       dto.setImg("");
+
     }
     petService.modifyPet(dto);
 
