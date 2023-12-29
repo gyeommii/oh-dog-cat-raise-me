@@ -1,7 +1,8 @@
 package com.ohdogcat.repository;
 
-import com.ohdogcat.dto.order.OptionOrderDto;
-import com.ohdogcat.dto.order.OrderParameterDto;
+import com.ohdogcat.dto.purchase.OptionOrderDto;
+import com.ohdogcat.dto.purchase.OrderParameterDto;
+import com.ohdogcat.model.PurchaseProduct;
 import java.util.List;
 
 import com.ohdogcat.dto.product.ProductOptionListDto;
@@ -21,7 +22,6 @@ public interface ProductDao {
 	List<ProductPetTypeDto> selectCatTypeOrderByCreateDesc();
 	// 고양이 타입 베스트 상품 상위 8개 
 	List<ProductPetTypeDto> selectCatTypeOrderBySoldDesc();
-	
 
 	ProductPetTypeDto selectByProductPk(long productPk);
 	
@@ -30,5 +30,6 @@ public interface ProductDao {
 	ProductOption selectOptionByOptionPk(long optionPk);
 
 	List<OptionOrderDto> selectProductInfoForOrder (OrderParameterDto dto);
-	
+
+	Long updateOptionStock (PurchaseProduct purchaseProduct);
 }

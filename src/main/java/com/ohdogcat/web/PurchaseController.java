@@ -2,8 +2,8 @@ package com.ohdogcat.web;
 
 import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
-import com.ohdogcat.dto.order.OrderInfoDto;
-import com.ohdogcat.service.OrderService;
+import com.ohdogcat.dto.purchase.OrderInfoDto;
+import com.ohdogcat.service.PurchaseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -26,16 +26,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/order")
-public class OrderController {
+public class PurchaseController {
 
-    private final OrderService orderService;
+    private final PurchaseService purchaseService;
 
     @ResponseBody
     @PostMapping("/address")
     public ResponseEntity<Long> addAddress(@RequestBody
     MemberAddressUpdateDto addressInfo) {
         log.debug("addAddress(addressInfo={})", addressInfo);
-        Long addressPk = orderService.addAddress(addressInfo);
+        Long addressPk = purchaseService.addAddress(addressInfo);
 
         return ResponseEntity.ok(addressPk);
     }
@@ -46,7 +46,7 @@ public class OrderController {
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
         log.debug("signedMember={}", signedMember);
 
-        Map<String, Object> result = orderService.checkOrderInfoToPurchase(
+        Map<String, Object> result = purchaseService.checkOrderInfoToPurchase(
             signedMember.getMember_pk(), options_in_cart);
 
         model.addAllAttributes(result);
@@ -62,7 +62,7 @@ public class OrderController {
 
         infoToOrder.setMemberFk(signedMember.getMember_pk());
 
-        orderService.createOrderThroughCart(infoToOrder);
+        purchaseService.createOrderThroughCart(infoToOrder);
 
         return ResponseEntity.ok("../");
     }

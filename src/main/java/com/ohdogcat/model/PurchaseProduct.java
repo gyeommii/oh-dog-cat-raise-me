@@ -1,4 +1,4 @@
-package com.ohdogcat.dto.order;
+package com.ohdogcat.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class OptionInfoToCreateOrderDto {
+public class PurchaseProduct {
+    private Long purchase_fk;
     private Long option_fk;
-    private Long count;
+    private Integer count;
 }

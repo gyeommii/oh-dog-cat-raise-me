@@ -40,6 +40,11 @@ function requestPay() {
 }
 
 function sumitOrder (data) {
+  if (orderInfoToSubmit.paymentSuccess === "pending") {
+    alert("결제를 완료해주세요.");
+    return;
+  }
+
   axios.post ("./", data).then (res=> {
     console.log(res.data)
     location.href = res.data;

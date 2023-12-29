@@ -1,5 +1,6 @@
 package com.ohdogcat.repository;
 
+import com.ohdogcat.dto.purchase.MemberPointDto;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.model.Membership;
 
@@ -29,4 +30,8 @@ public interface MemberDao {
     Member getUserInfoAtOrder(Long member_pk);
 
     Membership getUserMembership (Member member);
+
+    Long spendPoint (MemberPointDto memberPointDto);
+
+    Long accumulatePoint(MemberPointDto memberPointDto);
 }

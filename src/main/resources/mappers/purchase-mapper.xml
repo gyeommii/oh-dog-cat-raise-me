@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohdogcat.repository.PurchaseDao">
+
+  <insert id="insertPurchase" parameterType="Purchase">
+    insert into purchase (
+    member_fk, status_fk, address_fk, total_price, order_name
+    ) values (
+    #{member_fk}, #{status_fk}, #{address_fk}, #{total_price}, #{order_name}
+    )
+    <selectKey resultType="Long" keyProperty="purchase_pk" order="AFTER">
+      select purchase_pk from purchase
+      where member_fk = #{member_fk}
+      and status_fk = #{status_fk} and address_fk = #{address_fk}
+      and total_price = #{total_price} and order_name = #{order_name}
+      order by created_date desc
+    </selectKey>
+  </insert>
+
+  <insert id="insertPurchasedProduct" parameterType="PurchaseProduct">
+    insert into purchase_product (
+    purchase_fk, option_fk, count
+    ) values (
+    #{purchase_fk}, #{option_fk}, #{count}
+    )
+  </insert>
+
+  <insert id="insertPayment" parameterType="Payment">
+    insert into payment (
+    purchase_fk, total_price, paid_price, used_point, pay_method, merchant_uid, pay_success, accumulated_point
+    ) values (
+    #{purchase_fk}, #{total_price}, #{paid_price}, #{used_point}, #{pay_method}, #{merchant_uid}, #{pay_success}, #{accumulated_point}
+    )
+  </insert>
+
+
+</mapper>
+
+  <!--
+    member_fk number(10),
+    status_fk number(10) default 1,
+    address_fk number(10),
+    total_price number(8),
+    order_name varchar2(30 char),
+  -->

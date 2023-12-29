@@ -1,4 +1,4 @@
-package com.ohdogcat.dto.order;
+package com.ohdogcat.dto.purchase;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class OptionOrderDto {
+//    get("/order/check") 정보 반환
     private Long option_fk;
     private Long product_fk;
     private Integer count;

@@ -111,6 +111,18 @@
         on membership_pk = membership_fk and member_pk = #{member_pk}
       </otherwise>
     </choose>
-    
   </select>
+
+  <update id="spendPoint" parameterType="Payment">
+    update member
+    set point = point - #{used_point}
+    where member_pk = #{member_pk}
+  </update>
+
+  <update id="accumulatePoint" parameterType="MemberPointDto">
+    update member
+    set point = point + #{accumulated_point}
+    where member_pk = #{member_pk}
+  </update>
+
 </mapper>

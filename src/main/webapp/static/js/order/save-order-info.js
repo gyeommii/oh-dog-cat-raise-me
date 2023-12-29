@@ -36,9 +36,9 @@ function getParsedNumber(str) {
 }
 
 const addrSelectComp = document.getElementById("addr-selected");
-addrSelectComp.addEventListener("change", chageLangSelect);
+addrSelectComp.addEventListener("change", changeLangSelect);
 
-function chageLangSelect() {
+function changeLangSelect() {
   const addrSelectComp = document.getElementById("addr-selected");
   // select element에서 선택된 option의 value가 저장된다.
   const selectedAddr = addrSelectComp.options[addrSelectComp.selectedIndex].value;
@@ -49,7 +49,7 @@ function chageLangSelect() {
   return getParsedNumber(selectedAddr);
 }
 
-orderInfoToSubmit.addressFk = chageLangSelect();
+orderInfoToSubmit.addressFk = changeLangSelect();
 
 function checkOrderCanCreate() {
   if (!orderInfoToSubmit.orderName
