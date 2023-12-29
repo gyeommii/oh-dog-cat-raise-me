@@ -12,12 +12,12 @@
         insert into REVIEW (MEMBER_FK, PET_FK, CONTENT, IMG, SCORE, OPTION_FK) value (#{member_fk}, #{pet_fk}, #{content}, #{img}, #{score}, #{option_fk}) 
     </insert>
     
-    <update id="updateReview">
-        update REVIEW set CONTENT = #{content}, IMG = #{img}, SCORE = #{score}, PET_FK = #{pet_fk}, MODIFIED_TIME = systimestamp where REVIEW_PK = #{review_pk}
+    <update id="updateWhereReviewPkAndMemberFk">
+        update REVIEW set CONTENT = #{content}, IMG = #{img}, SCORE = #{score}, PET_FK = #{pet_fk}, MODIFIED_TIME = systimestamp where REVIEW_PK = #{review_pk} and MEMBER_FK = #{member_fk}
     </update>
     
-    <delete id="deleteReview">
-        delete from REVIEW where MEMBER_FK =#{member_fk} and REVIEW_PK= #{review_pk}
+    <delete id="deleteWhereReviewAndMemberFk">
+        delete from REVIEW where REVIEW_PK= #{review_pk} and MEMBER_FK =#{member_fk}
     </delete>
     
     <select id="selectReviewDetailViews" resultType="com.ohdogcat.dto.member.review.ReviewDetailDto">

@@ -17,25 +17,12 @@ public interface ReviewDao {
   void insertReview(Review review);
   
   // 리뷰 수정하기
-  void updateReview(Review review);
+  void updateWhereReviewPkAndMemberFk(Review review);
   
   // 리뷰 삭제하기
-  void deleteReview();
+  void deleteWhereReviewAndMemberFk(Review review);
   
   // member_fk로 리뷰 목록 나타내기 - 마이페이지
   Review selectByMemberFkByReview(long member_fk);
   
-  // pet_fk로 리뷰 목록 나타내기 - 마이페이지
-  Review selectByPetFk(long pet_fk);  
-  
-  // 리뷰 좋아요 순
-  Review selectByOptionFkOrderByLikeCount(long option_fk);
-  
-  // 리뷰 작성 가능 목록 보여주기
-  Review selectByReviewRegistrable();
-  
-  
-  // 리뷰 좋아요
-  int likeCount();
-
 }

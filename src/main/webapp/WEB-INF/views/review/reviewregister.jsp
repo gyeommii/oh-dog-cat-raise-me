@@ -54,9 +54,9 @@
                             <div class="card">
                                 <label class="form-label" for="product_name">상품</label>
                                 <a class="form-control" id="product_name"></a>
-                                <label class="form-label" for="option_name">옵션</label>
-                                <a class="form-control" id="option_name">${forReviewer.option_name}</a>
-                                <img class="img-fluid card-img" alt="product_img_url" id="product_img_url" src="${forReviewer.img_url}">
+                                <label class="form-label" for="">옵션</label>
+                                <a class="form-control" id=""></a>
+                                <img class="img-fluid card-img" alt="product_img_url" id="product_img_url" src="">
                             <div>
                                 <select>
                                     <option>
@@ -95,13 +95,13 @@
                                 <input class="d-none" type="text" value="" id="member_id" readonly>
                             </div>
                             <div>
-                                <input class="d-none" type="text" value="${forReviewer.pet_pk}" id="pet_pk" readonly>
+                                <input class="d-none" type="text" value="" id="pet_pk" readonly>
                             </div>
                             <div>
-                                <input class="d-none" type="text" value="${forReviewer.product_pk}" id="product_pk" readonly>
+                                <input class="d-none" type="text" value="" id="product_pk" readonly>
                             </div>
                             <div>
-                                <input class="d-none" type="text" value="${forReviewer.option_pk}" id="option_pk" readonly>
+                                <input class="d-none" type="text" value="" id="option_pk" readonly>
                             </div>
                             <div class="card-footer">
                                 <input class="btn btn-success form-control" type="submit" value="리뷰 등록">
@@ -114,14 +114,7 @@
     </main>    
 	
     <!-- Footer-->
-    <footer class="py-5 bg-dark">
-        <div class="container">
-            <p class="m-0 text-center text-white">Copyright &copy; ohdogcat 2023</p>
-        </div>
-    </footer>
-
-
-    
+    <%@ include file="../fragments/footer.jspf"%>    
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
 	    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
