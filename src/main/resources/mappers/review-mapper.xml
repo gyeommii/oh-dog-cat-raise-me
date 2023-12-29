@@ -4,20 +4,51 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ohdogcat.repository.ReviewDao">
     
-    <select id="selectByMemberFk" resultType="Review">
+    <select id="selectByMemberFkByReview" resultType="Review">
         select * from REVIEW where MEMBER_FK = #{member_fk}
     </select>
     
-    <insert id="insert">
-        insert into REVIEW (CONTENT, IMG, SCORE) value (#{CONTENT}, #{IMG}, #{SCORE}) 
+    <insert id="insertReview">
+        insert into REVIEW (MEMBER_FK, PET_FK, CONTENT, IMG, SCORE, OPTION_FK) value (#{member_fk}, #{pet_fk}, #{content}, #{img}, #{score}, #{option_fk}) 
     </insert>
     
     <update id="updateReview">
-    
+        update REVIEW set CONTENT = #{content}, IMG = #{img}, SCORE = #{score}, PET_FK = #{pet_fk}, MODIFIED_TIME = systimestamp where REVIEW_PK = #{review_pk}
     </update>
     
     <delete id="deleteReview">
-    
+        delete from REVIEW where MEMBER_FK =#{member_fk} and REVIEW_PK= #{review_pk}
     </delete>
+    
+    <select id="selectReviewDetailViews" resultType="com.ohdogcat.dto.member.review.ReviewDetailDto">
+        SELECT
+            M.member_id AS member_id,
+            PET.pet_pk AS pet_pk,
+            PET.pet_name AS pet_name,
+            PET.pet_type AS pet_type,
+            P.product_pk AS product_pk,
+            P.product_name AS product_name,
+            P.img_url AS img_url,
+            PO.option_pk AS option_pk,
+            PO.option_name AS option_name,
+            PO.price AS price,
+            PS.purchase_status AS purchase_status
+        FROM
+            MEMBER M
+        JOIN
+            PET ON M.member_pk = PET.member_fk
+        JOIN
+            PURCHASE PR ON M.member_pk = PR.member_fk
+        JOIN
+            PURCHASE_STATUS PS ON PR.status_fk = PS.status_pk
+        JOIN
+            PURCHASE_PRODUCT PP ON PR.purchase_pk = PP.purchase_fk
+        JOIN
+            PRODUCT_OPTION PO ON PP.option_fk = PO.option_pk
+        JOIN
+            PRODUCT P ON PO.product_fk = P.product_pk
+        WHERE
+            M.member_pk = #{member_fk}
+    </select>
     
 </mapper>
