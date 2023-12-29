@@ -365,6 +365,7 @@
             </div>
         </div>
         <input id="orderName" type="hidden" name="orderName" value="${orderName}"/>
+        <input id="orderType" type="hidden" name="orderType" value="${orderType}"/>
         <div class="input-group my-3">
             <input id="order-submit-btn" type="submit"
                    class="btn btn-outline-success form-control" value="결제 하기" disabled>

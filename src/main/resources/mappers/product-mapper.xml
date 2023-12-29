@@ -87,7 +87,7 @@
   </select>
 
   <!-- 구매 페이지에서 사용할 상품 정보	-->
-  <select id="selectProductInfoForOrder" parameterType="OrderParameterDto"
+  <select id="selectProductInfoForOrderFromCart" parameterType="OrderParameterDto"
     resultType="OptionOrderDto">
     select
     option_fk, product_fk, product_name, option_name, img_url, price, stock, count
@@ -101,6 +101,15 @@
         #{item}
       </foreach>
     </if>
+  </select>
+
+  <select id="selectProductInfoForOrderFromDetail" parameterType="Long"
+    resultType="OptionOrderDto">
+    select
+    option_fk, product_fk, product_name, option_name, img_url, price, stock
+    from product_option
+    left join product on product_pk = product_fk
+    where option_fk = #{option_fk}
   </select>
 
   <!--구매 시 옵션 재고 변경-->

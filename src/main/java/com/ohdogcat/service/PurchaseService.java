@@ -2,6 +2,7 @@ package com.ohdogcat.service;
 
 import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.purchase.MemberPointDto;
+import com.ohdogcat.dto.purchase.OptionInfoToCreateOrderDto;
 import com.ohdogcat.dto.purchase.OptionOrderDto;
 import com.ohdogcat.dto.purchase.OrderInfoDto;
 import com.ohdogcat.dto.purchase.OrderParameterDto;
@@ -17,6 +18,7 @@ import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
 import com.ohdogcat.repository.ProductDao;
 import com.ohdogcat.repository.PurchaseDao;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,17 +51,7 @@ public class PurchaseService {
 
         Map<String, Object> result = new HashMap<>();
 
-        Member member = memberDao.getUserInfoAtOrder(memberPk);
-        result.put("member", member);
-
-        Address address = addressDao.getAddressByAddressPk(member.getAddress_fk());
-        result.put("address", address);
-
-        Membership membership = memberDao.getUserMembership(member);
-        result.put("membership", membership);
-
-        List<Address> addressOrdered = addressDao.getAddressOrdered(memberPk);
-        result.put("addressOrdered", addressOrdered);
+        retrieveMemberInfo(memberPk, result);
 
         OrderParameterDto infoToOrder = OrderParameterDto.builder()
             .member_fk(memberPk)
@@ -69,6 +61,13 @@ public class PurchaseService {
         List<OptionOrderDto> products = productDao.selectProductInfoForOrder(infoToOrder);
         result.put("products", products);
 
+        calculatePriceAndCreateOrderName(products,  result);
+
+        return result;
+    }
+
+    private void calculatePriceAndCreateOrderName(List<OptionOrderDto> products,
+        Map<String, Object> result) {
         int totalPrice = 0;
 
         for (OptionOrderDto item : products) {
@@ -82,8 +81,44 @@ public class PurchaseService {
                 : mainPd.getProduct_name();
 
         result.put("orderName", orderName);
+    }
+
+    public Map<String, Object> getOrderFromDetail(Long memberPk,
+        List<OptionInfoToCreateOrderDto> optionList) {
+//        Product 정보
+
+        Map<String, Object> result = new HashMap<>();
+
+        retrieveMemberInfo(memberPk, result);
+
+        List<OptionOrderDto> products = new ArrayList<>();
+
+        for (OptionInfoToCreateOrderDto dto : optionList) {
+            OptionOrderDto product = productDao.selectProductInfoForOrderFromDetail(
+                dto.getOption_fk());
+            product.setCount(dto.getCount());
+            products.add(product);
+        }
+
+        result.put("products", products);
+
+        calculatePriceAndCreateOrderName(products, result);
 
         return result;
+    }
+
+    private void retrieveMemberInfo(Long memberPk, Map<String, Object> result) {
+        Member member = memberDao.getUserInfoAtOrder(memberPk);
+        result.put("member", member);
+
+        Address address = addressDao.getAddressByAddressPk(member.getAddress_fk());
+        result.put("address", address);
+
+        Membership membership = memberDao.getUserMembership(member);
+        result.put("membership", membership);
+
+        List<Address> addressOrdered = addressDao.getAddressOrdered(memberPk);
+        result.put("addressOrdered", addressOrdered);
     }
 
     @Transactional(rollbackFor = {RuntimeException.class})
@@ -99,7 +134,8 @@ public class PurchaseService {
         }
     }
 
-    private List<PurchaseProduct> createOrderCommonFlow(OrderInfoDto infoToOrder) throws OutOfStockExeption{
+    private List<PurchaseProduct> createOrderCommonFlow(OrderInfoDto infoToOrder)
+        throws OutOfStockExeption {
         Purchase purchase = infoToOrder.toPurchase();
 //          주문 생성
         Long result = purchaseDao.insertPurchase(purchase);

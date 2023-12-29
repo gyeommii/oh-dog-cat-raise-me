@@ -3,11 +3,10 @@ const optionList = [];
 const PAYMENT_METHOD = Object.freeze(
     {KAKAOPAY: "kakopay", BANK_TRANSFER: "bank_transfer"});
 
-const PAYMENT_SUCCESS = Object.freeze({PENDING: "pending", SUCCESS: "success", BEFORE: "before"});
+const PAYMENT_SUCCESS = Object.freeze(
+    {PENDING: "pending", SUCCESS: "success", BEFORE: "before"});
 
 let merchantUid = `ORD20180131-${crypto.randomUUID()}`;
-
-
 
 optionDivList.forEach(el => {
   const option = {
@@ -19,16 +18,16 @@ optionDivList.forEach(el => {
 })
 
 const orderInfoToSubmit = {
-  totalPrice: getParsedNumber(totalPrice.innerHTML), 
-  pointUsed: getParsedNumber(pointToUse.innerHTML), 
-  optionList, 
+  totalPrice: getParsedNumber(totalPrice.innerHTML),
+  pointUsed: getParsedNumber(pointToUse.innerHTML),
+  optionList,
   addressFk: null,
   orderName: document.getElementById("orderName").value,
-  paidPrice: 0, 
+  paidPrice: 0,
   payMethod: undefined,
   paymentSuccess: PAYMENT_SUCCESS.BEFORE,
   merchantUid,
-  orderType: "c"
+  orderType: document.getElementById("orderType").value
 };
 
 function getParsedNumber(str) {
@@ -65,8 +64,8 @@ function checkOrderCanCreate() {
   }
   console.log("오잉")
   if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.KAKAOPAY) {
-        document.getElementById("order-submit-btn").disabled = false;
-        return;
+    document.getElementById("order-submit-btn").disabled = false;
+    return;
   }
 
   if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.BANK_TRANSFER) {
@@ -76,4 +75,5 @@ function checkOrderCanCreate() {
 
   document.getElementById("order-submit-btn").disabled = true;
 }
+
 
