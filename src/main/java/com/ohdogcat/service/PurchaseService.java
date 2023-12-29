@@ -15,6 +15,7 @@ import com.ohdogcat.model.Payment;
 import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.model.Purchase;
 import com.ohdogcat.model.PurchaseProduct;
+import com.ohdogcat.model.PurchaseStatus;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.CartDao;
 import com.ohdogcat.repository.MemberDao;
@@ -124,6 +125,7 @@ public class PurchaseService {
 
         List<Address> addressOrdered = addressDao.getAddressOrdered(memberPk);
         result.put("addressOrdered", addressOrdered);
+
     }
 
     @Transactional(rollbackFor = {RuntimeException.class})
@@ -189,10 +191,7 @@ public class PurchaseService {
         if (payment.getUsed_point() > 0) {
             memberDao.spendPoint(memberPointDto);
         }
-//          유저 포인트 적립
-        if (payment.getAccumulated_point() > 0) {
-            memberDao.accumulatePoint(memberPointDto);
-        }
+//          유저 포인트 적립은 이후 구매 확정 시 추가할 예정
 
 //          옵션 재고 변경
         purchaseProducts.forEach(el -> {
@@ -208,6 +207,32 @@ public class PurchaseService {
         });
 
         return purchaseProductDto;
+    }
+
+    public Map<String, Object> showPurchaseDetail(Long memberPk, Long purchasePk) {
+        Map<String, Object> result = new HashMap<>();
+        Member member = memberDao.getUserInfoAtOrder(memberPk);
+        result.put("member", member);
+
+//        주소 저장
+
+        Purchase purchase = purchaseDao.getPurchaseInfo(purchasePk);
+        result.put("purchase", purchase);
+
+        Address address = addressDao.getAddressByAddressPk(purchase.getAddress_fk());
+        result.put("address", address);
+
+        List<PurchaseProduct> products = purchaseDao.getProductByPurchasePk(purchasePk);
+        result.put("products", products);
+
+        Payment payment = purchaseDao.retrievePaymentByPurchaseFk(purchasePk);
+        result.put("payment", payment);
+
+        PurchaseStatus purchaseStatus = purchaseDao.getPurchaseStatusByPk(purchase.getStatus_fk());
+        result.put("purchaseStatus", purchaseStatus);
+
+        return result;
+
     }
 
 }

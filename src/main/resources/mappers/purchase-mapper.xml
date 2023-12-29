@@ -52,6 +52,35 @@
     </selectKey>
   </insert>
 
+  <select id="getPurchaseInfo" parameterType="Long" resultType="Purchase">
+    select
+      *
+    from purchase
+    where purchase = #{purchasePk}
+  </select>
+
+  <select id="getProductByPurchasePk" parameterType="Long" resultType="PurchaseProduct">
+    select
+      option_fk, product_fk, product_name, option_name, img_url, price, count
+    from purchase_product
+    left join product_option on option_fk = option_pk
+    left join product on product_fk = product_pk
+    where purchase_fk = #{purchaseFk}
+  </select>
+
+  <select id="retrievePaymentByPurchaseFk" parameterType="Long" resultType="Payment">
+    select
+      *
+    from payment
+    where payment_fk = #{ purchasePk }
+  </select>
+  
+  <select id="getPurchaseStatusByPk" parameterType="Long" resultType="PurchaseStatus">
+    select
+      *
+    from purchase_status
+    where status_pk = #{ status_pk }
+  </select>
 
 </mapper>
 

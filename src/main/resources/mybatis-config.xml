@@ -24,6 +24,7 @@
     <typeAlias type="com.ohdogcat.dto.purchase.MemberPointDto" alias="MemberPointDto"/>
 		<typeAlias type="com.ohdogcat.model.Cart" alias="Cart" />
 		<typeAlias type="com.ohdogcat.dto.cart.CartListDto" alias="CartListDto" />
+		<typeAlias type="com.ohdogcat.model.PurchaseStatus" alias="PurchaseStatus" />
   </typeAliases>
 
 </configuration>

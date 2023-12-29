@@ -103,6 +103,7 @@
     </if>
   </select>
 
+<!-- 구매 페이지(바로 구매)에서 사용할 상품 정보 -->
   <select id="selectProductInfoForOrderFromDetail" parameterType="Long"
     resultType="OptionOrderDto">
     select
