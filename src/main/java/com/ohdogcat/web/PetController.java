@@ -99,6 +99,7 @@ public class PetController {
 
   @GetMapping("/modifypet")
   public String modifyPet(@RequestParam(name = "pet_pk") long pet_pk, Model model) {
+    log.debug("modifyPet()");
     Pet pet = petService.read(pet_pk);
 
     model.addAttribute("petList", pet);
