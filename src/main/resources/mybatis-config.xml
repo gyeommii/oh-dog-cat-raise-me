@@ -6,17 +6,18 @@
 <!-- MyBatis3 프레임워크 설정 -->
 <configuration>
 
-	<!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
+	   <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
 	<typeAliases>
 		<typeAlias type="com.ohdogcat.model.Product" alias="Product" />
 		<typeAlias type="com.ohdogcat.model.ProductOption" alias="ProductOption" />
+        <typeAlias type="com.ohdogcat.dto.product.ProductListDto" alias="ProductListDto"/>
+		<typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto" alias="ProductPetTypeDto"/>
+		<typeAlias type="com.ohdogcat.dto.product.ProductOptionListDto" alias="ProductOptionListDto" />
 		<typeAlias type="com.ohdogcat.model.Cart" alias="Cart" />
 		<typeAlias type="com.ohdogcat.dto.cart.CartListDto" alias="CartListDto" />
-		<typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto" alias="ProductPetTypeDto" />
-		<typeAlias type="com.ohdogcat.dto.product.ProductOptionListDto" alias="ProductOptionListDto" />
+        <typeAlias type="com.ohdogcat.model.Pet" alias="Pet" />
 		<typeAlias type="com.ohdogcat.model.Member" alias="Member" />
 		<typeAlias type="com.ohdogcat.model.Address" alias="Address" />
-        <typeAlias type="com.ohdogcat.model.Pet" alias="Pet" />
 	</typeAliases>
 
 </configuration>
