@@ -75,7 +75,7 @@ public class PurchaseService {
         int totalPrice = 0;
 
         for (OptionOrderDto item : products) {
-            totalPrice += item.getPrice();
+            totalPrice += (item.getPrice() * item.getCount());
         }
 
         result.put("totalPrice", totalPrice);
