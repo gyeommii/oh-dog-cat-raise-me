@@ -35,34 +35,24 @@ public class PetController {
     log.debug("myPet()");
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
 
-    if (memberSessionDto != null) {
-      long member_fk = memberSessionDto.getMember_pk();
-      List<PetListDto> list = petService.readMemberPet(member_fk);
-
+      long member_fk = memberSessionDto.getMember_pk();      
+      List<PetListDto> list = petService.readMemberPet(member_fk);      
+      
       log.debug("member_fk={}", member_fk);
       log.debug("list={}", list);
       model.addAttribute("petList", list);
-
-      return "pet/mypet";
-
-    } else {
-
-      return "redirect:/user/signin";
-    }
+      model.addAttribute("member_fk", member_fk);
+      
+      return "pet/mypet";    
 
   }
 
   @GetMapping("/addpet")
-  public String addPet(@RequestParam(name = "member_fk") long member_fk, HttpSession session,
-      Model model) {
+  public String addPet() {
     log.debug("GET - addPet()");
-    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
-    if (memberSessionDto != null) {
 
       return "pet/addpet";
-    }
 
-    return "redirect:/user/signin";
   }
 
   @PostMapping("/addpet")
@@ -70,39 +60,30 @@ public class PetController {
       HttpServletRequest req, PetAddDto dto) throws IOException {
     log.debug("POST create(dto={})", dto);
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
-    if (memberSessionDto != null) {
       long member_fk = memberSessionDto.getMember_pk();
       dto.setMember_fk(member_fk);
+      
       log.debug("POST create(dto={})", dto);
-
-    } else {
-
-      return "redirect:/user/signin";
-    }
 
     if (!img_file.isEmpty()) {
       log.debug("MultipartFile img={}", img_file);
-
+      
       String imgPath = ftpImgLoaderUtil.upload(img_file, req.getServletPath());
       dto.setImg(imgPath);
-      log.debug("addPet(success)");
+      
+      log.debug("addPet(success)");      
       log.debug("POST create(dto={})", dto);
-      petService.addPet(dto);
-
-      return "redirect:/mypage/pet";
-
     } else {
       dto.setImg("");
-      petService.addPet(dto);
-
-
-      return "redirect:/mypage/pet";
     }
+    petService.addPet(dto);
 
+    return "redirect:/mypage/pet";
   }
 
   @GetMapping("/modifypet")
   public String modifyPet(@RequestParam(name = "pet_pk") long pet_pk, Model model) {
+    log.debug("modifyPet()");
     Pet pet = petService.read(pet_pk);
 
     model.addAttribute("petList", pet);
@@ -114,33 +95,25 @@ public class PetController {
   public String modifyPet(@RequestParam(name = "img_file") MultipartFile img_file,
       HttpServletRequest req, HttpSession session, PetModifyDto dto) throws IOException {
     log.debug("modifyPet(dto={})", dto);
-    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
-    if (memberSessionDto == null) {
-
-      return "redirect:/user/signin";
-    }
+    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");    
 
     if (!img_file.isEmpty()) {
       log.debug("MultipartFile img={}", img_file);
 
       String imgPath = ftpImgLoaderUtil.upload(img_file, req.getServletPath());
       dto.setImg(imgPath);
+      
       log.debug("modifyPet(success)");
       log.debug("POST create(dto={})", dto);
-      petService.modifyPet(dto);
-
-      return "redirect:/mypage/pet";
-
     } else {
       dto.setImg("");
-      petService.modifyPet(dto);
-
-      return "redirect:/mypage/pet";
     }
+    petService.modifyPet(dto);
 
+    return "redirect:/mypage/pet";
   }
 
-  @GetMapping("/delete")
+  @GetMapping("/deletepet")
   public String deletePet(@RequestParam(name = "pet_delete_pk") long pet_pk) {
     log.debug("deletePet()");
     petService.deletePet(pet_pk);
