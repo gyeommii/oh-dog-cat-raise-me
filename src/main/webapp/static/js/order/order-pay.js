@@ -19,7 +19,7 @@ function requestPay() {
   IMP.request_pay({
     pg: "kakaopay",
     pay_method: "card",
-    merchantUid,   // 주문번호
+    merchantUid : orderInfoToSubmit.merchantUid,   // 주문번호
     name: document.getElementById("orderName").value,
     amount: getParsedNumber(priceToPay.innerHTML),                         // 숫자 타입
     buyer_name: document.getElementById("member_id").innerHTML.trim(),

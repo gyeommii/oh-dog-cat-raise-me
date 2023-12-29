@@ -5,8 +5,7 @@ const PAYMENT_METHOD = Object.freeze(
 
 const PAYMENT_SUCCESS = Object.freeze(
     {PENDING: "pending", SUCCESS: "success", BEFORE: "before"});
-
-let merchantUid = `ORD20180131-${crypto.randomUUID()}`;
+const today = new Date();
 
 optionDivList.forEach(el => {
   const option = {
@@ -26,7 +25,7 @@ const orderInfoToSubmit = {
   paidPrice: 0,
   payMethod: undefined,
   paymentSuccess: PAYMENT_SUCCESS.BEFORE,
-  merchantUid,
+  merchantUid : `ORD${today.getFullYear()}${today.getMonth()}${today.getDate()}0131-${crypto.randomUUID()}`,
   orderType: document.getElementById("orderType").value
 };
 

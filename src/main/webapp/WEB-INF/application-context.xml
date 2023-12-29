@@ -17,9 +17,9 @@ http://www.springframework.org/schema/tx
     <property name="driverClassName"
       value="oracle.jdbc.OracleDriver"/>
     <property name="jdbcUrl"
-      value="jdbc:oracle:thin:@192.168.20.11:1521:xe"/>
-    <property name="username" value="ohdogcat"/>
-    <property name="password" value="raiseme"/>
+	  value="jdbc:oracle:thin:@192.168.20.11:1521:xe" />
+     <property name="username" value="ohdogcat" />
+     <property name="password" value="raiseme" />
   </bean>
 
   <!-- HikariDataSource 객체(bean) 생서을 위한 설정 -->

@@ -54,7 +54,8 @@ public class OrderInfoDto {
             .paid_price(paidPrice)
             .used_point(pointUsed)
             .pay_method(payMethod)
-            .payment_pk(paymentSuccess.equals("success") ? 1L : 0)
+            .merchant_uid(merchantUid)
+            .pay_success(paymentSuccess.equals("success") ? 1 : 0)
             .build();
     }
 

@@ -106,15 +106,15 @@
   <select id="selectProductInfoForOrderFromDetail" parameterType="Long"
     resultType="OptionOrderDto">
     select
-    option_fk, product_fk, product_name, option_name, img_url, price, stock
+    option_pk, product_fk, product_name, option_name, img_url, price, stock
     from product_option
     left join product on product_pk = product_fk
-    where option_fk = #{option_fk}
+    where option_pk = #{option_fk}
   </select>
 
   <!--구매 시 옵션 재고 변경-->
   <update id="updateOptionStock" parameterType="PurchaseProduct">
-    update option
+    update product_option
     set stock = stock - #{count}
     where option_pk = #{option_fk}
   </update>

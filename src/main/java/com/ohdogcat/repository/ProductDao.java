@@ -31,7 +31,7 @@ public interface ProductDao {
 
     ProductOption selectOptionByOptionPk(long optionPk);
 
-    List<OptionOrderDto> selectProductInfoForOrder(OrderParameterDto dto);
+    List<OptionOrderDto> selectProductInfoForOrderFromCart(OrderParameterDto dto);
 
     Long updateOptionStock(PurchaseProduct purchaseProduct);
 

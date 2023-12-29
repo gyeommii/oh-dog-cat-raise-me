@@ -1,7 +1,8 @@
 /**
  * product/details.jsp에 포함되는 js
  * 상품PK 별 옵션 목록 확인
- * 옵션 및 수량 선택 기능
+ * 옵션 및 수량 선택 로직 처리
+ * 장바구니 버튼 기능
  * 
  */
 
@@ -11,11 +12,95 @@ document.addEventListener('DOMContentLoaded', () => {
 	const btnOption = document.querySelector("button#btnOption");	
 	// 옵션 선택 시 추가 될 영역
 	const optionAddArea = document.querySelector("div#optionAddArea");
-	
+
+	// 바로구매
+	const btnBuyNow = document.querySelector("button#btnBuyNow");
+
+	// 장바구니 버튼
+	const btnCart = document.getElementById("btnCart");
+	// 장바구니 모달
+	const cartModal = new bootstrap.Modal('div#toCartModal',{backdrop: true}); 
+	// 로그인 모달.
+	const loginModal = new bootstrap.Modal('div#toLoginModal',{backdrop: true}); 
 	
 	// 옵션 버튼 클릭 시 실행
 	btnOption.addEventListener("click", getOptionList);
-	
+
+	// 장바구니 버튼 클릭 시 실행 
+	btnCart.addEventListener("click", addToCart);
+
+	// 바로구매
+	btnBuyNow.addEventListener("click", buyNow);
+
+ 	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
+ 	
+	// 바로구매
+	async function buyNow(){
+		const cartItems = addedCartItemList();
+		console.log("buyNow()=",cartItems);	
+		if(cartItems.length === 0){
+			alert("상품을 선택해주세요!");
+			return;
+		}
+		try{
+		const {data : uri} = await axios.post("../order/checkout",cartItems);
+		location.href = uri;
+		} catch(error){
+			console.log(error);
+		}
+	}	
+	// 장바구니 담기
+	async function addToCart(){	
+		const cartItems = addedCartItemList();
+		console.log("addToCart()=",cartItems);
+
+		if(cartItems.length === 0){
+			alert("상품을 선택해주세요!");
+			return;
+		}
+			
+		try {
+			const response = await axios.post("../cart/add",cartItems);
+			const result = response.data;
+			
+			switch(result){
+				case "overStock":
+					alert("재고보다 많은 수량을 담으실 수 없습니다!");
+					break;
+				case "overCount":
+					alert("장바구니에 있는 상품이며 \n옵션별 최대 10개까지 구매할 수 있습니다!");
+					break;
+				case "notLogin":
+					loginModal.show();
+					break;
+				case "add":
+					cartModal.show();
+					break;
+			}
+
+		} catch(error){
+			console.log(error);
+		}
+		
+	}
+		
+	// 추가 된 상품 리스트
+	function addedCartItemList(){
+		console.log("addedCartItemList()");
+		let cartItems =[];
+		const addedOptions = optionAddArea.querySelectorAll("div.option-card");
+
+		for(let added of addedOptions){
+			let optionFk = added.getAttribute("data-id");
+			let count = added.querySelector("input#count").value;
+
+			cartItems.push({"option_fk": parseInt(optionFk), "count": parseInt(count)});
+			
+		}		
+		return cartItems;
+	}
+
+	// 상품별 옵션 리스트
 	async function getOptionList() {
 		const productPk = document.querySelector("input#productPk").value;
 		const uri = `option/all/${productPk}`;
@@ -23,7 +108,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
 		makeOptionListElements(response.data);
 	}
-
 	function makeOptionListElements(data) {
 		const optionList = document.querySelector("ul#optionList");
 
@@ -82,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
         optionCard.setAttribute("data-id", option.optionPk);
 
         optionCard.innerHTML = `
-			    <div row class="d-flex justify-content-between align-items-center" id= "addOptionCard">
+			    <div row class="d-flex justify-content-between align-items-center">
 			        <div class="col-8">
 			            <p class="card-text fw-semibold" style="font-size: 1em;">${option.optionName}</p>
 			            <div class="input-group">
@@ -112,10 +196,10 @@ document.addEventListener('DOMContentLoaded', () => {
    		const btnPlus = optionCard.querySelector("#btnPlus");
 		btnPlus.addEventListener("click",() => pushPlusBtn(optionCard, option));
         
-    } // end paintAddOption()
+    } 
 	
 	// 추가된 옵션 삭제
-    function deleteAddOption(optionCard,option) {
+    function deleteAddOption(optionCard, option) {
 		let count = optionCard.querySelector("input#count").value;
         optionCard.remove();
 		updateTotalPrice(-option.price * count);
@@ -140,10 +224,13 @@ document.addEventListener('DOMContentLoaded', () => {
 		let count = optionCard.querySelector("input#count");
 		let currentCount = parseInt(count.value);
 
-		if(currentCount >= option.stock) {
+		if(currentCount >= option.stock && option.stock <= 10) {
 			alert(`현재 구매 가능한 수량은 ${option.stock}개 입니다! `)
 			return;
-		}
+		} else if(currentCount >= 10 ) {
+			alert(`옵션별 최대 10개까지 구매할 수 있습니다!`)
+			return;			
+		} 
 		currentCount += 1;
 		count.setAttribute("value", currentCount);
 		

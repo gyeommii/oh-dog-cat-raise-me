@@ -15,7 +15,8 @@
       where member_fk = #{member_fk}
       and status_fk = #{status_fk} and address_fk = #{address_fk}
       and total_price = #{total_price} and order_name = #{order_name}
-      order by created_date desc
+      order by purchase_date desc
+      offset 0 row fetch next 1 row only
     </selectKey>
   </insert>
 
@@ -29,10 +30,26 @@
 
   <insert id="insertPayment" parameterType="Payment">
     insert into payment (
-    purchase_fk, total_price, paid_price, used_point, pay_method, merchant_uid, pay_success, accumulated_point
+    purchase_fk, total_price, paid_price, used_point, pay_method, merchant_uid, pay_success,
+    accumulated_point
     ) values (
-    #{purchase_fk}, #{total_price}, #{paid_price}, #{used_point}, #{pay_method}, #{merchant_uid}, #{pay_success}, #{accumulated_point}
+    #{purchase_fk}, #{total_price}, #{paid_price}, #{used_point}, #{pay_method}, #{merchant_uid},
+    #{pay_success}, #{accumulated_point}
     )
+    <selectKey resultType="Long" keyProperty="payment_pk" order="AFTER">
+      select payment_pk from payment
+      where
+      purchase_fk = #{purchase_fk} and
+      total_price = #{total_price} and
+      paid_price = #{paid_price} and
+      used_point = #{used_point} and
+      pay_method = #{pay_method} and
+      merchant_uid = #{merchant_uid} and
+      pay_success = #{pay_success} and
+      accumulated_point = #{accumulated_point}
+      order by payment_pk desc
+      offset 0 row fetch next 1 row only
+    </selectKey>
   </insert>
 
 

@@ -30,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
+    private final String OPTION_AND_COUNT_IN_SESSION = "optionsToOrder";
 
     @ResponseBody
     @PostMapping("/address")
@@ -55,28 +56,26 @@ public class PurchaseController {
     }
 
     @ResponseBody
-    @PostMapping("/detail")
+    @PostMapping("/checkout")
     public ResponseEntity<String> getOrderFromDetail(HttpSession session, Model model, @RequestBody
     List<OptionInfoToCreateOrderDto> optionInfoToCreateOrderDtos) {
-
         log.debug("optionInfoToCreateOrderDtos={}", optionInfoToCreateOrderDtos);
+        session.setAttribute(OPTION_AND_COUNT_IN_SESSION, optionInfoToCreateOrderDtos);
 
-        session.setAttribute("optionsToOrder", optionInfoToCreateOrderDtos);
-
-        return ResponseEntity.ok("./direct?ordertype=d");
+        return ResponseEntity.ok("../order/direct?ordertype=d");
     }
 
     @GetMapping("/direct")
     public String getOrder(HttpSession session, Model model, @RequestParam String ordertype) {
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-        List<OptionInfoToCreateOrderDto> optionList = (List<OptionInfoToCreateOrderDto>) session.getAttribute("optionsToOrder");
-        session.removeAttribute("optionsToOrder");
+        List<OptionInfoToCreateOrderDto> optionList = (List<OptionInfoToCreateOrderDto>) session.getAttribute(OPTION_AND_COUNT_IN_SESSION);
+        session.removeAttribute(OPTION_AND_COUNT_IN_SESSION);
 
         Map<String, Object> result = purchaseService.getOrderFromDetail(signedMember.getMember_pk(), optionList);
         result.put("orderType", ordertype);
         model.addAllAttributes(result);
 
-        return "/order/direct";
+        return "/order/checkout";
     }
 
     @ResponseBody
@@ -86,10 +85,11 @@ public class PurchaseController {
         HttpServletRequest req, HttpServletResponse res)
         throws IOException {
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-
+        log.debug("infoToOrder={}", infoToOrder);
         infoToOrder.setMemberFk(signedMember.getMember_pk());
 
         purchaseService.createOrderThroughCart(infoToOrder);
+        log.debug("구매 완료");
 
         return ResponseEntity.ok("../");
     }

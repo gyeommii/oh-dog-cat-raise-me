@@ -25,6 +25,6 @@ public class MemberPointDto {
     }
 
     private static Long calculatePointToAccumulate(Payment payment, Integer point_rate) {
-        return Math.round((payment.getTotal_price()) * (1 + point_rate / 100.0));
+        return Math.round((payment.getTotal_price()) * (point_rate / 100.0));
     }
 }

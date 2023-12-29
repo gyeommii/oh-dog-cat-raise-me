@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class PurchaseProduct {
+    private Long member_fk;
     private Long purchase_fk;
     private Long option_fk;
     private Integer count;

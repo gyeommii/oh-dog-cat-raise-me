@@ -6,6 +6,7 @@ import com.ohdogcat.dto.purchase.OptionInfoToCreateOrderDto;
 import com.ohdogcat.dto.purchase.OptionOrderDto;
 import com.ohdogcat.dto.purchase.OrderInfoDto;
 import com.ohdogcat.dto.purchase.OrderParameterDto;
+import com.ohdogcat.dto.purchase.PurchaseProductDto;
 import com.ohdogcat.exception.OutOfStockExeption;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
@@ -15,6 +16,7 @@ import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.model.Purchase;
 import com.ohdogcat.model.PurchaseProduct;
 import com.ohdogcat.repository.AddressDao;
+import com.ohdogcat.repository.CartDao;
 import com.ohdogcat.repository.MemberDao;
 import com.ohdogcat.repository.ProductDao;
 import com.ohdogcat.repository.PurchaseDao;
@@ -30,13 +32,15 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+//@Transactional(readOnly = true)
 public class PurchaseService {
 
     private final MemberDao memberDao;
     private final AddressDao addressDao;
     private final ProductDao productDao;
     private final PurchaseDao purchaseDao;
+    private final CartDao cartDao;
+
 
     public Long addAddress(MemberAddressUpdateDto addressInfo) {
         Address address = addressInfo.toAddress();
@@ -58,10 +62,10 @@ public class PurchaseService {
             .optionList(options_in_cart)
             .build();
 
-        List<OptionOrderDto> products = productDao.selectProductInfoForOrder(infoToOrder);
+        List<OptionOrderDto> products = productDao.selectProductInfoForOrderFromCart(infoToOrder);
         result.put("products", products);
 
-        calculatePriceAndCreateOrderName(products,  result);
+        calculatePriceAndCreateOrderName(products, result);
 
         return result;
     }
@@ -122,27 +126,44 @@ public class PurchaseService {
     }
 
     @Transactional(rollbackFor = {RuntimeException.class})
-    public void createOrderThroughCart(OrderInfoDto infoToOrder) {
+    public Long createOrderThroughCart(OrderInfoDto infoToOrder) {
+        Long purchasePk = 0l;
         if (infoToOrder.getOrderType().equals("c")) {
-            List<PurchaseProduct> purchaseProducts = createOrderCommonFlow(infoToOrder);
+            log.debug("orderInfo={}", infoToOrder);
+            PurchaseProductDto purchaseProductDto = createOrderCommonFlow(infoToOrder);
+            log.debug("purchaseProducts={}", purchaseProductDto);
 //          카트에서 제거
-            purchaseProducts.forEach(el -> {
 
+            purchasePk = purchaseProductDto.getPurchasePk();
+
+            purchaseProductDto.getPurchaseProducts().forEach(purchaseProduct -> {
+                purchaseProduct.setMember_fk(infoToOrder.getMemberFk());
+                log.debug("purchaseProduct={}", purchaseProduct);
+                cartDao.deleteCartItemByOptionAndMember(purchaseProduct);
             });
         } else if (infoToOrder.getOrderType().equals("d")) {
             createOrderCommonFlow(infoToOrder);
         }
+
+        return purchasePk;
     }
 
-    private List<PurchaseProduct> createOrderCommonFlow(OrderInfoDto infoToOrder)
+    private PurchaseProductDto createOrderCommonFlow(OrderInfoDto infoToOrder)
         throws OutOfStockExeption {
+        PurchaseProductDto purchaseProductDto = new PurchaseProductDto();
+
         Purchase purchase = infoToOrder.toPurchase();
+        log.debug("purchase={}", purchase);
 //          주문 생성
         Long result = purchaseDao.insertPurchase(purchase);
+        purchaseProductDto.setPurchasePk(purchase.getPurchase_pk());
+
         log.debug("구매 생성 :: {}", result == 1 ? "success" : "fail");
 
         List<PurchaseProduct> purchaseProducts = infoToOrder.toPurchaseProducts(
             purchase.getPurchase_pk());
+
+        purchaseProductDto.setPurchaseProducts(purchaseProducts);
 
         Payment payment = infoToOrder.toPayment(purchase.getPurchase_pk());
 //            멤버 멤버쉽 가져오기
@@ -155,6 +176,8 @@ public class PurchaseService {
             purchase.getMember_fk());
 
         payment.setAccumulated_point(memberPointDto.getAccumulated_point());
+
+        log.debug("payment={}", payment);
 //            결제 내역 생성
         Long resultPayment = purchaseDao.insertPayment(payment);
         log.debug("resultPayment={}", resultPayment);
@@ -182,7 +205,7 @@ public class PurchaseService {
             log.debug("stockUpdateResult={}", stockUpdateResult);
         });
 
-        return purchaseProducts;
+        return purchaseProductDto;
     }
 
 }
