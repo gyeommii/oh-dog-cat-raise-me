@@ -44,9 +44,7 @@ function applyPoint() {
 
   priceToPay.innerHTML = (getParsedNumber(totalPrice.innerHTML) - parseInt(
       pointInput.value)).toLocaleString("ko-KR");
+
   reservedPoint.innerHTML = (getParsedNumber(pointCanUse.innerHTML) - parseInt(
       pointInput.value)).toLocaleString("ko-KR");
-
-  orderInfoToSubmit.paidPrice = getParsedNumber(totalPrice.innerHTML)
-      - parseInt(pointInput.value);
 }

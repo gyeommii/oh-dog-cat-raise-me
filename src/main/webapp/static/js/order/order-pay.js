@@ -2,7 +2,8 @@ const distinguishCode = `imp24187885`;
 
 IMP.init(distinguishCode);
 
-document.getElementById("order-submit-btn").addEventListener("click", requestPay);
+document.getElementById("order-submit-btn").addEventListener("click",
+    requestPay);
 
 function requestPay() {
 
@@ -16,12 +17,14 @@ function requestPay() {
 
   console.log()
 
+  const amount = getParsedNumber(priceToPay.innerHTML);
+
   IMP.request_pay({
     pg: "kakaopay",
     pay_method: "card",
-    merchantUid : orderInfoToSubmit.merchantUid,   // 주문번호
+    merchantUid: orderInfoToSubmit.merchantUid,   // 주문번호
     name: document.getElementById("orderName").value,
-    amount: getParsedNumber(priceToPay.innerHTML),                         // 숫자 타입
+    amount,                         // 숫자 타입
     buyer_name: document.getElementById("member_id").innerHTML.trim(),
     buyer_email: document.getElementById("member_email").innerHTML.trim(),
     buyer_tel: document.getElementById("member_phone").innerHTML.trim(),
@@ -30,6 +33,7 @@ function requestPay() {
       document.getElementById("success-complete-card").classList.remove(
           "d-none");
 
+      orderInfoToSubmit.paidPrice = amount;
       orderInfoToSubmit.paymentSuccess = PAYMENT_SUCCESS.SUCCESS;
 
       sumitOrder(orderInfoToSubmit);
@@ -39,13 +43,13 @@ function requestPay() {
   document.getElementById("account-window").classList.add("d-none");
 }
 
-function sumitOrder (data) {
+function sumitOrder(data) {
   if (orderInfoToSubmit.paymentSuccess === "pending") {
     alert("결제를 완료해주세요.");
     return;
   }
 
-  axios.post ("./", data).then (res=> {
+  axios.post("./", data).then(res => {
     console.log(res.data)
     location.href = res.data;
   });
