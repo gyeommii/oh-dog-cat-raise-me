@@ -16,7 +16,6 @@
 
     <%@include file="../fragments/header.jspf"%>
 
-
     <main>
         <div class="container">
             <div class="row">
@@ -146,9 +145,12 @@
                                                 value="/mypage/modifypet">
                                                 <c:param name="pet_pk"
                                                     value="${pet.pet_pk}" />
-                                            </c:url> 
-                                            <c:url var="deletePet" value="/mypage/deletepet">
-                                                <c:param name="pet_pk" value="${pet.pet_pk}" />
+
+                                            </c:url> <c:url var="deletePet"
+                                                value="/mypage/deletepet">
+                                                <c:param
+                                                    name="pet_delete_pk"
+                                                    value="${pet.pet_pk}" />
                                             </c:url>
                                             <div
                                                 class="d-flex justify-content-center my-5">
