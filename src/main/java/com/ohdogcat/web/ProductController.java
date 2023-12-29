@@ -94,7 +94,7 @@ public class ProductController {
 	}
 	
 	// 옵션Pk에 따른 옵션 정보 불러오기
-	@GetMapping("option/{optionPk}")
+	@GetMapping("/option/{optionPk}")
 	@ResponseBody
 	public ResponseEntity<ProductOption> getOption(@PathVariable long optionPk){
 		log.debug("getOption(optionPk={})",optionPk);
