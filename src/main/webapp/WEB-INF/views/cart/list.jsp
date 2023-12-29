@@ -196,7 +196,7 @@ a {
 							style="background: none; border-radius: 8px; height: 44px; font-size: 16px;"
 							data-bs-dismiss="modal">취소</button>
 						<c:url var="cartListPage" value="/cart/list" />
-						<a href="${cartListPage}" type="button"
+						<a type="button"
 							class="btn btn-warning text-white fw-semibold shadow-sm btn-lg"
 							style="border-radius: 8px; height: 44px; font-size: 16px;"
 							id="btnApplyOption">적용</a>

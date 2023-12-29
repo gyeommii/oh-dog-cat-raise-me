@@ -13,6 +13,7 @@ import com.ohdogcat.model.Cart;
 import com.ohdogcat.repository.CartDao;
 
 import io.micrometer.common.util.internal.logging.AbstractInternalLogger;
+import jakarta.servlet.jsp.jstl.sql.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -75,12 +76,44 @@ public class CartService {
 	public List<CartListDto> getCartList(Long member) {
 		log.debug("getCartList()");
 		List<CartListDto> cartList = cartDao.selectCartListByMember(member);
+		
+		// 장바구니 옵션 수량 & 재고 수량 비교
+		for(CartListDto list : cartList) {
+			// 옵션 수량 > 재고 수량이면 재고 수량으로 변경
+			if(list.getCount() > list.getStock()) {
+				log.debug("장바구니 상품 수량이 재고보다 많음. 수량 변경함!");
+				cartDao.updateNewCount(Cart.builder()
+						.member_fk(member)
+						.option_fk(list.getOption_fk())
+						.count(list.getStock())
+						.build());
+			// 품절인 경우 장바구니 수량 0
+			} else if(list.getStock() == 0) {
+				cartDao.updateNewCount(Cart.builder()
+						.member_fk(member)
+						.option_fk(list.getOption_fk())
+						.count(0L)
+						.build());
+			// 품절 상품의 재고가 들어온 경우 장바구니 수량 1
+			} else if(list.getCount() == 0 && list.getStock() > 0 ) {
+				cartDao.updateNewCount(Cart.builder()
+						.member_fk(member)
+						.option_fk(list.getOption_fk())
+						.count(1L)
+						.build());
+			}
+		}
+		
+		cartList = cartDao.selectCartListByMember(member);
 		return cartList;
 	}
 
 	public int deleteCartItem(Long option_fk, Long member) {
 		log.debug("deleteCartItem(option ={}, memeber={})", option_fk, member);
-		int result = cartDao.deleteCartItemByOptionAndMember(Cart.builder().option_fk(option_fk).member_fk(member).build());
+		int result = cartDao.deleteCartItemByOptionAndMember(Cart.builder()
+				.option_fk(option_fk)
+				.member_fk(member)
+				.build());
 		return result;
 	}
 	
@@ -104,7 +137,13 @@ public class CartService {
 
 	public int updateCartOpiton(CartUpdateOptionDto updateOptionDto) {
 		log.debug("updateCartOpiton()");
-		int result = cartDao.updateOption(updateOptionDto);
-		return result;
+		int result = 0;
+		Cart cart = cartDao.selectCartByMemberAndOption(updateOptionDto.toEntity());
+		if(cart != null) {
+			return result;
+		} else {
+			result = cartDao.updateOption(updateOptionDto);
+			return result;
+		}
 	}
 }

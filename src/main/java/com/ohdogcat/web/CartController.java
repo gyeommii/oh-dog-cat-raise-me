@@ -86,22 +86,20 @@ public class CartController {
 		String reuslt = cartService.updateCartCount(memberFk, cart);
 		return ResponseEntity.ok(reuslt);
 	}
+
 	
-	@PutMapping("/list/update/{beforeOption_fk}/{afterOption_fk}")
+	@PutMapping("/list/update/changeoption")
 	@ResponseBody
-	public ResponseEntity<Integer> updateOption(@PathVariable Long beforeOption_fk ,@PathVariable Long afterOption_fk, HttpSession session){
-		log.debug("updateOption={beforeOption_fk={}, afterOption_fk={}}", beforeOption_fk, afterOption_fk);
+	public ResponseEntity<Integer> updateOption(@RequestBody CartUpdateOptionDto updateOptionDto, HttpSession session){
+		log.debug("updateOption(CartUpdateOptionDto={})", updateOptionDto);
 		MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
 		long memberFk = signedMember.getMember_pk();
-		CartUpdateOptionDto updateOptionDto = 
-				CartUpdateOptionDto.builder()
-				.beforeOption_fk(beforeOption_fk)
-				.afterOption_fk(afterOption_fk)
-				.member_fk(memberFk)
-				.build();
+		updateOptionDto.setMember_fk(memberFk);
 		int result = cartService.updateCartOpiton(updateOptionDto);
+		log.debug("********updateOption(result={})",result);
 		return ResponseEntity.ok(result);
 	}
+	
 	
 
 }

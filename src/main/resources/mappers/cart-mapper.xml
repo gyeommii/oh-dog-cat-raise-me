@@ -18,7 +18,7 @@
 		values (#{member_fk}, #{option_fk}, #{count})
 	</insert>
 
-	<!-- 장바구니 상품 수량 변경(기존 수량에 추가) -->
+	<!-- 1. 상품 수량 변경 : 기존 수량에 추가 -->
 	<update id="updateAmountCount">
 		update cart
 		set count = (select count from cart where member_fk = #{member_fk} and
@@ -26,7 +26,7 @@
 		where member_fk = #{member_fk} and option_fk = #{option_fk}
 	</update>
 	
-	<!-- 장바구니 페이지에서 새 수량으로 변경-->
+	<!-- 2. 상품 수량 변경 : 새 수량으로 변경 -->
 	<update id="updateNewCount">
 		update cart 
 		set count = #{count} 
@@ -40,7 +40,7 @@
 		where member_fk = #{member_fk} and option_fk = #{beforeOption_fk}
 	</update>
 
-	<!-- 옵션 별 수량 정보 -->
+	<!-- 옵션 별 재고 정보 -->
 	<select id="selectStockByOption" resultType="java.lang.Long">
 		select stock from
 		product_option where option_pk = #{option_fk}
