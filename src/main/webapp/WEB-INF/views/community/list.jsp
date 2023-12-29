@@ -50,26 +50,26 @@
         <main>
         
         
-        <div>
-            <div class="container mt-4">
-                <c:forEach items="${posts}" var="post">
-                    <c:url var="postDetailsPage" value="/post/details">
-                        <c:param name="id" value="${post.post_pk}" />
-                    </c:url>
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <h5 class="card-title">
-                                <a href="${postDetailsPage}">${post.title}</a>
-                            </h5>
-                            <p class="card-text">${post.author}</p>
-                            <p class="card-text">
-                                <small class="text-muted">${post.modified_time}</small>
-                            </p>
+            <div>
+                <div class="container mt-4">
+                    <c:forEach items="${posts}" var="post">
+                        <c:url var="postDetailsPage" value="/post/details">
+                            <c:param name="id" value="${post.post_pk}" />
+                        </c:url>
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">
+                                    <a href="${postDetailsPage}">${post.title}</a>
+                                </h5>
+                                <p class="card-text">${post.author}</p>
+                                <p class="card-text">
+                                    <small class="text-muted">${post.modified_time}</small>
+                                </p>
+                            </div>
                         </div>
-                    </div>
-                </c:forEach>
+                    </c:forEach>
+                </div>
             </div>
-        </div>
         
             <div>
                 <a href=""> 
@@ -78,6 +78,8 @@
             </div>
     
         </main>
+        
+        
         <!-- Footer-->
         <footer class="py-5 bg-dark">
             <div class="container">
