@@ -190,8 +190,11 @@ li {
     <script src="../../js/product-sorted.js"></script>
     <script>let totalPages = ${totalPages};</script>
     
-    <!-- Footer-->
-    <%@ include file="../../fragments/footer.jspf"%>
+    <footer class="py-5 bg-dark">
+        <div class="container">
+            <p class="m-0 text-center text-white">Copyright &copy; ohdogcat 2023</p>
+        </div>
+    </footer>
     
 </body>
 </html>
