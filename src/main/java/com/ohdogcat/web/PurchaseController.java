@@ -55,6 +55,23 @@ public class PurchaseController {
         model.addAllAttributes(result);
     }
 
+    @GetMapping("/direct")
+    public String getOrder(HttpSession session, Model model, @RequestParam String ordertype) {
+        log.debug("log.debug");
+        MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+        List<OptionInfoToCreateOrderDto> optionList = (List<OptionInfoToCreateOrderDto>) session.getAttribute(
+            OPTION_AND_COUNT_IN_SESSION);
+        log.debug("optionList={}", optionList);
+        session.removeAttribute(OPTION_AND_COUNT_IN_SESSION);
+
+        Map<String, Object> result = purchaseService.getOrderFromDetail(signedMember.getMember_pk(),
+            optionList);
+        result.put("orderType", ordertype);
+
+        model.addAllAttributes(result);
+        return "/order/checkout";
+    }
+
     @ResponseBody
     @PostMapping("/checkout")
     public ResponseEntity<String> getOrderFromDetail(HttpSession session, Model model, @RequestBody
@@ -65,18 +82,6 @@ public class PurchaseController {
         return ResponseEntity.ok("../order/direct?ordertype=d");
     }
 
-    @GetMapping("/direct")
-    public String getOrder(HttpSession session, Model model, @RequestParam String ordertype) {
-        MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-        List<OptionInfoToCreateOrderDto> optionList = (List<OptionInfoToCreateOrderDto>) session.getAttribute(OPTION_AND_COUNT_IN_SESSION);
-        session.removeAttribute(OPTION_AND_COUNT_IN_SESSION);
-
-        Map<String, Object> result = purchaseService.getOrderFromDetail(signedMember.getMember_pk(), optionList);
-        result.put("orderType", ordertype);
-        model.addAllAttributes(result);
-
-        return "/order/checkout";
-    }
 
     @ResponseBody
     @PostMapping("/")
@@ -87,10 +92,11 @@ public class PurchaseController {
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
         log.debug("infoToOrder={}", infoToOrder);
         infoToOrder.setMemberFk(signedMember.getMember_pk());
+        log.debug("infoToOrder22222={}", infoToOrder);
 
-        purchaseService.createOrderThroughCart(infoToOrder);
+        Long purchasePk = purchaseService.createOrderThroughCart(infoToOrder);
         log.debug("구매 완료");
 
-        return ResponseEntity.ok("../");
+        return ResponseEntity.ok("./" + purchasePk);
     }
 }

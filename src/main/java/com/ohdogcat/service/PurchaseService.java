@@ -100,6 +100,7 @@ public class PurchaseService {
         for (OptionInfoToCreateOrderDto dto : optionList) {
             OptionOrderDto product = productDao.selectProductInfoForOrderFromDetail(
                 dto.getOption_fk());
+            product.setOption_fk(dto.getOption_fk());
             product.setCount(dto.getCount());
             products.add(product);
         }
@@ -142,7 +143,8 @@ public class PurchaseService {
                 cartDao.deleteCartItemByOptionAndMember(purchaseProduct);
             });
         } else if (infoToOrder.getOrderType().equals("d")) {
-            createOrderCommonFlow(infoToOrder);
+            PurchaseProductDto purchaseProductDto = createOrderCommonFlow(infoToOrder);
+            purchasePk = purchaseProductDto.getPurchasePk();
         }
 
         return purchasePk;

@@ -32,6 +32,9 @@ document.addEventListener('DOMContentLoaded', () => {
 	// 바로구매
 	btnBuyNow.addEventListener("click", buyNow);
 
+
+
+
  	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
  	
 	// 바로구매
@@ -243,6 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		let currentTotal = parseInt(totalPrice.innerText.replace(/[^\d.-]/g, '')) || 0;
 		currentTotal += price;
 		totalPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
-	}	
+	}
 
 }); // end document.addEventListener
