@@ -9,6 +9,7 @@
 	<!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
 	<typeAliases>
 		<typeAlias type="com.ohdogcat.model.Product" alias="Product" />
+		<typeAlias type="com.ohdogcat.model.WishList" alias="WishList" />
 		<typeAlias type="com.ohdogcat.model.ProductOption" alias="ProductOption" />
 		<typeAlias type="com.ohdogcat.model.Cart" alias="Cart" />
 		<typeAlias type="com.ohdogcat.dto.cart.CartListDto" alias="CartListDto" />

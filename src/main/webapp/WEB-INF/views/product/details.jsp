@@ -12,6 +12,19 @@
 	rel="stylesheet"
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<style>
+	 #btnWish{
+	 	border:none;
+	 	background: none;
+	 }
+	 .bi-suit-heart-fill{
+	 	color: rgb(255,35,75);
+	 }
+	 .bi-suit-heart{
+	 	color: rgb(222,222,222);
+	 }
+</style>
 </head>
 <body>
 	<!-- Header-->
@@ -32,21 +45,36 @@
 					<div class="card shadow-sm">
 
 						<!-- 멍멍/냐옹 뱃지 -->
-						<h5 class="card-header pt-3"
+						<div class="card-header pt-3 fs-5"
 							style="background: none; border-bottom: none;">
 							<div class="badge bg-warning text-white "
 								style="top: 0.5rem; right: 0.5rem;">
 								<c:if test="${p.petType == 1 }"> 멍멍이 </c:if>
 								<c:if test="${p.petType == 2 }"> 야옹이 </c:if>
 							</div>
-						</h5>
+						</div>
 
 						<!-- 상품 정보 -->
-						<div class="card-body">
+						<div class="card-body pt-0">
 							<input class="d-none" id="productPk" value="${p.productPk}" />
-							<p class="card-title fw-semibold pb-2 fs-3">${p.productName}</p>
-							<p
-								class="card-text border-bottom pb-3 text-danger fw-semibold fs-3">
+							<div class="row">
+								<p class="card-title col-9 fw-semibold pb-2 fs-3">${p.productName}</p>
+								<!-- if문.productFk있는 경우 찜 눌린 상태로 보여야함 
+									찜 상태: bi-suit-heart-fill
+									찜 해제: bi-suit-heart 
+								-->
+					
+								<c:if test ="${wish == 1}">
+									<button class="col text-center bi bi-suit-heart-fill pt-0" id="btnWish"
+									style="font-size: 34px;"></button>
+								</c:if>
+								<c:if test ="${wish == 0}">
+									<button class="col text-center bi bi-suit-heart pt-0" id="btnWish"
+									style="font-size: 34px;"></button>
+								</c:if>
+
+							</div>
+							<p class="card-text border-bottom pb-3 text-danger fw-semibold fs-3">
 								<f:formatNumber value="${p.minPrice}" pattern="#,###" />
 								원
 							</p>
@@ -83,20 +111,29 @@
 							</div>
 
 							<!-- 버튼 선택 -->
-							<div
-								class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
-								<button
-									class="col-md-2 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
-									id="btnZzim" type="button"
-									style="background: none; border-radius: 8px;">찜</button>
+							<!-- 
+							<div class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
+								<div class="col-md-2 btn-lg mb-2 me-md-2 text-center" style="background: none; border-radius: 8px; outline: none; ">
+									<i class="btn bi bi-suit-heart-fill" id="btnZzim" style="font-size: 30px; color: rgb(255, 109, 109); outline: none !important;" ></i>
+								</div>
 								<button
 									class="col-md-3 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
 									id="btnCart" type="button"
 									style="background: none; border-radius: 8px;">장바구니</button>
 								<button
 									class="col-md-6 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
-									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 !important;">바로구매</button>
-									
+									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 ; outline: none; ">바로구매</button>
+							</div>
+							-->
+											
+							<div class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
+								<button
+									class="col-md-4 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
+									id="btnCart" type="button"
+									style="background: none; border-radius: 8px;">장바구니</button>
+								<button
+									class="col-md-8 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
+									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 ; outline: none; ">바로구매</button>
 							</div>
 						</div>
 					</div>

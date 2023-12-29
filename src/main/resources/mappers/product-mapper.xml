@@ -81,6 +81,11 @@
 		select * from product_option where option_pk = #{optionPk}
 	</select>
 	
+	<!-- 찜 여부 확인 (상세페이지용) -->
+	<select id="selectWishByMemberAndProduct" resultType="WishList">
+		select * from wishlist where member_fk = #{member_fk} and product_fk = #{product_fk}
+	</select>
+	
 	
 
 </mapper>

@@ -4,9 +4,11 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
+import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.model.ProductOption;
+import com.ohdogcat.model.WishList;
 import com.ohdogcat.repository.ProductDao;
 
 import lombok.RequiredArgsConstructor;
@@ -58,6 +60,18 @@ public class ProductService {
 		log.debug("readOption()");
 		ProductOption option = productDao.selectOptionByOptionPk(optionPk);
 		return option;
+	}
+
+	public WishList checkWish(long productPk, long memberFk) {
+		log.debug("checkWish(productPk={}, memberFk={})",productPk,memberFk);
+		WishList wishList = WishList.builder()
+				.member_fk(memberFk)
+				.product_fk(productPk)
+				.build();
+		log.debug("wishList={}",wishList);
+		WishList result = productDao.selectWishByMemberAndProduct(wishList);
+		log.debug("result={}",result);
+		return result;
 	}
 	
 	

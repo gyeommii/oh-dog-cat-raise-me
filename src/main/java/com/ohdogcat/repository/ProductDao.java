@@ -5,6 +5,7 @@ import java.util.List;
 import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.model.ProductOption;
+import com.ohdogcat.model.WishList;
 
 public interface ProductDao {
 	// 강아지/고양이 전체 신규 등록 순
@@ -26,5 +27,7 @@ public interface ProductDao {
 	List<ProductOptionListDto> selectOptionByProduckPk(long productPk);
 
 	ProductOption selectOptionByOptionPk(long optionPk);
+
+	WishList selectWishByMemberAndProduct(WishList wishList);
 	
 }

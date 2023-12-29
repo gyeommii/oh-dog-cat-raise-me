@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	// 로그인 모달.
 	const loginModal = new bootstrap.Modal('div#toLoginModal',{backdrop: true}); 
 	
+	// // 찜
+	const btnWish = document.querySelector("button#btnWish");
+	btnWish.addEventListener("click", onWish);
+
 	// 옵션 버튼 클릭 시 실행
 	btnOption.addEventListener("click", getOptionList);
 
@@ -33,9 +37,19 @@ document.addEventListener('DOMContentLoaded', () => {
 	btnBuyNow.addEventListener("click", buyNow);
 
 
-
-
  	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
+
+	// 찜버튼
+	function onWish(){
+		const productFk = document.querySelector("input#productPk").value;
+		console.log("onWish() productFk = ",productFk );
+		btnWish.classList.remove("bi-suit-heart");
+		btnWish.classList.add("bi-suit-heart-fill");
+		// add요청 
+		// axios -fill요청 
+		// wishlist에서 로그인 member의 productFk 있는 경우 찜 선택 상태. 버튼 클릭 시 -> 찜 빼기
+		//  wishlist에서 로그인 member의 productFk 없는 경우 찜 해제 상태. 버튼 클릭 시 -> 찜 추가
+	}
  	
 	// 바로구매
 	async function buyNow(){
@@ -169,7 +183,7 @@ document.addEventListener('DOMContentLoaded', () => {
         optionCard.setAttribute("data-id", option.optionPk);
 
         optionCard.innerHTML = `
-			    <div row class="d-flex justify-content-between align-items-center">
+			    <div row class="d-flex justify-content-between align-items-center" >
 			        <div class="col-8">
 			            <p class="card-text fw-semibold" style="font-size: 1em;">${option.optionName}</p>
 			            <div class="input-group">
