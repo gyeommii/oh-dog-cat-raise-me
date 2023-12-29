@@ -7,7 +7,7 @@
     	<c:url var="mainPage" value="/"/>
         <div class="text-center text-white" 
         	onclick="location.href= '${mainPage}'" style= "cursor: pointer;">
-            <h1 class="display-4 fw-bolder">🐶🐱<br>키워주개냥?</h1>
+            <h1 class="display-4 fw-bolder">🐶🐱<br>키워주개냥</h1>
             <p class="lead fw-normal text-white-50 mb-0">oh dog cat raise me </p>
         </div>
     </div>
