@@ -95,7 +95,7 @@
 									style="background: none; border-radius: 8px;">장바구니</button>
 								<button
 									class="col-md-6 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
-									id="btnBuy" type="button" style="border-radius: 8px; background-color: #ffc107 !important;">바로구매</button>
+									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 !important;">바로구매</button>
 									
 							</div>
 						</div>
@@ -149,15 +149,9 @@
 		
 		
 	</main>
-
+	
 	<!-- Footer-->
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; ohdogcat
-				2023</p>
-		</div>
-	</footer>
-
+	<%@ include file="../fragments/footer.jspf"%>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

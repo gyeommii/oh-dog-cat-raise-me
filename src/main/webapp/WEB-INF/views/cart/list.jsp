@@ -157,10 +157,10 @@ a {
 		<div class="container pb-5 text-center d-none" id="orderArea">
 			<button type="button"
 				class="btn fw-bold btn-outline-warning text-warning btn-lg me-2"
-				style="background: none; width: 180px; height: 52px;">선택주문</button>
+				id="btnSelectedOrders" style="background: none; width: 180px; height: 52px;">선택주문</button>
 			<button type="button"
 				class="btn fw-bold btn-warning text-white btn-lg"
-				style="width: 180px; height: 52px;">전체주문</button>
+				id="btnAllOrders" style="width: 180px; height: 52px;">전체주문</button>
 		</div>
 
 
@@ -209,15 +209,8 @@ a {
 
 	</main>
 
-
-
 	<!-- Footer-->
-	<footer class="py-5 bg-dark">
-		<div class="container">
-			<p class="m-0 text-center text-white">Copyright &copy; ohdogcat
-				2023</p>
-		</div>
-	</footer>
+	<%@ include file="../fragments/footer.jspf"%>
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

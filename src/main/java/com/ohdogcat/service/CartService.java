@@ -81,7 +81,6 @@ public class CartService {
 		for(CartListDto list : cartList) {
 			// 옵션 수량 > 재고 수량이면 재고 수량으로 변경
 			if(list.getCount() > list.getStock()) {
-				log.debug("장바구니 상품 수량이 재고보다 많음. 수량 변경함!");
 				cartDao.updateNewCount(Cart.builder()
 						.member_fk(member)
 						.option_fk(list.getOption_fk())

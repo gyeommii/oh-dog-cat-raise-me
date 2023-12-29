@@ -15,9 +15,10 @@ document.addEventListener("DOMContentLoaded",() => {
 	const amountArea = document.querySelector("div#amountArea");
 	const orderArea = document.querySelector("div#orderArea");
 
-	// 펫타입별 전체선택 체크박스
+	// 체크박스 
 	const allDogCheckBox = document.querySelector("input#allDogItemCheck");
 	const allCatCheckBox = document.querySelector("input#allCatItemCheck");
+	
 
 	// 선택상품 삭제 버튼
 	const btnCheckedDelete = document.querySelector("button#btnCheckedDelete");
@@ -27,6 +28,10 @@ document.addEventListener("DOMContentLoaded",() => {
 	const paymentValue = document.querySelector("span#paymentValue");
 	const totalProductCount = document.querySelector("span#totalProductCount");
 
+	// 주문
+	const btnSelectedOrders = document.querySelector("button#btnSelectedOrders");
+	const btnAllOrders = document.querySelector("button#btnAllOrders");
+
 	// 옵션 변경 
 	const optionChangeModal = new bootstrap.Modal("div#optionChangeModal",{backdrop: true});
 	const btnApplyOption = document.querySelector("a#btnApplyOption");
@@ -35,15 +40,66 @@ document.addEventListener("DOMContentLoaded",() => {
 
 	getAllCartList();
 
-	/// 체크 박스 관련 이벤트 리스너
 	allDogCheckBox.addEventListener("click", () => toggleAllItems(allDogCheckBox, dogItemList));
 	allCatCheckBox.addEventListener("click", () => toggleAllItems(allCatCheckBox, catItemList));
 	btnCheckedDelete.addEventListener("click", deleteCheckedItems);
+	btnSelectedOrders.addEventListener("click", onSelectedOrders);
+	btnAllOrders.addEventListener("click", onAllOrders);
 	
 
 
-	/* -------------------------------------------------- 기능 영역 -------------------------------------------------- */
+	/* -------------------------------------------------- ★ 기능 영역 ★ -------------------------------------------------- */
+	
+	// 선택 주문
+	function onSelectedOrders(){
+		console.log("onSelectedOrders()");
+		const checkboxes = document.querySelectorAll("input#itemChecked");
+		const checkedItems = [];
+		checkboxes.forEach( checkbox => {
+			if (checkbox.checked && checkbox.value.trim() !== "") {
+				checkedItems.push(checkbox.value);
+			}
+		});	
+		if(checkedItems.length === 0){
+			alert("선택된 상품이 없습니다!");
+		}
+		console.log(checkedItems);
+		
+		let uri = "../order/checkout?";
+		checkedItems.forEach( optionfk => {
+			uri += `optionfk=${optionfk}&`				
+		})
+		uri += "ordertype=c";
 
+		location.href = uri;
+	}
+
+	// 전체 주문
+	function onAllOrders(){
+		console.log("onAllOrders()");
+		const checkboxes = document.querySelectorAll("input#itemChecked");
+		const checkedItems = [];
+		checkboxes.forEach( checkbox => {
+			// 품절 상품 제외
+			if (checkbox.value.trim() !== "" && !checkbox.disabled) {
+				checkedItems.push(checkbox.value);
+			}
+		});	
+		if(checkedItems.length === 0){ 
+			alert("장바구니 상품이 없습니다!");
+		}
+		console.log(checkedItems);
+
+		let uri = "../order/checkout?";
+		checkedItems.forEach( optionfk => {
+			uri += `optionfk=${optionfk}&`				
+		})
+		uri += "ordertype=c";
+
+		location.href = uri;
+	}
+
+	// 장바구니 상품 불러오기
 	async function getAllCartList() {
 		console.log("getAllCartList()");
 		try {
@@ -64,6 +120,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		}
     }
 
+	// 상품의 펫타입별로 장바구니 구분  
     function paintCartList(cartList) {
 		console.log("getAllCartList() => paintCartList()")
         console.log("카트 상품 갯수 = ",cartList.length);
@@ -90,6 +147,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		updatePaymentArea();
     }
 
+	// 상품 목록 <li> 그리기
 	function makeCartListElements(cartItem, parentList){
 		console.log("paintCartList()=> makeCartListElements()", parentList);
 		const itemList = document.createElement("li");
@@ -184,7 +242,7 @@ document.addEventListener("DOMContentLoaded",() => {
 
 	}
 
-
+	// 수량 - 버튼
 	async function pushMinusBtn(itemList, item){
 		console.log("makeCartListElements()=>pushMinusBtn()",item);
 		let count = itemList.querySelector("input#count");
@@ -216,6 +274,7 @@ document.addEventListener("DOMContentLoaded",() => {
 
 	}
 
+	// 수량 + 버튼
 	async function pushPlusBtn(itemList, item){
 		console.log("makeCartListElements()=>pushMinusBtn()",item);
 		let count = itemList.querySelector("input#count");
@@ -244,21 +303,12 @@ document.addEventListener("DOMContentLoaded",() => {
 			const response = await axios.put(uri,update);
 			const result = response.data;
 			console.log("result",result);
-			// 아직 쓸모 없는 코드..
-			// switch(result){
-			// 	case "overStock":
-			// 		alert("재고보다 많은 수량을 담으실 수 없습니다!");
-			// 		break;
-			// 	case "overCount":
-			// 		alert("옵션별 최대 10개까지 구매할 수 있습니다!");
-			// 		break;
-			// }
-
 		} catch(error){
 			console.log("장바구니 업데이트 실패",error);
 		}
 	}
 
+	// 단일 상품의 상품금액(+,- 버튼 선택 시 업데이트)
 	function updateTotalItemPrice(itemList, price) {
 		console.log("updateTotalItemPrice()");
 		let totalItemPrice = itemList.querySelector("div#totalItemPrice");
@@ -267,6 +317,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		totalItemPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
 	}
 
+	// 총 선택 된 상품의 금액(수량 증감 및 상품 체크 유무에 따라 변경) 
 	function updatePaymentArea(){
 		console.log("updatePaymentArea()");
 		let currentProductCount = 0; // 총 상품 갯수
@@ -287,6 +338,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		paymentValue.innerText = currentAmountValue.toLocaleString('ko-KR');
 	}
 
+	// 단일 상품 삭제
 	async function deleteCartItem(option_fk){
 		console.log("makeCartListElements()=>deleteCartItem()",option_fk);
 		const uri = `list/delete/${option_fk}`;
@@ -300,6 +352,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		}
 	}
 
+	// 선택된 상품 삭제
 	async function deleteCheckedItems(){
 		console.log("deleteCheckedItems()");
 		const checkboxes = document.querySelectorAll("input#itemChecked");
@@ -314,7 +367,20 @@ document.addEventListener("DOMContentLoaded",() => {
 		});
 	}
 
+	// 펫타입별 전체 선택 
+	function toggleAllItems(checkbox, itemList) {
+		console.log("toggleAllItems()");
+		const list = itemList.querySelectorAll("li");
+		for (let li of list) {
+			//품절 상품은 선택 x
+			if(!li.querySelector("input#itemChecked").disabled)
+			li.querySelector("input#itemChecked").checked = checkbox.checked;
+		}
+		updatePaymentArea()
+	}
+
 	const btnOption = document.querySelector("button#btnOption");
+	// 옵션 변경 버튼 선택 
 	function changeOption(itemList, cartItem){
 		console.log("makeCartListElements()=>changeOption()",cartItem);
 		beforeCount = itemList.querySelector("input#count").value;
@@ -325,6 +391,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		optionChangeModal.show();
 	}
 	
+	// 해당 상품의 옵션 리스트 
 	async function getOptionList(cartItem){
 		console.log("changeOption()=>getOptionList()");
 		const uri = `../product/option/all/${cartItem.product_pk}`;
@@ -332,6 +399,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		makeOptionListElements(response.data);
 	}
 
+	// 상품 옵션 <li> 그리기
 	function makeOptionListElements(data) {
 		console.log("getOptionList()=>makeOptionListElements()");
 		const optionList = document.querySelector("ul#optionList");
@@ -355,6 +423,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		}
 	} 
 
+	// 옵션 선택 시 
 	async function clickOption(e) {
 		console.log("makeOptionListElements()=>clickOption()");
         const optionPk = e.target.getAttribute("data-id");
@@ -374,7 +443,9 @@ document.addEventListener("DOMContentLoaded",() => {
 			changeCartItem(option.optionPk);
 		}
     }
-		async function changeCartItem (afterOptionFk){
+
+	// 옵션 변경 후 적용 버튼 누를 시
+	async function changeCartItem (afterOptionFk){
 		console.log("clickOption()=>changeCartItem()");
 		const cartUpdateData = {
 			beforeOption_fk : beforeOptionFk,
@@ -387,22 +458,13 @@ document.addEventListener("DOMContentLoaded",() => {
 		if(response.data == 0){
 			alert("이미 장바구니에 있는 옵션입니다!");
 		} else{
-			alert("옵션 변경되었습니다!");
+			alert("옵션이 변경되었습니다!");
 		}
 		getAllCartList();
 		location.href = location.href;
 	}
 
-	function toggleAllItems(checkbox, itemList) {
-		console.log("toggleAllItems()");
-		const list = itemList.querySelectorAll("li");
-		for (let li of list) {
-			//품절 상품은 선택 x
-			if(!li.querySelector("input#itemChecked").disabled)
-			li.querySelector("input#itemChecked").checked = checkbox.checked;
-		}
-		updatePaymentArea()
-	}
+
 
 
 

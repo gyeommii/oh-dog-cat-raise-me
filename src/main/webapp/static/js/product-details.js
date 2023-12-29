@@ -13,11 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
 	// 옵션 선택 시 추가 될 영역
 	const optionAddArea = document.querySelector("div#optionAddArea");
 
+	// 바로구매
+	const btnBuyNow = document.querySelector("button#btnBuyNow");
+
 	// 장바구니 버튼
 	const btnCart = document.getElementById("btnCart");
 	// 장바구니 모달
 	const cartModal = new bootstrap.Modal('div#toCartModal',{backdrop: true}); 
-	// 로그인 모달
+	// 로그인 모달.
 	const loginModal = new bootstrap.Modal('div#toLoginModal',{backdrop: true}); 
 	
 	// 옵션 버튼 클릭 시 실행
@@ -26,28 +29,38 @@ document.addEventListener('DOMContentLoaded', () => {
 	// 장바구니 버튼 클릭 시 실행 
 	btnCart.addEventListener("click", addToCart);
 
+	// 바로구매
+	btnBuyNow.addEventListener("click", buyNow);
+
+
 
 
  	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
  	
-	
-	// 장바구니 담기
-	async function addToCart(){	
-		if(optionAddArea.querySelector("div.option-card") == null){
+	// 바로구매
+	async function buyNow(){
+		const cartItems = addedCartItemList();
+		console.log("buyNow()=",cartItems);	
+		if(cartItems.length === 0){
 			alert("상품을 선택해주세요!");
 			return;
 		}
-		let cartItems =[];
-		const addedOptions = optionAddArea.querySelectorAll("div.option-card");
-
-		for(let added of addedOptions){
-			let optionFk = added.getAttribute("data-id");
-			let count = added.querySelector("input#count").value;
-
-			cartItems.push({"option_fk": optionFk, "count": count});
-			
+		try{
+		const {data : uri} = await axios.post("../order/checkout",cartItems);
+		location.href = uri;
+		} catch(error){
+			console.log(error);
 		}
-		console.log(cartItems);
+	}	
+	// 장바구니 담기
+	async function addToCart(){	
+		const cartItems = addedCartItemList();
+		console.log("addToCart()=",cartItems);
+
+		if(cartItems.length === 0){
+			alert("상품을 선택해주세요!");
+			return;
+		}
 			
 		try {
 			const response = await axios.post("../cart/add",cartItems);
@@ -72,11 +85,24 @@ document.addEventListener('DOMContentLoaded', () => {
 			console.log(error);
 		}
 		
-		cartItems = [];	
+	}
 		
-		}
-		
-	
+	// 추가 된 상품 리스트
+	function addedCartItemList(){
+		console.log("addedCartItemList()");
+		let cartItems =[];
+		const addedOptions = optionAddArea.querySelectorAll("div.option-card");
+
+		for(let added of addedOptions){
+			let optionFk = added.getAttribute("data-id");
+			let count = added.querySelector("input#count").value;
+
+			cartItems.push({"option_fk": parseInt(optionFk), "count": parseInt(count)});
+			
+		}		
+		return cartItems;
+	}
+
 	// 상품별 옵션 리스트
 	async function getOptionList() {
 		const productPk = document.querySelector("input#productPk").value;
@@ -141,7 +167,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		const optionCard = document.createElement('div');
         optionCard.classList.add("card", "card-body", "bg-light", "mb-2", "option-card");
         optionCard.setAttribute("data-id", option.optionPk);
-		// optionCard.setAttribute("product-id", option.productFk); 필요 없으면 지우기
 
         optionCard.innerHTML = `
 			    <div row class="d-flex justify-content-between align-items-center">
