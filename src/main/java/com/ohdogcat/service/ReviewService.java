@@ -3,6 +3,7 @@ package com.ohdogcat.service;
 import java.util.List;
 import org.springframework.stereotype.Service;
 import com.ohdogcat.dto.member.review.ReviewDetailDto;
+import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.member.review.ReviewRegisterDto;
 import com.ohdogcat.repository.ReviewDao;
 import lombok.RequiredArgsConstructor;
@@ -26,6 +27,12 @@ public class ReviewService {
     log.debug("insertReview(dto={})", dto);
     
     reviewDao.insertReview(dto.toEntity());
+  }
+
+  public List<ReviewListDto> selectReviewByProductPk(long productPk) {
+    List<ReviewListDto> list = reviewDao.selectReviewByProductPk(productPk);
+    
+    return list;
   }
 
   

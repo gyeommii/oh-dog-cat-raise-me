@@ -33,10 +33,10 @@ public class ReviewController {
     log.debug("memberSessionDto.getMember_pk()={}", memberSessionDto.getMember_pk());
     long member_fk = memberSessionDto.getMember_pk();
 
-//    List<ReviewDetailDto> reviewDetailDto = reviewService.selectReviewDetailViews(member_fk);
-//    log.debug("reviewDetailDto={}", reviewDetailDto);
-//
-//    model.addAttribute("forReviewer", reviewDetailDto);
+    List<ReviewDetailDto> reviewDetailDto = reviewService.selectReviewDetailViews(member_fk);
+    log.debug("reviewDetailDto={}", reviewDetailDto);
+
+    model.addAttribute("forReviewer", reviewDetailDto);
 
     return "review/reviewregister";
   }
