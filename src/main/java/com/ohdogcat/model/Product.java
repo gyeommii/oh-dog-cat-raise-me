@@ -14,6 +14,5 @@ public class Product {
 	private String imgUrl;
 	private Long minPrice;
 	private Long sold;
-	private LocalDateTime createDate;
-	
+	private LocalDateTime createDate;	
 }
