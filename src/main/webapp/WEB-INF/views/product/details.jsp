@@ -59,20 +59,8 @@
 							<input class="d-none" id="productPk" value="${p.productPk}" />
 							<div class="row">
 								<p class="card-title col-9 fw-semibold pb-2 fs-3">${p.productName}</p>
-								<!-- if문.productFk있는 경우 찜 눌린 상태로 보여야함 
-									찜 상태: bi-suit-heart-fill
-									찜 해제: bi-suit-heart 
-								-->
-					
-								<c:if test ="${wish == 1}">
-									<button class="col text-center bi bi-suit-heart-fill pt-0" id="btnWish"
-									style="font-size: 34px;"></button>
-								</c:if>
-								<c:if test ="${wish == 0}">
-									<button class="col text-center bi bi-suit-heart pt-0" id="btnWish"
-									style="font-size: 34px;"></button>
-								</c:if>
-
+								<button class="col text-center bi pt-0 d-none" id="btnWish"
+								style="font-size: 34px;"></button>
 							</div>
 							<p class="card-text border-bottom pb-3 text-danger fw-semibold fs-3">
 								<f:formatNumber value="${p.minPrice}" pattern="#,###" />

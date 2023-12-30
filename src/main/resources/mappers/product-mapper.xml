@@ -86,6 +86,16 @@
 		select * from wishlist where member_fk = #{member_fk} and product_fk = #{product_fk}
 	</select>
 	
+	<!-- 찜 삭제 -->
+	<delete id="deleteWishByMemberAndProduct">
+		delete from wishlist where member_fk = #{member_fk} and product_fk = #{product_fk}
+	</delete>
+	
+	<!-- 찜 추가 -->
+	<insert id="insertWish">
+		insert into wishlist values(#{member_fk}, #{product_fk})
+	</insert>
+	
 	
 
 </mapper>

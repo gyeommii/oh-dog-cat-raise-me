@@ -68,10 +68,26 @@ public class ProductService {
 				.member_fk(memberFk)
 				.product_fk(productPk)
 				.build();
-		log.debug("wishList={}",wishList);
 		WishList result = productDao.selectWishByMemberAndProduct(wishList);
-		log.debug("result={}",result);
 		return result;
+	}
+
+	public boolean deleteWish(long productFk, long memberFk) {
+		log.debug("deleteWish()");
+		WishList wishList = WishList.builder()
+				.member_fk(memberFk)
+				.product_fk(productFk)
+				.build();
+		return productDao.deleteWishByMemberAndProduct(wishList);
+	}
+
+	public boolean addWish(long productFk, long memberFk) {
+		log.debug("addWish()");
+		WishList wishList = WishList.builder()
+				.member_fk(memberFk)
+				.product_fk(productFk)
+				.build();
+		return productDao.insertWish(wishList);
 	}
 	
 	

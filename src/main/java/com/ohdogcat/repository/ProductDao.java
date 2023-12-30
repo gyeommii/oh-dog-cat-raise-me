@@ -29,5 +29,9 @@ public interface ProductDao {
 	ProductOption selectOptionByOptionPk(long optionPk);
 
 	WishList selectWishByMemberAndProduct(WishList wishList);
+
+	boolean deleteWishByMemberAndProduct(WishList wishList);
+
+	boolean insertWish(WishList wishList);
 	
 }
