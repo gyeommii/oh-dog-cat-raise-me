@@ -10,6 +10,7 @@ import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.model.WishList;
 import com.ohdogcat.repository.ProductDao;
+import com.ohdogcat.repository.WishListDao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class ProductService {
 	private final ProductDao productDao;
+	private final WishListDao wishListDao;
 	
 	public List<ProductPetTypeDto> readDogOrderByNew(){
 		log.debug("readDogOrderByNew()");
@@ -68,7 +70,7 @@ public class ProductService {
 				.member_fk(memberFk)
 				.product_fk(productPk)
 				.build();
-		WishList result = productDao.selectWishByMemberAndProduct(wishList);
+		WishList result = wishListDao.selectWishByMemberAndProduct(wishList);
 		return result;
 	}
 
@@ -78,7 +80,7 @@ public class ProductService {
 				.member_fk(memberFk)
 				.product_fk(productFk)
 				.build();
-		return productDao.deleteWishByMemberAndProduct(wishList);
+		return wishListDao.deleteWishByMemberAndProduct(wishList);
 	}
 
 	public boolean addWish(long productFk, long memberFk) {
@@ -87,7 +89,7 @@ public class ProductService {
 				.member_fk(memberFk)
 				.product_fk(productFk)
 				.build();
-		return productDao.insertWish(wishList);
+		return wishListDao.insertWish(wishList);
 	}
 	
 	

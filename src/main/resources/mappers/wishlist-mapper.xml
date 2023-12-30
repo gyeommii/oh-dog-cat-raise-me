@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ohdogcat.repository.WishListDao">
+
+	<!-- 찜 여부 확인 (상세페이지) -->
+	<select id="selectWishByMemberAndProduct" resultType="WishList">
+		select * from wishlist where member_fk = #{member_fk} and product_fk = #{product_fk}
+	</select>
+	
+	<!-- 찜 삭제 -->
+	<delete id="deleteWishByMemberAndProduct">
+		delete from wishlist where member_fk = #{member_fk} and product_fk = #{product_fk}
+	</delete>
+	
+	<!-- 찜 추가 -->
+	<insert id="insertWish">
+		insert into wishlist values(#{member_fk}, #{product_fk})
+	</insert>
+	
+	<!-- 찜 목록 확인(마이페이지) -->
+	<select id="selectWishListByMember" resultType="WishListDto">
+		select w.member_fk, w.product_fk, p.product_name, p.img_url, p.min_price
+		from wishlist w join product p
+		on w.product_fk = p.product_pk
+		where member_fk = #{member_fk}
+		order by p.create_date desc
+	</select>
+
+</mapper>

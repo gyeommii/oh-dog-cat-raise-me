@@ -97,23 +97,6 @@
 								</span>
 								</span>
 							</div>
-
-							<!-- 버튼 선택 -->
-							<!-- 
-							<div class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
-								<div class="col-md-2 btn-lg mb-2 me-md-2 text-center" style="background: none; border-radius: 8px; outline: none; ">
-									<i class="btn bi bi-suit-heart-fill" id="btnZzim" style="font-size: 30px; color: rgb(255, 109, 109); outline: none !important;" ></i>
-								</div>
-								<button
-									class="col-md-3 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
-									id="btnCart" type="button"
-									style="background: none; border-radius: 8px;">장바구니</button>
-								<button
-									class="col-md-6 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
-									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 ; outline: none; ">바로구매</button>
-							</div>
-							-->
-											
 							<div class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
 								<button
 									class="col-md-4 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"

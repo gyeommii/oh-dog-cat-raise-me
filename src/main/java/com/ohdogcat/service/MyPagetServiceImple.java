@@ -3,12 +3,18 @@ package com.ohdogcat.service;
 import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
+import com.ohdogcat.dto.wishlist.WishListDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
+import com.ohdogcat.repository.WishListDao;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -18,6 +24,7 @@ public class MyPagetServiceImple implements MyPageService {
 
     private final MemberDao memberDao;
     private final AddressDao addressDao;
+    private final WishListDao wishListDao;
 
     @Override
     public MemberInfoDto getMemberMyPageInfo(Long memberPk) {
@@ -69,4 +76,11 @@ public class MyPagetServiceImple implements MyPageService {
 
         return result == 1;
     }
+
+    /* 유정 */
+	@Override
+	public List<WishListDto> getWishiList(Long memberPk) {
+		List<WishListDto> wishList = wishListDao.selectWishListByMember(memberPk);
+		return wishList;
+	}
 }

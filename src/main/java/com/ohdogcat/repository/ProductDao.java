@@ -27,11 +27,4 @@ public interface ProductDao {
 	List<ProductOptionListDto> selectOptionByProduckPk(long productPk);
 
 	ProductOption selectOptionByOptionPk(long optionPk);
-
-	WishList selectWishByMemberAndProduct(WishList wishList);
-
-	boolean deleteWishByMemberAndProduct(WishList wishList);
-
-	boolean insertWish(WishList wishList);
-	
 }

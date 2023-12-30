@@ -36,19 +36,10 @@ document.addEventListener('DOMContentLoaded', () => {
 	const productFk = document.querySelector("input#productPk").value;
 	const btnWish = document.querySelector("button#btnWish");
 	btnWish.addEventListener("click", onClickWish);
-
+	checkWishList();
 
  	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
-	 checkWishList();
-
-	// 	// delete요청. wishlist에서 로그인 member의 productFk 있는 경우 찜 선택 상태. 버튼 클릭 시 -> 찜 빼기
-	// 	btnWish.classList.remove("bi-suit-heart-fill");
-	// 	btnWish.classList.add("bi-suit-heart");
-	// 	// post요청. wishlist에서 로그인 member의 productFk 없는 경우 찜 해제 상태. 버튼 클릭 시 -> 찜 추가
-	// 	btnWish.classList.remove("bi-suit-heart");
-	// 	btnWish.classList.add("bi-suit-heart-fill");
-	// }
-
+	 
 	async function checkWishList(){
 		console.log("checkWishList() productFk =", productFk);
 		try{
