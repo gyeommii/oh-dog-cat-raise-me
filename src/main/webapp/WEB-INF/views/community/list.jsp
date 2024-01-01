@@ -15,6 +15,7 @@
 			  crossorigin="anonymous">
               
     <style>
+    
     .ellipsis {
         white-space: nowrap;
         overflow: hidden;    
@@ -39,6 +40,34 @@
     a:visited {
         color: #a9a9a9; /* 방문한 링크 색상 */
     }
+    
+     .write-button-container {
+        display: flex;
+        justify-content: center; /* 가로 중앙 정렬 */
+        
+        margin: 0 auto; /* 컨테이너 중앙 정렬 */
+    }
+    
+    .card {
+        max-width: 500px; /* 카드의 최대 가로 길이 설정 */
+        margin: 0 auto; /* 카드를 중앙에 정렬 */
+    }
+    
+    .card-title {
+        white-space: nowrap; /* 텍스트를 한 줄로 설정 */
+        overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
+        text-overflow: ellipsis; /* 넘친 텍스트를 말줄임표로 표시 */
+        max-width: 100%; /* 최대 너비 설정 */
+    }
+    
+    .category-label {
+        font-weight: bold;
+        color: #FF9B00; /* 예시 색상 */
+        padding: 2px 6px; /* 텍스트 주변 여백 */
+        margin-right: 5px; /* 오른쪽 마진 */
+    }
+    
+    
         
     
     </style>
@@ -48,50 +77,75 @@
         <!-- header -->
         <%@ include file="../fragments/header.jspf"%>
         <main>
-        
-        
-            <div>
-                <div class="container mt-4">
+            <div class="container mt-4">
+                <div>
+                    <!-- 카테고리, 새 글쓰기, 정렬 버튼 -->
+                    <div class="write-button-container">
+                        <div class="" >
+                            <label for="post_category_fk" class="form-label"></label> 
+                            <select class="form-select " id="category" name="post_category_fk">
+                                <option selected>게시판 선택</option>
+                                <option value="1">내새꾸 자랑</option>
+                                <option value="2">[입양]키워주개</option>
+                                <option value="3">[입양]키워주냥</option>
+                                <option value="4">[실종/제보]길잃은멍</option>
+                                <option value="5">[실종/제보]길잃은냥</option>
+                            </select>
+                            <!-- 정렬 버튼 -->
+                            <div class="btn-group" role="group" aria-label="Basic example">
+                                <button type="button" id="newest" class="btn">최신글</button>
+                                <button type="button" id="oldest" class="btn">오래된글</button>
+                            </div>
+                            <a href="../community/createPost"> 
+                                <button class="btn btn-warning" style="font-size: 17px;">글쓰기</button>
+                            </a>
+                        </div>
+                        
+                    </div>
+                </div>
+
+                <!-- 글 목록 -->
+                <div class="mt-4">
                     <c:forEach items="${posts}" var="post">
-                        <c:url var="postDetailsPage" value="/post/details">
-                            <c:param name="id" value="${post.post_pk}" />
+                        <c:url var="postDetailsPage" value="/community/details">
+                            <c:param name="post_pk" value="${post.post_pk}" />
                         </c:url>
                         <div class="card mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">
-                                    <a href="${postDetailsPage}">${post.title}</a>
+                                <h5 class="card-title ellipsis">
+                                    <a href="${postDetailsPage}">
+                                        <span class="category-label">
+                                            <c:choose>
+                                                <c:when test="${post.post_category_fk == 1}">내새꾸 자랑</c:when>
+                                                <c:when test="${post.post_category_fk == 2}">[입양]키워주개</c:when>
+                                                <c:when test="${post.post_category_fk == 3}">[입양]키워주냥</c:when>
+                                                <c:when test="${post.post_category_fk == 4}">[실종/제보]길잃은멍</c:when>
+                                                <c:when test="${post.post_category_fk == 5}">[실종/제보]길잃은냥</c:when>
+                                            </c:choose>
+                                        </span>
+                                        ${post.title}
+                                    </a>
                                 </h5>
-                                <p class="card-text">${post.author}</p>
-                                <p class="card-text">
+                                <p class="card-text" >${post.member_fk}</p>
+                                <p class="card-text" style="text-align: right;">
                                     <small class="text-muted">${post.modified_time}</small>
                                 </p>
                             </div>
                         </div>
-                    </c:forEach>
+                </c:forEach>
+
                 </div>
             </div>
-        
-            <div>
-                <a href=""> 
-                    <input type="button" value="글쓰기" class="btn btn-xs pull-right" style="font-size: 17px;">
-                </a>
-            </div>
-    
-        </main>
-        
-        
-        <!-- Footer-->
-        <footer class="py-5 bg-dark">
-            <div class="container">
-                <p class="m-0 text-center text-white">Copyright &copy; ohdogcat
-                    2023</p>
-            </div>
-        </footer>
 
-
-
+    </main>
+        
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
 				integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
 				crossorigin="anonymous"></script>
+                
+               
+    <!-- Footer-->
+    <%@ include file="../fragments/footer.jspf"%>
+    
 	</body>
 </html>
