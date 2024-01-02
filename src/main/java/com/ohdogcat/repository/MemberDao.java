@@ -1,10 +1,12 @@
 package com.ohdogcat.repository;
 
+import com.ohdogcat.dto.purchase.MemberPointDto;
 import com.ohdogcat.model.Member;
+import com.ohdogcat.model.Membership;
 
 public interface MemberDao {
 
-    Integer checkMemberIdUnique(String memberId);
+    Integer checkMemberIdUnique(String member_id);
 
     Integer checkEmailUnique(String email);
 
@@ -16,11 +18,20 @@ public interface MemberDao {
 
     Integer updatePassword(Member member);
 
-    Member getMemberMyPageInfo(Long memberPk);
+    Member getMemberMyPageInfo(Long member_pk);
+//    메셔드명 변경하기
 
     Integer updateUserInfo(Member member);
 
     String getMemberPhone(Member member);
 
     Long updateUserDefaultAddress(Member member);
+
+    Member getUserInfoAtOrder(Long member_pk);
+
+    Membership getUserMembership (Member member);
+
+    Long spendPoint (MemberPointDto memberPointDto);
+
+    Long accumulatePoint(MemberPointDto memberPointDto);
 }

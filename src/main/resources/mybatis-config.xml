@@ -6,20 +6,33 @@
 <!-- MyBatis3 프레임워크 설정 -->
 <configuration>
 
-	   <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
-	<typeAliases>
-        <typeAlias type="com.ohdogcat.model.Post" alias="Post"/>
-		<typeAlias type="com.ohdogcat.model.Product" alias="Product" />
-		<typeAlias type="com.ohdogcat.model.ProductOption" alias="ProductOption" />
-        <typeAlias type="com.ohdogcat.dto.product.ProductListDto" alias="ProductListDto"/>
-		<typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto" alias="ProductPetTypeDto"/>
-		<typeAlias type="com.ohdogcat.dto.product.ProductOptionListDto" alias="ProductOptionListDto" />
-		<typeAlias type="com.ohdogcat.model.Cart" alias="Cart" />
-		<typeAlias type="com.ohdogcat.dto.cart.CartListDto" alias="CartListDto" />
-        <typeAlias type="com.ohdogcat.model.Pet" alias="Pet" />
-		<typeAlias type="com.ohdogcat.model.Member" alias="Member" />
-		<typeAlias type="com.ohdogcat.model.Address" alias="Address" />
-        <typeAlias type="com.ohdogcat.model.Comment" alias="Comment"/>
-	</typeAliases>
-
+  <!-- mapper 파일의 resultType 속성 값으로 사용하기 위한 별명들 -->
+  <typeAliases>
+    <typeAlias type="com.ohdogcat.model.Product" alias="Product"/>
+    <typeAlias type="com.ohdogcat.model.ProductOption" alias="ProductOption"/>
+    <typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto" alias="ProductPetTypeDto"/>
+    <typeAlias type="com.ohdogcat.dto.product.ProductOptionListDto" alias="ProductOptionListDto"/>
+    <typeAlias type="com.ohdogcat.model.Member" alias="Member"/>
+    <typeAlias type="com.ohdogcat.model.Address" alias="Address"/>
+    <typeAlias type="com.ohdogcat.model.Membership" alias="Membership"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.OrderParameterDto" alias="OrderParameterDto"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.OptionOrderDto" alias="OptionOrderDto"/>
+    <typeAlias type="com.ohdogcat.model.Pet" alias="Pet"/>
+    <typeAlias type="com.ohdogcat.model.Purchase" alias="Purchase"/>
+    <typeAlias type="com.ohdogcat.model.PurchaseProduct" alias="PurchaseProduct"/>
+    <typeAlias type="com.ohdogcat.model.Payment" alias="Payment"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.MemberPointDto" alias="MemberPointDto"/>
+    <typeAlias type="com.ohdogcat.model.Cart" alias="Cart"/>
+    <typeAlias type="com.ohdogcat.dto.cart.CartListDto" alias="CartListDto"/>
+    <typeAlias type="com.ohdogcat.model.PurchaseStatus" alias="PurchaseStatus"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.PurchaseListDto" alias="PurchaseListDto"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.PurchaseInfoDto" alias="PurchaseCancelInfoDto"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.PurchaseStatusChangeDto"
+      alias="PurchaseStatusChangeDto"/>
+    <typeAlias type="com.ohdogcat.dto.purchase.PurchaseListPagenationDto"
+      alias="PurchaseListPagenationDto"/>
+    <typeAlias type="com.ohdogcat.dto.product.ProductListDto" alias="ProductListDto"/>
+    <typeAlias type="com.ohdogcat.model.Comment" alias="Comment"/>
+    <typeAlias type="com.ohdogcat.model.Post" alias="Post"/>
+  </typeAliases>
 </configuration>

@@ -1,234 +1,285 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
-    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!--  PRODUCT 테이블에서 CRUD에 필요한 SQL 문장들을 선언 -->
-<mapper namespace="com.ohdogcat.repository.ProductDao"> <!-- 같은 id로 만들어도(예를들어 insert로 하면 post의 insert인지 user의 insert인지,,) namespace가 다르면  -->
-    
-    <!-- PRODUCT테이블 전체, 작성날짜 내림차순 정렬 -->
-    <select id="selectByCreatedDesc" resultType="ProductPetTypeDto"> <!-- select는 resultType 필수! -->
-        select * from PRODUCT order by CREATE_DATE desc
-    </select>
-    
-    <!-- PRODUCT테이블 전체, 베스트셀러(판매수 정렬) -->
-    <select id="selectByBestSellerDesc" resultType="ProductPetTypeDto">
-        select * from PRODUCT order by SOLD desc
-    </select>
-    
-    <!-- PRODUCT테이블 전체, 정렬옵션(가격낮은순) -->
-    <select id="selectByLowestPrice" resultType="ProductPetTypeDto">
-        select * from PRODUCT order by MIN_PRICE 
-    </select>
-    
-    <!-- PRODUCT테이블 전체, 정렬옵션(가격높은순) -->
-    <select id="selectByHighestPrice" resultType="ProductPetTypeDto">
-        select * from PRODUCT order by MIN_PRICE desc
-    </select>
-    
-    <!-- **** 강아지/고양이 정렬 상품리스트 **** -->
-    <!-- 강아지타입 최저가 상위 20개 -->
-    <select id="selectDogTypeOrderByLowestPrice20" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by min_price 
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 강아지타입 최고가 상위 20개 -->
-    <select id="selectDogTypeOrderByHighestPrice20" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by min_price desc
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 고양이 타입 최저가 상위 20개 -->
-    <select id="selectCatTypeOrderByLowestPrice20" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by min_price 
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    <!-- 고양이 타입 최고가 상위 20개 -->
-    <select id="selectCatTypeOrderByHighestPrice20" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by min_price desc
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    
-    <!-- ****** 전체목록(/product/list) 전체상품 불러올 때 사용 ****** -->
-    <!-- 강아지 타입 전체상품 -->
-    <select id="selectDogTypeAllProduct" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by create_date desc
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 강아지 타입 신상품 상위 20개 -->
-    <select id="selectDogTypeOrderByCreateDescNewest20" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by create_date desc
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 강아지 타입 베스트 상위 20개 -->
-    <select id="selectDogTypeOrderByCreateDescBestSeller20" resultType="ProductPetTypeDto">
-       select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by sold desc
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    
-    <!-- 고양이 타입 전체상품 -->
-    <select id="selectCatTypeAllProduct" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by create_date desc
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 고양이 타입 신상품 상위 20개 -->
-    <select id="selectCatTypeOrderByCreateDescNewest20" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by create_date desc
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 고양이 타입 베스트 상위 20개 -->
-    <select id="selectCatTypeOrderByCreateDescBestSeller20" resultType="ProductPetTypeDto">
-       select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by sold desc
-            fetch first 20 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    
-	<!-- ///////////////// 여기서부터 유정언니 부분 //////////////////////// -->
-	<!--PRODUCT 테이블 전체 검색. 상품 신규 등록 순 정렬용 -->
-	<select id="selectOrderByCreateDesc" resultType="Product">
-		select * from PRODUCT order by CREATE_DATE desc
-	</select>
-	
+<mapper namespace="com.ohdogcat.repository.ProductDao">
 
-	<!-- ****** 메인 리스트 신상품/베스트 상품 불러올 때 사용! ****** -->
-	<!-- 강아지 타입 신규 상품 상위 8개 -->
-	<select id="selectDogTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
-		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-	    from (
-	        select *
-	        from product
-	        where category_fk in (select category_pk from category where pet_type = 1)
-	        order by create_date desc
-	        fetch first 8 rows only
-	    ) p join category c on p.category_fk = c.category_pk
+  <!--  PRODUCT 테이블에서 CRUD에 필요한 SQL 문장들을 선언 -->
 
-    </select>
-    
+  <!-- PRODUCT테이블 전체, 작성날짜 내림차순 정렬 -->
+  <select id="selectByCreatedDesc" resultType="ProductPetTypeDto"> <!-- select는 resultType 필수! -->
+    select * from PRODUCT order by CREATE_DATE desc
+  </select>
 
-    <!-- 강아지 타입 베스트 상품 상위 8개 -->
-    <select id="selectDogTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 1)
-            order by sold desc
-            fetch first 8 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
-    
-    <!-- 고양이 타입 신규 상품 상위 8개 -->
-    <select id="selectCatTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
-        select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-        from (
-            select *
-            from product
-            where category_fk in (select category_pk from category where pet_type = 2)
-            order by create_date desc
-            fetch first 8 rows only
-        ) p join category c on p.category_fk = c.category_pk
-    </select>
+  <!-- PRODUCT테이블 전체, 베스트셀러(판매수 정렬) -->
+  <select id="selectByBestSellerDesc" resultType="ProductPetTypeDto">
+    select * from PRODUCT order by SOLD desc
+  </select>
+
+  <!-- PRODUCT테이블 전체, 정렬옵션(가격낮은순) -->
+  <select id="selectByLowestPrice" resultType="ProductPetTypeDto">
+    select * from PRODUCT order by MIN_PRICE
+  </select>
+
+  <!-- PRODUCT테이블 전체, 정렬옵션(가격높은순) -->
+  <select id="selectByHighestPrice" resultType="ProductPetTypeDto">
+    select * from PRODUCT order by MIN_PRICE desc
+  </select>
+
+  <!-- **** 강아지/고양이 정렬 상품리스트 **** -->
+  <!-- 강아지타입 최저가 상위 20개 -->
+  <select id="selectDogTypeOrderByLowestPrice20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by min_price
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 강아지타입 최고가 상위 20개 -->
+  <select id="selectDogTypeOrderByHighestPrice20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by min_price desc
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 고양이 타입 최저가 상위 20개 -->
+  <select id="selectCatTypeOrderByLowestPrice20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by min_price
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+  <!-- 고양이 타입 최고가 상위 20개 -->
+  <select id="selectCatTypeOrderByHighestPrice20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by min_price desc
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
 
 
-	<!-- 고양이 타입 베스트 상품 상위 8개-->
-	<select id="selectCatTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
-		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-	    from (
-	        select *
-	        from product
-	        where category_fk in (select category_pk from category where pet_type = 2)
-	        order by sold desc
-	        fetch first 8 rows only
-	    ) p join category c on p.category_fk = c.category_pk
-	</select>
-	
-	<!-- 상품 정보 (petType 포함) -->
-	<select id="selectByProductPk" resultType="ProductPetTypeDto">
-		select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold, p.create_date, c.pet_type
-		from category c join product p 
-		on c.category_pk = p.category_fk
-		where p.product_pk = #{productPk}
-	</select>
-	
-	<!-- 상품Pk 별 옵션 목록 -->
-	<select id="selectOptionByProduckPk" resultType="ProductOptionListDto">
-		select o.option_pk, o.option_name, o.stock, o.price
-		from product p join product_option o
-		on p.product_pk = o.product_fk
-		where p.product_pk = #{productPk}
-	</select>
-	
-	<!-- 옵션PK 별 정보 -->
-	<select id="selectOptionByOptionPk" resultType="ProductOption">
-		select * from product_option where option_pk = #{optionPk}
-	</select>
-	
-	
+  <!-- ****** 전체목록(/product/list) 전체상품 불러올 때 사용 ****** -->
+  <!-- 강아지 타입 전체상품 -->
+  <select id="selectDogTypeAllProduct" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by create_date desc
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
 
+  <!-- 강아지 타입 신상품 상위 20개 -->
+  <select id="selectDogTypeOrderByCreateDescNewest20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by create_date desc
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 강아지 타입 베스트 상위 20개 -->
+  <select id="selectDogTypeOrderByCreateDescBestSeller20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by sold desc
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+
+  <!-- 고양이 타입 전체상품 -->
+  <select id="selectCatTypeAllProduct" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by create_date desc
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 고양이 타입 신상품 상위 20개 -->
+  <select id="selectCatTypeOrderByCreateDescNewest20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by create_date desc
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 고양이 타입 베스트 상위 20개 -->
+  <select id="selectCatTypeOrderByCreateDescBestSeller20" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by sold desc
+    fetch first 20 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+
+  <!-- ///////////////// 여기서부터 유정언니 부분 //////////////////////// -->
+  <!--PRODUCT 테이블 전체 검색. 상품 신규 등록 순 정렬용 -->
+  <select id="selectOrderByCreateDesc" resultType="Product">
+    select * from PRODUCT order by CREATE_DATE desc
+  </select>
+
+
+  <!-- ****** 메인 리스트 신상품/베스트 상품 불러올 때 사용! ****** -->
+  <!-- 강아지 타입 신규 상품 상위 8개 -->
+  <select id="selectDogTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by create_date desc
+    fetch first 8 rows only
+    ) p join category c on p.category_fk = c.category_pk
+
+  </select>
+
+
+  <!-- 강아지 타입 베스트 상품 상위 8개 -->
+  <select id="selectDogTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 1)
+    order by sold desc
+    fetch first 8 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 고양이 타입 신규 상품 상위 8개 -->
+  <select id="selectCatTypeOrderByCreateDesc" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by create_date desc
+    fetch first 8 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 고양이 타입 베스트 상품 상위 8개-->
+  <select id="selectCatTypeOrderBySoldDesc" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from (
+    select *
+    from product
+    where category_fk in (select category_pk from category where pet_type = 2)
+    order by sold desc
+    fetch first 8 rows only
+    ) p join category c on p.category_fk = c.category_pk
+  </select>
+
+  <!-- 상품 정보 (petType 포함) -->
+  <select id="selectByProductPk" resultType="ProductPetTypeDto">
+    select p.product_pk, p.product_name, p.category_fk, p.img_url, p.min_price, p.sold,
+    p.create_date, c.pet_type
+    from category c join product p
+    on c.category_pk = p.category_fk
+    where p.product_pk = #{productPk}
+  </select>
+
+  <!-- 상품Pk 별 옵션 목록 -->
+  <select id="selectOptionByProduckPk" resultType="ProductOptionListDto">
+    select o.option_pk, o.option_name, o.stock, o.price
+    from product p join product_option o
+    on p.product_pk = o.product_fk
+    where p.product_pk = #{productPk}
+  </select>
+
+  <!-- 옵션PK 별 정보 -->
+  <select id="selectOptionByOptionPk" resultType="ProductOption">
+    select * from product_option where option_pk = #{optionPk}
+  </select>
+
+  <!-- 구매 페이지에서 사용할 상품 정보	-->
+  <select id="selectProductInfoForOrderFromCart" parameterType="OrderParameterDto"
+    resultType="OptionOrderDto">
+    select
+    option_fk, product_fk, product_name, option_name, img_url, price, stock, count
+    from cart
+    left join product_option on option_pk = option_fk
+    left join product on product_pk = product_fk
+    where cart.member_fk = #{member_fk}
+    <if test="optionList.size != 0">
+      and option_fk in
+      <foreach collection="optionList" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </if>
+  </select>
+
+  <!-- 구매 페이지(바로 구매)에서 사용할 상품 정보 -->
+  <select id="selectProductInfoForOrderFromDetail" parameterType="Long"
+    resultType="OptionOrderDto">
+    select
+    option_pk, product_fk, product_name, option_name, img_url, price, stock
+    from product_option
+    left join product on product_pk = product_fk
+    where option_pk = #{option_fk}
+  </select>
+
+  <!--구매 시 옵션 재고 변경-->
+  <update id="updateOptionStock" parameterType="PurchaseProduct">
+    update product_option
+    set stock = stock - #{count}
+    where option_pk = #{option_fk}
+  </update>
+
+  <update id="restoreOptionStock" parameterType="PurchaseProduct">
+    update product_option
+    set stock = stock + #{count}
+    where option_pk = #{option_fk}
+  </update>
 </mapper>

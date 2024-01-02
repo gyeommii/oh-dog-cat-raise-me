@@ -19,7 +19,7 @@ public class Member {
     private String phone;
     private String kakao_client_id;
     private Integer point;
-    private Integer membership_grade;
+    private Integer membership_fk;
     private Long address_fk;
     private LocalDateTime create_date;
     private LocalDateTime last_login;

@@ -1,5 +1,6 @@
 package com.ohdogcat.repository;
 
+import com.ohdogcat.model.PurchaseProduct;
 import java.util.List;
 
 import com.ohdogcat.dto.cart.CartListDto;
@@ -19,6 +20,8 @@ public interface CartDao {
 	List<CartListDto> selectCartListByMember(Long member);
 
 	int deleteCartItemByOptionAndMember(Cart cartItem);
+	int deleteCartItemByOptionAndMember(PurchaseProduct purchaseProduct);
+
 
 	int updateNewCount(Cart cartItem);
 	
