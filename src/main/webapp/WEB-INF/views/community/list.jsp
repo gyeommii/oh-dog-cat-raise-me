@@ -47,6 +47,12 @@
         
         margin: 0 auto; /* 컨테이너 중앙 정렬 */
     }
+     .search-container {
+        display: flex;
+        justify-content: center; /* 가로 중앙 정렬 */
+        
+        margin: 0 auto; /* 컨테이너 중앙 정렬 */
+    }
     
     .card {
         max-width: 500px; /* 카드의 최대 가로 길이 설정 */
@@ -79,26 +85,56 @@
         <main>
             <div class="container mt-4">
                 <div>
+                    <div class="search-container">
+                        <c:url var="postSearchPage" value="/community/search" />
+                        <form action="${postSearchPage}" method="get">
+                            <div class="row">
+                                <div class="col-3">
+                                    <select class="form-control" name="searchCategory">
+                                        <option value="t">제목</option>
+                                        <option value="c">내용</option>
+                                        <option value="tc">제목+내용</option>
+                                        <option value="a">작성자</option>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                    <input class="form-control" type="text" 
+                                        name="keyword" placeholder="검색어" required autofocus />
+                                </div>
+                                <div class="col-3">
+                                    <input class="form-control btn btn-secondary" 
+                                        type="submit" value="검색" />
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    
                     <!-- 카테고리, 새 글쓰기, 정렬 버튼 -->
                     <div class="write-button-container">
-                        <div class="" >
-                            <label for="post_category_fk" class="form-label"></label> 
-                            <select class="form-select " id="category" name="post_category_fk">
-                                <option selected>게시판 선택</option>
-                                <option value="1">내새꾸 자랑</option>
-                                <option value="2">[입양]키워주개</option>
-                                <option value="3">[입양]키워주냥</option>
-                                <option value="4">[실종/제보]길잃은멍</option>
-                                <option value="5">[실종/제보]길잃은냥</option>
-                            </select>
-                            <!-- 정렬 버튼 -->
-                            <div class="btn-group" role="group" aria-label="Basic example">
-                                <button type="button" id="newest" class="btn">최신글</button>
-                                <button type="button" id="oldest" class="btn">오래된글</button>
+                        <div class="row" >
+                            <div class="col-4">
+                                <label for="post_category_fk" class="form-label"></label> 
+                                <select class="form-select" id="categoryFilter" onchange="filterByCategory()">
+                                    <option value="all">전체</option>
+                                    <option value="1">내새꾸 자랑</option>
+                                    <option value="2">[입양]키워주개</option>
+                                    <option value="3">[입양]키워주냥</option>
+                                    <option value="4">[실종/제보]길잃은멍</option>
+                                    <option value="5">[실종/제보]길잃은냥</option>
+                                </select>
                             </div>
-                            <a href="../community/createPost"> 
-                                <button class="btn btn-warning" style="font-size: 17px;">글쓰기</button>
-                            </a>
+                            <!-- 정렬 버튼 -->
+                            <div class="btn-group col-5" role="group" aria-label="Basic example">
+                                <button onclick="sortPosts('desc')" class="btn">최신글</button>
+                                <button onclick="sortPosts('asc')" class="btn">오래된글</button>
+                            </div>
+
+
+                            <div class="col-3">
+                                <a href="../community/createPost"> 
+                                    <button class="btn btn-warning" style="font-size: 17px;">글쓰기</button>
+                                </a>
+                            </div>
                         </div>
                         
                     </div>
@@ -143,6 +179,32 @@
 				integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 
 				crossorigin="anonymous"></script>
                 
+    <script>
+        function filterByCategory() {
+            var selectedCategory = document.getElementById('categoryFilter').value;
+            window.location.href = '/ohdogcat/community/list?category=' + selectedCategory;
+        }
+        
+        function getQueryParams() {
+            var queryParams = {};
+            var queryStrings = window.location.search.substring(1).split('&');
+            for (var i = 0; i < queryStrings.length; i++) {
+                var pair = queryStrings[i].split('=');
+                if (pair.length == 2) {
+                    queryParams[decodeURIComponent(pair[0])] = decodeURIComponent(pair[1]);
+                }
+            }
+            return queryParams;
+        }
+
+        function sortPosts(order) {
+            var queryParams = getQueryParams();
+            queryParams['sort'] = order;
+            var newQuery = Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
+            window.location.href = '/ohdogcat/community/list?' + newQuery;
+        }
+    </script>
+
                
     <!-- Footer-->
     <%@ include file="../fragments/footer.jspf"%>
