@@ -60,7 +60,7 @@
 
   <select id="getMemberMyPageInfo" parameterType="Long" resultType="Member">
     select
-    member_id, email, kakao_client_id, phone, address_fk, created_date
+    member_id, email, phone, address_fk, created_date
     from member
     where member_pk = #{member_pk}
   </select>
@@ -89,4 +89,41 @@
     set address_fk = #{address_fk}
     where member_pk = #{member_pk}
   </update>
+
+  <select id="getUserInfoAtOrder" parameterType="Long" resultType="Member">
+    select
+      member_pk, member_id, email, phone, address_fk, point, created_date, membership_fk
+    from member
+    left join membership on membership_fk = membership_pk
+    where member_pk = #{member_pk}
+  </select>
+
+  <select id="getUserMembership" parameterType="Member" resultType="Membership">
+      select 
+        *
+      from membership
+    <choose>
+      <when test="membership_fk != null">
+        where membership_pk = #{membership_fk}
+      </when>
+      <otherwise>
+        join member
+        on membership_pk = membership_fk and member_pk = #{member_pk}
+      </otherwise>
+    </choose>
+  </select>
+
+  <update id="spendPoint" parameterType="Payment">
+    update member
+    set point = point - #{used_point}
+    where member_pk = #{member_pk}
+  </update>
+
+  <update id="accumulatePoint" parameterType="MemberPointDto">
+    update member
+    set point = point + #{accumulated_point}
+    where member_pk = #{member_pk}
+  </update>
+
+<!--pay_success => 3은 주문 취소시 환불 상태-->
 </mapper>

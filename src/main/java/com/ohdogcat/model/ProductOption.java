@@ -11,5 +11,4 @@ public class ProductOption {
 	private Long productFk;
 	private Long stock;
 	private Long price;
-
 }
