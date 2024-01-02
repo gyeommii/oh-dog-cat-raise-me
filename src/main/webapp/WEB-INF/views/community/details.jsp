@@ -42,12 +42,12 @@
                     <div class="my-2">
                         <label class="form-label" for="createdTime">작성시간</label>
                         <input class="form-control" id="createdTime" 
-                            type="text" value="${post.created_time}" readonly />
+                            type="text" value="${post.formattedCreatedTime}" readonly />
                     </div>
                     <div class="my-2">
                         <label class="form-label" for="modifiedTime">수정시간</label>
                         <input class="form-control" id="modifiedTime" 
-                            type="text" value="${post.modified_time}" readonly />
+                            type="text" value="${post.formattedModifiedTime}" readonly />
                     </div>
                 </form>
                 

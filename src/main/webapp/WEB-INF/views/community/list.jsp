@@ -41,17 +41,17 @@
     }
     
      .write-button-container {
-        display: flex;
+        flex-flow: row nowrap;
         justify-content: center; /* 가로 중앙 정렬 */
-        
+        width: 80%; /* 너비를 80%로 설정 */
+        margin: 0 auto; /* 컨테이너를 중앙에 배치 */
     }
      .search-container {
         flex-flow: row nowrap;
         justify-content: space-around; /* 가로 중앙 정렬 */
-        width: 80%; /* 너비를 50%로 설정 */
+        width: 80%; /* 너비를 80%로 설정 */
         margin: 0 auto; /* 컨테이너를 중앙에 배치 */
     }
-    
     
     .card {
         max-width: 800px; /* 카드의 최대 가로 길이 설정 */
@@ -76,6 +76,27 @@
         margin-left: 170px;  /* 왼쪽 마진 */
         margin-right: 170px; /* 오른쪽 마진 */
     }
+    .btn-custom{
+        color: white; /* 글자색을 흰색으로 설정 */
+        background-color: #FFB914;
+    }
+    
+    .btn-group{
+        justify-content: center;
+    }
+    
+    .btn-custom-width {
+        width: 180px; /* 버튼의 가로 길이를 160px로 설정 */
+    }
+    /* 검색 버튼 클릭 시 스타일 */
+    .btn-custom:hover {
+        background-color: #FFCD28; /* 클릭 시 배경 색상 변경 */
+        color: white; /* 클릭 시 텍스트 색상*/
+    }
+    
+        
+    
+    
    
     
     
@@ -89,7 +110,7 @@
         <%@ include file="../fragments/header.jspf"%>
         <main>
             <div class="container mt-4">
-                <div class="justify-content-center margin-class" style="width:80;" >
+                <div class="margin-class" style="width:80;" >
                     <div>
                         <div class="search-container">
                             <c:url var="postSearchPage" value="/community/search" />
@@ -108,7 +129,7 @@
                                             name="keyword" placeholder="검색어" required autofocus />
                                     </div>
                                     <div class="col-3">
-                                        <button type="button" class="form-control btn btn-secondary" onclick="submitSearch()">검색</button>
+                                        <button type="button" class="form-control btn btn-custom" onclick="submitSearch()">검색</button>
     
                                     </div>
                                 </div>
@@ -119,9 +140,9 @@
                     <!-- 카테고리, 새 글쓰기, 정렬 버튼 -->
                     <div class="write-button-container">
                         <div class="row" >
-                            <div class="col-4">
+                            <div class="col-3">
                                 <c:set var="currentCategory" value="${param.category != null ? param.category : 'all'}" />
-                                <select class="form-select" id="categoryFilter" name="categoryFilter" onchange="filterByCategory()">
+                                <select class="form-control" id="categoryFilter" name="categoryFilter" onchange="filterByCategory()">
                                     <option value="0" ${currentCategory == '0' ? 'selected' : ''}>전체</option>
                                     <option value="1" ${currentCategory == '1' ? 'selected' : ''}>내새꾸 자랑</option>
                                     <option value="2" ${currentCategory == '2' ? 'selected' : ''}>[입양]키워주개</option>
@@ -131,15 +152,18 @@
                                 </select>
                             </div>
                             <!-- 정렬 버튼 -->
-                            <div class="btn-group col-5" role="group" aria-label="Basic example">
+                            <div class="btn-group col-3"  role="group" aria-label="Basic example">
                                 <button onclick="sortPosts('desc')" class="btn">최신글</button>
                                 <button onclick="sortPosts('asc')" class="btn">오래된글</button>
                             </div> 
+                            <div class="col-3">
+                            
+                            </div>
 
 
                             <div class="col-3">
                                 <a href="../community/createPost"> 
-                                    <button class="btn btn-warning" style="font-size: 17px;">글쓰기</button>
+                                    <button class="btn btn-custom btn-custom-width" >글쓰기</button>
                                 </a>
                             </div>
                         </div>
@@ -171,7 +195,7 @@
                                 </h5>
                                 <p class="card-text" >${post.member_fk}</p>
                                 <p class="card-text" style="text-align: right;">
-                                    <small class="text-muted">${post.modified_time}</small>
+                                    <small class="text-muted">${post.formattedModifiedTime}</small>
                                 </p>
                             </div>
                         </div>
