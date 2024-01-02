@@ -26,7 +26,7 @@
 		<typeAlias type="com.ohdogcat.dto.cart.CartListDto" alias="CartListDto" />
 		<typeAlias type="com.ohdogcat.model.PurchaseStatus" alias="PurchaseStatus" />
 		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseListDto" alias="PurchaseListDto" />
-		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseCancelInfoDto" alias="PurchaseCancelInfoDto" />
+		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseInfoDto" alias="PurchaseCancelInfoDto" />
 		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseStatusChangeDto" alias="PurchaseStatusChangeDto" />
 		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseListPagenationDto" alias="PurchaseListPagenationDto" />
   </typeAliases>

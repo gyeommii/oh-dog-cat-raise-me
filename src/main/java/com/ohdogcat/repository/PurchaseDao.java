@@ -24,13 +24,13 @@ public interface PurchaseDao {
 
     Payment retrievePaymentByPurchaseFk(Long purchaseFk);
 
-    PurchaseStatus getPurchaseStatusByPk(Long statusPk);
+    PurchaseStatus getPurchaseStatusByPk(Integer statusPk);
 
     List<PurchaseListDto> getMemberPurchaseList(PurchaseListPagenationDto pageInfo);
 
     Long retrievePayment(Payment payment);
 
-    Long cancelPurchase (PurchaseStatusChangeDto purchaseStatusChangeDto);
+    Long updatePurchaseStatus(PurchaseStatusChangeDto purchaseStatusChangeDto);
 
     Integer getPurchaseCount (Long memberPk);
 }

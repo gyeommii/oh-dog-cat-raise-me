@@ -3,7 +3,6 @@ package com.ohdogcat.enums;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
-
 public enum PurchaseStatusEnum {
     BEFORE_PAYMENT(1),
     PAYMENT_COMPLETED(2),

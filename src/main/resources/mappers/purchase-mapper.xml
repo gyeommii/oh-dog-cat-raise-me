@@ -75,7 +75,7 @@
     where purchase_fk = #{ purchaseFk }
   </select>
 
-  <select id="getPurchaseStatusByPk" parameterType="Long" resultType="PurchaseStatus">
+  <select id="getPurchaseStatusByPk" parameterType="Integer" resultType="PurchaseStatus">
     select
     *
     from purchase_status
@@ -103,7 +103,7 @@
     where payment_pk = #{payment_pk}
   </update>
 
-  <update id="cancelPurchase" parameterType="PurchaseStatusChangeDto">
+  <update id="updatePurchaseStatus" parameterType="PurchaseStatusChangeDto">
     update purchase
     set status_fk = #{status_fk}
     where purchase_pk = #{purchase_pk}

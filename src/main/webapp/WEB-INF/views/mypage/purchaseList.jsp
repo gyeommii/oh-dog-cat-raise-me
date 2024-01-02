@@ -14,6 +14,13 @@
           crossorigin="anonymous">
     <link href="../css/order/order-page.css" rel="stylesheet"/>
 
+    <style>
+      .btn-smaller-custom {
+        --bs-btn-padding-y: .25rem;
+        --bs-btn-padding-x: .5rem;
+        --bs-btn-font-size: .75rem;
+      }
+    </style>
 </head>
 
 <body>
@@ -32,8 +39,8 @@
                     <tr>
                         <th><b>주문명</b></th>
                         <th>주문번호</th>
-                        <th>결제방법</th>
                         <th>주문상태</th>
+                        <th>결제방법</th>
                         <th data-type="date" data-format="YYYY/DD/MM">주문날짜</th>
                         <th>주문취소</th>
                     </tr>
@@ -58,27 +65,49 @@
                                 >
                             </td>
                             <td class="align-middle">${purchase.purchase_pk}</td>
-                            <td class="align-middle">${purchase.pay_method}</td>
                             <td class="align-middle">
-                                <c:if test="${purchase.status_pk eq 1 or purchase.status_pk eq 2 or purchase.status_pk eq 3}">
-                                    <span class="badge bg-warning fs-6">${purchase.purchase_status}</span>
-                                </c:if>
-                                <c:if test="${purchase.status_pk eq 4 or purchase.status_pk eq 5}">
-                                    <span class="badge bg-primary fs-6">${purchase.purchase_status}</span>
-                                </c:if>
-                                <c:if test="${purchase.status_pk eq 6}">
-                                    <span class="badge bg-success fs-6">${purchase.purchase_status}</span>
-                                </c:if>
-                                <c:if test="${purchase.status_pk eq 7 or purchase.status_pk eq 8}">
-                                    <span class="badge bg-danger fs-6">${purchase.purchase_status}</span>
-                                </c:if>
+                                <c:choose>
+                                    <c:when test="${purchase.status_pk eq 6}">
+                                        <span class="badge bg-success fs-6">${purchase.purchase_status}</span>
+                                    </c:when>
+                                    <c:when test="${purchase.status_pk eq 7 or purchase.status_pk eq 8}">
+                                        <span class="badge bg-danger fs-6">${purchase.purchase_status}</span>
+                                    </c:when>
+                                    <c:when test="${purchase.status_pk eq 5}">
+                                        <span class="badge bg-primary fs-6">${purchase.purchase_status}</span>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <span class="badge bg-secondary fs-6">${purchase.purchase_status}</span>
+                                    </c:otherwise>
+                                </c:choose>
                             </td>
+                            <td class="align-middle">${purchase.pay_method}</td>
                             <td class="align-middle"
                             >${purchase.purchase_date.year}/${purchase.purchase_date.monthValue}/${purchase.purchase_date.dayOfMonth}</td>
+
+
                             <td class="align-middle">
-                                <button id="delete-btn" class="btn btn-outline-warning">주문 취소
-                                </button>
+                                <div class="d-flex"
+                                     style="flex-direction: column;align-items: flex-start;">
+                                    <button id="delete-btn"
+                                            class="btn btn-warning btn-smaller-custom mb-1"
+                                            style="opacity: 0.7">주문 취소
+                                    </button>
+                                    <button id="confirm-btn"
+                                            <c:choose>
+                                                <c:when test="${purchase.status_pk ne 5}">
+                                                    disabled
+                                                    class="btn btn-secondary btn-smaller-custom"
+                                                </c:when>
+                                                <c:otherwise>
+                                                    class="btn btn-primary btn-smaller-custom"
+                                                </c:otherwise>
+                                            </c:choose>
+                                            style="opacity: 0.95">구매 확정
+                                    </button>
+                                </div>
                             </td>
+
                         </tr>
                     </c:forEach>
 
@@ -88,7 +117,7 @@
                 <!-- End Table with stripped rows -->
             </div>
         </section>
-        <nav aria-label="Page navigation my-3"  style="margin-bottom: 50px">
+        <nav aria-label="Page navigation my-3" style="margin-bottom: 50px">
             <ul class="pagination justify-content-center">
 
                 <c:url var="listPageUrlByPaginationPrev" value="./purchaseList">

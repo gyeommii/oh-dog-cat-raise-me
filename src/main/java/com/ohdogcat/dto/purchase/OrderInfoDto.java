@@ -20,10 +20,10 @@ public class OrderInfoDto {
     private Long memberFk;
     private Long totalPrice;
     private Long pointUsed;
-    private List<OptionInfoToCreateOrderDto> optionList;
     private Long addressFk;
-    private String orderName;
+    private List<OptionInfoToCreateOrderDto> optionList;
     private Long paidPrice;
+    private String orderName;
     private String payMethod;
     private String paymentSuccess;
     private String merchantUid;
@@ -33,7 +33,7 @@ public class OrderInfoDto {
         return Purchase.builder()
             .member_fk(memberFk)
             .address_fk(addressFk)
-            .status_fk(payMethod.equals("무통장입금") ? 1l : 2l)
+            .status_fk(payMethod.equals("무통장입금") ? 1 : 2)
             .total_price(totalPrice)
             .order_name(orderName)
             .build();

@@ -4,7 +4,7 @@ import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.purchase.OptionInfoToCreateOrderDto;
 import com.ohdogcat.dto.purchase.OrderInfoDto;
-import com.ohdogcat.dto.purchase.PurchaseCancelInfoDto;
+import com.ohdogcat.dto.purchase.PurchaseInfoDto;
 import com.ohdogcat.service.PurchaseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -127,14 +127,30 @@ public class PurchaseController {
 
     @ResponseBody
     @DeleteMapping("/{purchasePk}")
-    public ResponseEntity<String> cancelPurchase (HttpSession session, @PathVariable Long purchasePk) {
+    public ResponseEntity<String> cancelPurchase(HttpSession session,
+        @PathVariable Long purchasePk) {
         log.debug("purchasePk={}", purchasePk);
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
 
-        PurchaseCancelInfoDto purchaseCancelInfoDto = PurchaseCancelInfoDto.builder().purchase_fk(purchasePk).member_fk(signedMember.getMember_pk()).build();
-        String result = purchaseService.cancelPurchase(purchaseCancelInfoDto);
+        PurchaseInfoDto purchaseInfoDto = PurchaseInfoDto.builder().purchase_fk(purchasePk)
+            .member_fk(signedMember.getMember_pk()).build();
+        String result = purchaseService.cancelPurchase(purchaseInfoDto);
 
         return ResponseEntity.ok(result);
     }
 
+    @ResponseBody
+    @GetMapping("/confirm/{purchasePk}")
+    public ResponseEntity<String> confirmPurchase(HttpSession session,
+        @PathVariable Long purchasePk) {
+        MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+        log.debug("confirm(purchasePk={})", purchasePk);
+
+        PurchaseInfoDto purchaseInfoDto = PurchaseInfoDto.builder().
+            member_fk(signedMember.getMember_pk()).purchase_fk(purchasePk).build();
+
+        String result = purchaseService.confirmPurchase(purchaseInfoDto);
+
+        return ResponseEntity.ok(result);
+    }
 }

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 public class Purchase {
     private Long purchase_pk;
     private Long member_fk;
-    private Long status_fk;
+    private Integer status_fk;
     private Long address_fk;
     private Long total_price;
     private String order_name;

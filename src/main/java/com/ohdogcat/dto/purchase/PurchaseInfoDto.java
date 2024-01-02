@@ -10,8 +10,10 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class PurchaseCancelInfoDto {
+public class PurchaseInfoDto {
     private Long member_fk;
     private Long purchase_fk;
-    private Long status_fk;
+    private Integer status_fk;
+
+
 }
