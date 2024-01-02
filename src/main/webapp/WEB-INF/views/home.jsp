@@ -10,48 +10,21 @@
 		  	  rel="stylesheet"
 	    	  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	    	  crossorigin="anonymous">
+    	 <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+	     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
     	 <link href="css/font.css" rel="stylesheet" >
-    	 <style>
-    	 	.navbar {
-			  position: fixed;
-			  top: 0;
-			  left: 0;
-			  right: 0;
-			  z-index: 1000; 
-				}
-			  body {
-		      	padding-top: 56px; /* Adjust the value based on your navbar height */
-			  }
-			  
-  
-    	 </style> 
+    	 <link href="css/nav.css" rel="stylesheet" >
 	</head>
 	<body>
-	<!-- nav -->
-	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-	  <div class="container">
-	    <a class="navbar-brand" href="/ohdogcat">키워주개냥</a>
-	    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#collapsibleNavbar">
-	      <span class="navbar-toggler-icon"></span>
-	    </button>
-	    <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-	      <ul class="navbar-nav">
-	        <li class="nav-item"><a class="nav-link" href="user/signup">join</a></li>
-	        <li class="nav-item"><a class="nav-link" href="user/signin">Login</a></li>
-	        <li class="nav-item"><a class="nav-link" href="mypage/wishlist">my</a></li>
-	        <li class="nav-item"><a class="nav-link" href="cart/list">cart</a></li>
-	      </ul>
-	    </div>
-	  </div>
-	</nav>
-
+  	<!--top nav -->
+	<%@ include file="fragments/top-nav.jspf"%>
 	<!-- Header-->
   	<%@ include file ="fragments/header.jspf" %>
-  	
-  	
-  	
-  	
+    <!-- bottom nav-->
+   	<%@ include file="fragments/bottom-nav.jspf"%>
+
 	<main>
+	
 	<!-- 멍멍이/야옹이 버튼 -->
 	<div class="text-center mt-5">
 		<div class="btn-group  btn-group-lg" role="group" aria-label="Basic radio toggle button group">

@@ -1,0 +1,14 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+    
+<ul class="nav justify-content-center py-2 menuList"
+	style="font-size: 18px; border-bottom: 1px solid rgb(223, 223, 223);">
+	<li class="nav-item"><a class="nav-link pe-3"
+		style="color: rgb(34, 34, 34)" href="#">전체상품</a></li>
+	<li class="nav-item"><a class="nav-link pe-3"
+		style="color: rgb(34, 34, 34)" href="#">신상품</a></li>
+	<li class="nav-item"><a class="nav-link pe-2"
+		style="color: rgb(34, 34, 34)" href="#">베스트</a></li>
+	<li class="nav-item"><a class="nav-link pe-2"
+		style="color: rgb(34, 34, 34)" href="#">커뮤니티</a></li>
+</ul>

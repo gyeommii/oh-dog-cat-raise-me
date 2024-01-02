@@ -11,10 +11,11 @@
 	rel="stylesheet"
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	crossorigin="anonymous">
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
-	rel="stylesheet" />
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
 <link href="../css/font.css" rel="stylesheet" >
+<link href="../css/nav.css" rel="stylesheet" >
+
 
 <style>
 a {
@@ -38,10 +39,16 @@ a {
 </style>
 </head>
 <body>
+    
+  	<!--top nav -->
+	<%@ include file="../fragments/top-nav.jspf"%>
 	<!-- Header-->
-	<%@ include file="../fragments/header.jspf"%>
+  	<%@ include file ="../fragments/header.jspf" %>
+    <!-- bottom nav-->
+   	<%@ include file="../fragments/bottom-nav.jspf"%>
+
 	<main>
-		<div class="container fs-1 fw-bold pt-5">01 SHOPPING BAG</div>
+		<div class="container fs-1 fw-bold pt-5">🧺 SHOPPING BAG</div>
 
 		<!-- 강아지 장바구니 -->
 		<div class="container card mt-5 border-0 d-none" id="dogCart"
