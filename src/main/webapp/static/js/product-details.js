@@ -246,8 +246,6 @@ document.addEventListener('DOMContentLoaded', () => {
 		let currentTotal = parseInt(totalPrice.innerText.replace(/[^\d.-]/g, '')) || 0;
 		currentTotal += price;
 		totalPrice.innerText = currentTotal.toLocaleString('ko-KR') + "원";
-	}	
-
-    
+	}
 
 }); // end document.addEventListener

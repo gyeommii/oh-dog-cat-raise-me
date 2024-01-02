@@ -3,10 +3,16 @@ package com.ohdogcat.service;
 import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
+import com.ohdogcat.dto.purchase.PurchaseListDto;
+import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
+import com.ohdogcat.repository.PurchaseDao;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,10 +20,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MyPagetServiceImple implements MyPageService {
+public class MyPageServiceImple implements MyPageService {
 
     private final MemberDao memberDao;
     private final AddressDao addressDao;
+    private final PurchaseDao purchaseDao;
 
     @Override
     public MemberInfoDto getMemberMyPageInfo(Long memberPk) {
@@ -68,5 +75,25 @@ public class MyPagetServiceImple implements MyPageService {
         Long result = memberDao.updateUserDefaultAddress(memberToUpdateAddress);
 
         return result == 1;
+    }
+
+    @Override
+    public Map<String, Object> getMemberPurchaseList(PurchaseListPagenationDto pageInfo) {
+        Map<String, Object> result = new HashMap<>();
+
+        int offset = (pageInfo.getCurPage() - 1) * 10;
+        pageInfo.setOffset(offset);
+        log.debug("limit={}" ,pageInfo.getLimit());
+        pageInfo.setLimit(10);
+
+        List<PurchaseListDto> purchaseList = purchaseDao.getMemberPurchaseList(pageInfo);
+        result.put("purchaseList", purchaseList);
+
+        Integer count = purchaseDao.getPurchaseCount(pageInfo.getMember_fk());
+        Integer page = (int) Math.ceil(((count * 1.0) / 10));
+        result.put("page", page);
+        log.debug("page={}", page);
+
+        return result;
     }
 }
