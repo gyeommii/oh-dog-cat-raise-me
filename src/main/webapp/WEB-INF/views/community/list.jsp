@@ -2,7 +2,6 @@
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 
-
 <!DOCTYPE html>
 <html>
 	<head>
@@ -45,17 +44,17 @@
         display: flex;
         justify-content: center; /* 가로 중앙 정렬 */
         
-        margin: 0 auto; /* 컨테이너 중앙 정렬 */
     }
      .search-container {
-        display: flex;
-        justify-content: center; /* 가로 중앙 정렬 */
-        
-        margin: 0 auto; /* 컨테이너 중앙 정렬 */
+        flex-flow: row nowrap;
+        justify-content: space-around; /* 가로 중앙 정렬 */
+        width: 80%; /* 너비를 50%로 설정 */
+        margin: 0 auto; /* 컨테이너를 중앙에 배치 */
     }
     
+    
     .card {
-        max-width: 500px; /* 카드의 최대 가로 길이 설정 */
+        max-width: 800px; /* 카드의 최대 가로 길이 설정 */
         margin: 0 auto; /* 카드를 중앙에 정렬 */
     }
     
@@ -73,6 +72,12 @@
         margin-right: 5px; /* 오른쪽 마진 */
     }
     
+    .margin-class {
+        margin-left: 170px;  /* 왼쪽 마진 */
+        margin-right: 170px; /* 오른쪽 마진 */
+    }
+   
+    
     
         
     
@@ -84,50 +89,52 @@
         <%@ include file="../fragments/header.jspf"%>
         <main>
             <div class="container mt-4">
-                <div>
-                    <div class="search-container">
-                        <c:url var="postSearchPage" value="/community/search" />
-                        <form action="${postSearchPage}" method="get">
-                            <div class="row">
-                                <div class="col-3">
-                                    <select class="form-control" name="searchCategory">
-                                        <option value="t">제목</option>
-                                        <option value="c">내용</option>
-                                        <option value="tc">제목+내용</option>
-                                        <option value="a">작성자</option>
-                                    </select>
+                <div class="justify-content-center margin-class" style="width:80;" >
+                    <div>
+                        <div class="search-container">
+                            <c:url var="postSearchPage" value="/community/search" />
+                            <form action="${postSearchPage}" method="get" id="searchForm">
+                                <div class="row">
+                                    <div class="col-3">
+                                        <select class="form-control" name="searchCategory">
+                                            <option value="t">제목</option>
+                                            <option value="c">내용</option>
+                                            <option value="tc">제목+내용</option>
+                                            <option value="a">작성자</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-6">
+                                        <input class="form-control" type="text" 
+                                            name="keyword" placeholder="검색어" required autofocus />
+                                    </div>
+                                    <div class="col-3">
+                                        <button type="button" class="form-control btn btn-secondary" onclick="submitSearch()">검색</button>
+    
+                                    </div>
                                 </div>
-                                <div class="col-6">
-                                    <input class="form-control" type="text" 
-                                        name="keyword" placeholder="검색어" required autofocus />
-                                </div>
-                                <div class="col-3">
-                                    <input class="form-control btn btn-secondary" 
-                                        type="submit" value="검색" />
-                                </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                    
+                    <h1></h1>
                     <!-- 카테고리, 새 글쓰기, 정렬 버튼 -->
                     <div class="write-button-container">
                         <div class="row" >
                             <div class="col-4">
-                                <label for="post_category_fk" class="form-label"></label> 
-                                <select class="form-select" id="categoryFilter" onchange="filterByCategory()">
-                                    <option value="all">전체</option>
-                                    <option value="1">내새꾸 자랑</option>
-                                    <option value="2">[입양]키워주개</option>
-                                    <option value="3">[입양]키워주냥</option>
-                                    <option value="4">[실종/제보]길잃은멍</option>
-                                    <option value="5">[실종/제보]길잃은냥</option>
+                                <c:set var="currentCategory" value="${param.category != null ? param.category : 'all'}" />
+                                <select class="form-select" id="categoryFilter" name="categoryFilter" onchange="filterByCategory()">
+                                    <option value="0" ${currentCategory == '0' ? 'selected' : ''}>전체</option>
+                                    <option value="1" ${currentCategory == '1' ? 'selected' : ''}>내새꾸 자랑</option>
+                                    <option value="2" ${currentCategory == '2' ? 'selected' : ''}>[입양]키워주개</option>
+                                    <option value="3" ${currentCategory == '3' ? 'selected' : ''}>[입양]키워주냥</option>
+                                    <option value="4" ${currentCategory == '4' ? 'selected' : ''}>[실종/제보]길잃은멍</option>
+                                    <option value="5" ${currentCategory == '5' ? 'selected' : ''}>[실종/제보]길잃은냥</option>
                                 </select>
                             </div>
                             <!-- 정렬 버튼 -->
                             <div class="btn-group col-5" role="group" aria-label="Basic example">
                                 <button onclick="sortPosts('desc')" class="btn">최신글</button>
                                 <button onclick="sortPosts('asc')" class="btn">오래된글</button>
-                            </div>
+                            </div> 
 
 
                             <div class="col-3">
@@ -203,6 +210,16 @@
             var newQuery = Object.keys(queryParams).map(key => key + '=' + queryParams[key]).join('&');
             window.location.href = '/ohdogcat/community/list?' + newQuery;
         }
+        
+        function submitSearch() {
+            document.getElementById("searchForm").submit();
+        }
+
+        
+        
+        
+
+
     </script>
 
                
