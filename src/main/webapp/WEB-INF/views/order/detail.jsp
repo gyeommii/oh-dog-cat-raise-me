@@ -216,9 +216,9 @@
                     <span class="display-key fw-bold font-small">실제 결제 금액</span>
                     <div class="inner-content fw-normal text-opacity-75 font-small">${payment.paid_price}원
                     </div>
-                        <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
-                            무통장 입금을 선택하신 경우, 입금이 확인된 후 결제가 이루어진 것으로 판단됩니다.
-                        </div>
+                    <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
+                        무통장 입금을 선택하신 경우, 입금이 확인된 후 결제가 이루어진 것으로 판단됩니다.
+                    </div>
                 </div>
                 <hr/>
                 <div class="py-1 inner-wrapper-content">
@@ -236,7 +236,7 @@
             </div>
 
             <div class="container d-flex pt-3" style="justify-content: space-between">
-                <button id="toListBtn" class="btn btn-outline-success" style="width: 17%">
+                <a id="toListBtn" class="btn btn-outline-success" style="width: 17%" href="../mypage/purchaseList">
                     <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -249,9 +249,15 @@
                                 fill-rule="evenodd"
                                 d="M12.5 15a.5.5 0 0 1-.5-.5v-13a.5.5 0 0 1 1 0v13a.5.5 0 0 1-.5.5M10 8a.5.5 0 0 1-.5.5H3.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L3.707 7.5H9.5a.5.5 0 0 1 .5.5"></path>
                     </svg>
-                   내 주문목록 가기
+                    내 주문목록 가기
+                </a>
+                <button id="cancelPurchaseBtn" class="btn btn-outline-success" style="width: 15%"
+                        <c:choose>
+                            <c:when test="${purchase.status_fk eq 1 or purchase.status_fk eq 2 or purchase.status_fk eq 3}"/>
+                            <c:otherwise>disabled</c:otherwise>
+                        </c:choose>
+                >결제취소
                 </button>
-                <button id="cancelPurchaseBtn" class="btn btn-outline-success" style="width: 15%">결제취소</button>
             </div>
         </div>
     </div>
@@ -264,7 +270,7 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+<script src="../js/order/purchase-detail.js"></script>
 
 </body>
 </html>

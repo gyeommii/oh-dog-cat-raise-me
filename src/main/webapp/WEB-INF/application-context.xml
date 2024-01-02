@@ -17,17 +17,10 @@ http://www.springframework.org/schema/tx
     <property name="driverClassName"
       value="oracle.jdbc.OracleDriver"/>
     <property name="jdbcUrl"
-	  value="jdbc:oracle:thin:@192.168.20.11:1521:xe" />
-     <property name="username" value="ohdogcat" />
-     <property name="password" value="raiseme" />
+      value="jdbc:oracle:thin:@192.168.20.11:1521:xe"/>
+    <property name="username" value="ohdogcat"/>
+    <property name="password" value="raiseme"/>
   </bean>
-
-  <!-- HikariDataSource 객체(bean) 생서을 위한 설정 -->
-  <!-- HikariDataSrouce ds = new HikariDataSource(config); -->
-  <bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
-    <constructor-arg ref="hikariConfig"/>
-  </bean>
-
 
   <!-- SqlSessionFactoryBean: 데이터 소스(커넥션 풀)을 이용해서 SQL 문장들을 실행/결과 처리를 하고 리턴하는
     객체. -->
@@ -40,16 +33,21 @@ http://www.springframework.org/schema/tx
       value="classpath:mybatis-config.xml"/>
   </bean>
 
+  <!-- HikariDataSource 객체(bean) 생성을 위한 설정 -->
+  <!-- HikariDataSrouce ds = new HikariDataSource(config); -->
+  <bean id="ds" class="com.zaxxer.hikari.HikariDataSource">
+    <constructor-arg ref="hikariConfig"/>
+  </bean>
+
   <bean id="fileUtil" class="com.ohdogcat.util.FtpImgLoaderUtil"/>
 
 
   <!-- MyBatis 프레임워크에서 생성하고 관리하는 빈(bean)들을 base-package와 그 하위 패키지에서 찾음. PostDao,
-    UserDao 인터페이스들을 작성하는 패키지. -->
+      UserDao 인터페이스들을 작성하는 패키지. -->
   <mybatis:scan base-package="com.ohdogcat.repository"/>
 
   <!-- 스프링 컨테이너에서 컴포넌트 빈(예: @Service, @Component, ...)들을 검색할 기본 패키지를 설정 -->
-  <context:component-scan
-    base-package="com.ohdogcat.service"/>
+  <context:component-scan base-package="com.ohdogcat.service"/>
 
 
   <bean id="transactionManager"

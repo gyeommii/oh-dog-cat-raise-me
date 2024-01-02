@@ -90,14 +90,23 @@
                                 <div class="d-flex"
                                      style="flex-direction: column;align-items: flex-start;">
                                     <button id="delete-btn"
-                                            class="btn btn-warning btn-smaller-custom mb-1"
-                                            style="opacity: 0.7">주문 취소
+                                            <c:choose>
+                                                <c:when test="${purchase.status_pk eq 1 or purchase.status_pk eq 2 or purchase.status_pk eq 3}">
+                                                    class="btn btn-warning btn-smaller-custom mb-1"
+                                                    style="opacity: 0.7"
+                                                </c:when>
+                                                <c:otherwise>
+                                                    class="btn btn-secondary btn-smaller-custom mb-1"
+                                                    disabled
+                                                </c:otherwise>
+                                            </c:choose>
+                                            >주문 취소
                                     </button>
                                     <button id="confirm-btn"
                                             <c:choose>
                                                 <c:when test="${purchase.status_pk ne 5}">
-                                                    disabled
                                                     class="btn btn-secondary btn-smaller-custom"
+                                                    disabled
                                                 </c:when>
                                                 <c:otherwise>
                                                     class="btn btn-primary btn-smaller-custom"

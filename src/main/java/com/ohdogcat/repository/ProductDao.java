@@ -1,12 +1,16 @@
 package com.ohdogcat.repository;
 
+
+
+import java.util.List;
+import org.apache.ibatis.annotations.Param;
+import com.ohdogcat.dto.product.ProductListDto;
 import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.dto.purchase.OptionOrderDto;
 import com.ohdogcat.dto.purchase.OrderParameterDto;
 import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.model.PurchaseProduct;
-import java.util.List;
 
 public interface ProductDao {
 
@@ -38,4 +42,25 @@ public interface ProductDao {
     Long restoreOptionStock(PurchaseProduct purchaseProduct);
 
     OptionOrderDto selectProductInfoForOrderFromDetail(Long optionList);
+	
+	// 정렬, 필터 적용
+	List<ProductListDto> selectProducts(
+			@Param("petType") Long petType,
+	        @Param("keyword") String keyword,
+	        @Param("minPrice") Long minPrice, // minPrice, maxPrice는 가격 별 옵션 필터.
+	        @Param("maxPrice") Long maxPrice,
+	        @Param("inStock") Boolean inStock, // 품절상품 여부 확인.
+	        @Param("orderBy") String orderBy,
+	        @Param("limit") int limit,  // 페이지당 상품 수
+	        @Param("offset") int offset // 건너뛸 상품 수
+	    );
+	
+	int countProducts(
+			@Param("petType") Long petType, 
+            @Param("keyword") String keyword,
+            @Param("minPrice") Long minPrice, 
+            @Param("maxPrice") Long maxPrice,
+            @Param("inStock") Boolean inStock
+            );
+	
 }

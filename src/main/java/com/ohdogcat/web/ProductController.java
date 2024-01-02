@@ -2,6 +2,7 @@ package com.ohdogcat.web;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,20 +12,68 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.ohdogcat.dto.product.ProductOptionListDto;
+import com.ohdogcat.dto.product.ProductListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
+import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.model.ProductOption;
 import com.ohdogcat.service.ProductService;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-@RequiredArgsConstructor
 @RequestMapping("/product")
 public class ProductController {
-	private final ProductService productService;
+
+	@Autowired
+	private ProductService productService;
+	
+	@GetMapping("/list")
+	public void getProductList(@RequestParam(defaultValue = "1") Long petType,
+					           @RequestParam(defaultValue = "create_date") String orderBy,
+					           @RequestParam(defaultValue = "1") int page,
+					           @RequestParam(defaultValue = "20") int size,
+					           Model model) {
+		List<ProductListDto> products = productService.getProducts(petType, orderBy, page, size);
+		int totalProducts = productService.getTotalProductsCount(petType, null, null, null, null); 
+		int totalPages = (int) Math.ceil((double) totalProducts / size);
+
+		model.addAttribute("products", products);
+		model.addAttribute("totalPages", totalPages);
+
+}
+	
+	// best페이지
+	@GetMapping("/collection/best")
+	public void getBestProducts(@RequestParam(defaultValue = "1") Long petType,
+	                            @RequestParam(defaultValue = "sold") String orderBy,
+	                            @RequestParam(defaultValue = "1") int page,
+	                            @RequestParam(defaultValue = "20") int size,
+	                            Model model) {
+	    List<ProductListDto> products = productService.getProducts(petType, orderBy, page, size);
+	    int totalProducts = productService.getTotalProductsCount(petType, null, null, null, null); 
+	    int totalPages = (int) Math.ceil((double) totalProducts / size);
+	    
+	    model.addAttribute("products", products);
+	    model.addAttribute("totalPages", totalPages);
+
+	}
+	
+	// new페이지
+	@GetMapping("/collection/new")
+	public void getNewProducts(@RequestParam(defaultValue = "1") Long petType,
+		                       @RequestParam(defaultValue = "create_date") String orderBy,
+		                       @RequestParam(defaultValue = "1") int page,
+		                       @RequestParam(defaultValue = "20") int size,
+		                       Model model) {
+		 List<ProductListDto> products = productService.getProducts(petType, orderBy, page, size);
+		 int totalProducts = productService.getTotalProductsCount(petType, null, null, null, null); 
+		 int totalPages = (int) Math.ceil((double) totalProducts / size);
+		    
+		 model.addAttribute("products", products);
+		 model.addAttribute("totalPages", totalPages);
+
+	}
 	
 	@GetMapping("/details")
 	public void details(@RequestParam(name = "productPk") long productPk, Model model) {

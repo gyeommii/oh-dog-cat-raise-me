@@ -109,7 +109,7 @@ public class PurchaseController {
     @GetMapping("/{purchasePk}")
     public String showPurchaseDetail(HttpSession session, Model model,
         @PathVariable Long purchasePk,
-        @RequestParam(defaultValue = "O") String at) {
+        @RequestParam(defaultValue = "L") String at) {
         // "O" => 구매 후 && "L" => 리스트 선택
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
         Map<String, Object> result = purchaseService.showPurchaseDetail(signedMember.getMember_pk(),
