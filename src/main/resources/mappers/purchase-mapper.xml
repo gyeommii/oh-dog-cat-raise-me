@@ -56,10 +56,10 @@
     select
       *
     from purchase
-    where purchase = #{purchasePk}
+    where purchase_pk = #{purchasePk}
   </select>
 
-  <select id="getProductByPurchasePk" parameterType="Long" resultType="PurchaseProduct">
+  <select id="getProductByPurchasePk" parameterType="Long" resultType="OptionOrderDto">
     select
       option_fk, product_fk, product_name, option_name, img_url, price, count
     from purchase_product
@@ -72,7 +72,7 @@
     select
       *
     from payment
-    where payment_fk = #{ purchasePk }
+    where purchase_fk = #{ purchaseFk }
   </select>
   
   <select id="getPurchaseStatusByPk" parameterType="Long" resultType="PurchaseStatus">

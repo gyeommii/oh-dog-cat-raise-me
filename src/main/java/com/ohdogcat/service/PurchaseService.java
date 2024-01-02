@@ -158,6 +158,7 @@ public class PurchaseService {
 
         Purchase purchase = infoToOrder.toPurchase();
         log.debug("purchase={}", purchase);
+
 //          주문 생성
         Long result = purchaseDao.insertPurchase(purchase);
         purchaseProductDto.setPurchasePk(purchase.getPurchase_pk());
@@ -222,7 +223,7 @@ public class PurchaseService {
         Address address = addressDao.getAddressByAddressPk(purchase.getAddress_fk());
         result.put("address", address);
 
-        List<PurchaseProduct> products = purchaseDao.getProductByPurchasePk(purchasePk);
+        List<OptionOrderDto> products = purchaseDao.getProductByPurchasePk(purchasePk);
         result.put("products", products);
 
         Payment payment = purchaseDao.retrievePaymentByPurchaseFk(purchasePk);

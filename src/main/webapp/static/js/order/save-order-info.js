@@ -1,7 +1,7 @@
 const optionDivList = document.querySelectorAll(".option-info-to-order");
 const optionList = [];
 const PAYMENT_METHOD = Object.freeze(
-    {KAKAOPAY: "kakopay", BANK_TRANSFER: "bank_transfer"});
+    {KAKAOPAY: "카카오페이", BANK_TRANSFER: "무통장입금"});
 
 const PAYMENT_SUCCESS = Object.freeze(
     {PENDING: "pending", SUCCESS: "success", BEFORE: "before"});

@@ -11,5 +11,5 @@ import lombok.NoArgsConstructor;
 @Builder
 public class PurchaseStatus {
     private Long status_pk;
-    private Long purchase_status;
+    private String purchase_status;
 }

@@ -9,7 +9,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -28,7 +27,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/order")
+@RequestMapping("/purchase")
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
@@ -55,6 +54,7 @@ public class PurchaseController {
             signedMember.getMember_pk(), optionfk);
         result.put("orderType", ordertype);
         model.addAllAttributes(result);
+        log.debug("dd={}", model.getAttribute("products"));
     }
 
     @GetMapping("/direct")
@@ -70,7 +70,8 @@ public class PurchaseController {
         result.put("orderType", ordertype);
 
         model.addAllAttributes(result);
-        return "/order/checkout";
+        log.debug("dd={}", model.getAttribute("products"));
+        return "/purchase/checkout";
     }
 
     @ResponseBody
@@ -80,7 +81,7 @@ public class PurchaseController {
         log.debug("optionInfoToCreateOrderDtos={}", optionInfoToCreateOrderDtos);
         session.setAttribute(OPTION_AND_COUNT_IN_SESSION, optionInfoToCreateOrderDtos);
 
-        return ResponseEntity.ok("../order/direct?ordertype=d");
+        return ResponseEntity.ok("../purchase/direct?ordertype=d");
     }
 
 
@@ -100,19 +101,25 @@ public class PurchaseController {
         if (infoToOrder.getOrderType().equals("d")) {
             session.removeAttribute(OPTION_AND_COUNT_IN_SESSION);
         }
-        return ResponseEntity.ok("./" + purchasePk);
+        return ResponseEntity.ok("./" + purchasePk + "?at=O");
     }
 
     @GetMapping("/{purchasePk}")
-    public String showPurchaseDetail(HttpSession session, Model model, @PathVariable Long purchasePk,
+    public String showPurchaseDetail(HttpSession session, Model model,
+        @PathVariable Long purchasePk,
         @RequestParam(defaultValue = "O") String at) {
         // "O" => 구매 후 && "L" => 리스트 선택
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-        Map<String, Object> result = new HashMap<>();
-        purchaseService.showPurchaseDetail(signedMember.getMember_pk(), purchasePk);
+        Map<String, Object> result = purchaseService.showPurchaseDetail(signedMember.getMember_pk(),
+            purchasePk);
         result.put("at", at);
 
         model.addAllAttributes(result);
-        return "/order/detail";
+
+        log.debug("statusatcont={}", model.getAttribute("purchaseStatus"));
+        log.debug("atatcont={}", model.getAttribute("at"));
+        log.debug("paymentatcont={}", model.getAttribute("payment"));
+
+        return "/purchase/detail";
     }
 }

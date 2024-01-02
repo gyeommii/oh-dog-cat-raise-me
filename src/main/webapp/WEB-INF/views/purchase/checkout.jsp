@@ -382,9 +382,10 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
+<script src="../js/order/iamport.js"></script>
+<script src="../js/member/postcode.v2.js"></script>
 <script src="../js/order/save-order-info.js"></script>
 <script src="../js/order/order-pay.js"></script>
-<script src="../js/member/postcode.v2.js"></script>
 <script src="../js/order/calculatePrice.js"></script>
 <script src="../js/order/order-page.js"></script>
 

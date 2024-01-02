@@ -1,11 +1,11 @@
 const distinguishCode = `imp24187885`;
 
-IMP.init(distinguishCode);
-
 document.getElementById("order-submit-btn").addEventListener("click",
     requestPay);
 
 function requestPay() {
+  IMP.init(distinguishCode);
+  console.log("안들어오나요? 왜죠?")
 
   if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.BANK_TRANSFER) {
     // 무통장 입금 시 flow
