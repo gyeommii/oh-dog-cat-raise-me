@@ -7,14 +7,11 @@ import lombok.Data;
 
 @Data
 @Builder
-public class Post {
-	private Long post_pk;
-	private String title;
-	private String content;
+public class Comment {
+	private Long comments_pk;
+	private Long post_fk;
 	private Long member_fk;
+	private String ctext;
 	private LocalDateTime created_time;
 	private LocalDateTime modified_time;
-	private String post_img_url;
-	private Long post_category_fk;
-
 }

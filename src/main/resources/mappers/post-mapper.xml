@@ -10,4 +10,90 @@
         select * from POST order by POST_PK desc
     </select>
     
+    
+    <!-- POST 테이블 전체 검색. 오래된순 -->
+    <select id="selectAllOrderByPostPkAsc" resultType="Post" >
+        select * from POST order by POST_PK asc
+    </select>
+    
+    <!-- POST 테이블에서 아이디(PK)로 검색 -->
+    <select id="selectByPostPk" resultType="Post">
+        select * from POST where POST_PK = #{post_pk}
+    </select> 
+    
+    <!-- POST 테이블에 새 포스트 삽입 -->
+    <insert id="insert" > 
+        insert into POST (TITLE, CONTENT, MEMBER_FK, POST_CATEGORY_FK) values (#{title}, #{content}, #{member_fk}, #{post_category_fk})
+    </insert>
+    
+    <!-- POST 테이블에서 해당 아이디의 제목, 내용, 수정시간을 업데이트 -->
+    <update id="update">
+        update POST set
+        TITLE = #{title},
+        CONTENT = #{content},
+        MODIFIED_TIME = systimestamp
+        where POST_PK = #{post_pk}
+    </update>
+    
+    <!-- POST 테이블에서 해당 아이디의 포스트 삭제 -->
+    <delete id="delete">
+        delete from POST where POST_PK = #{post_pk}
+    </delete>
+    
+     <!-- 카테고리별로 게시물 검색 -->
+    <select id="selectByCategory" resultType="Post">
+        select *
+        from POST
+        where POST_CATEGORY_FK = #{category}
+        order by POST_PK desc
+    </select>
+    
+    <!-- POST 테이블에서 제목, 내용, 제목 또는 내용, 작성자로 검색하기 -->
+    <select id="search" resultType="Post"> 
+        <bind name="searchKeyword" value="'%' + keyword + '%'" /> 
+        select * from POST
+        <where> 
+            <choose> 
+                <when test='searchCategory eq "t"'>
+                    upper(TITLE) like upper(#{searchKeyword})
+                </when>
+                <when test='searchCategory eq "c"'>
+                    upper(CONTENT) like upper(#{searchKeyword})
+                </when>
+                <when test='searchCategory eq "tc"'>
+                    upper(TITLE) like upper(#{searchKeyword}) 
+                    or 
+                    upper(CONTENT) like upper(#{searchKeyword})
+                </when>
+                <when test='searchCategory eq "a"'>
+                    upper(MEMBER_FK) like upper(#{searchKeyword})
+                </when>
+            </choose>
+        </where>
+        order by POST_PK desc 
+    </select>
+    
+     <!-- 특정 카테고리의 게시물을 정렬하여 가져옴 -->
+    <select id="selectByCategoryAndSort" resultType="Post">
+        select *
+        from POST
+        where post_category_fk = #{category}
+        order by POST_PK ${sort}
+    </select>
+
+    <!-- 모든 카테고리의 게시물을 정렬하여 가져옴 -->
+    <select id="selectAllSorted" resultType="Post">
+        select *
+        from POST
+        order by POST_PK ${sort}
+    </select>
+    
+    
+
+
+    
+    
+    
+    
+    
 </mapper>

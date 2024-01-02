@@ -19,6 +19,7 @@
         <typeAlias type="com.ohdogcat.model.Pet" alias="Pet" />
 		<typeAlias type="com.ohdogcat.model.Member" alias="Member" />
 		<typeAlias type="com.ohdogcat.model.Address" alias="Address" />
+        <typeAlias type="com.ohdogcat.model.Comment" alias="Comment"/>
 	</typeAliases>
 
 </configuration>
