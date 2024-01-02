@@ -1,7 +1,9 @@
 package com.ohdogcat.repository;
 
 import com.ohdogcat.dto.purchase.OptionOrderDto;
-import com.ohdogcat.dto.purchase.PurchaseProductDto;
+import com.ohdogcat.dto.purchase.PurchaseListDto;
+import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
+import com.ohdogcat.dto.purchase.PurchaseStatusChangeDto;
 import com.ohdogcat.model.Payment;
 import com.ohdogcat.model.Purchase;
 import com.ohdogcat.model.PurchaseProduct;
@@ -23,4 +25,10 @@ public interface PurchaseDao {
     Payment retrievePaymentByPurchaseFk(Long purchaseFk);
 
     PurchaseStatus getPurchaseStatusByPk(Long statusPk);
+
+    List<PurchaseListDto> getMemberPurchaseList(PurchaseListPagenationDto pageInfo);
+
+    Long retrievePayment(Payment payment);
+
+    Long cancelPurchase (PurchaseStatusChangeDto purchaseStatusChangeDto);
 }

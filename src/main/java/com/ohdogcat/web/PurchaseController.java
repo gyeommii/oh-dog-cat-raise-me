@@ -4,6 +4,7 @@ import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.purchase.OptionInfoToCreateOrderDto;
 import com.ohdogcat.dto.purchase.OrderInfoDto;
+import com.ohdogcat.dto.purchase.PurchaseCancelInfoDto;
 import com.ohdogcat.service.PurchaseService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,7 +29,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/purchase")
+@RequestMapping("/order")
 public class PurchaseController {
 
     private final PurchaseService purchaseService;
@@ -71,7 +73,7 @@ public class PurchaseController {
 
         model.addAllAttributes(result);
         log.debug("dd={}", model.getAttribute("products"));
-        return "/purchase/checkout";
+        return "/order/checkout";
     }
 
     @ResponseBody
@@ -81,7 +83,7 @@ public class PurchaseController {
         log.debug("optionInfoToCreateOrderDtos={}", optionInfoToCreateOrderDtos);
         session.setAttribute(OPTION_AND_COUNT_IN_SESSION, optionInfoToCreateOrderDtos);
 
-        return ResponseEntity.ok("../purchase/direct?ordertype=d");
+        return ResponseEntity.ok("../order/direct?ordertype=d");
     }
 
 
@@ -120,6 +122,18 @@ public class PurchaseController {
         log.debug("atatcont={}", model.getAttribute("at"));
         log.debug("paymentatcont={}", model.getAttribute("payment"));
 
-        return "/purchase/detail";
+        return "/order/detail";
+    }
+
+    @ResponseBody
+    @DeleteMapping("/{purchasePk}")
+    public ResponseEntity<String> cancelPurchase (HttpSession session, @PathVariable Long purchasePk, HttpServletRequest req) {
+        log.debug("purchasePk={}", purchasePk);
+        MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+
+        PurchaseCancelInfoDto purchaseCancelInfoDto = PurchaseCancelInfoDto.builder().purchase_fk(purchasePk).member_fk(signedMember.getMember_pk()).build();
+        String result = purchaseService.cancelPurchase(purchaseCancelInfoDto);
+
+        return ResponseEntity.ok(result);
     }
 }

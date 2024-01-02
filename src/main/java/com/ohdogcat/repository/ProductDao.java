@@ -35,5 +35,7 @@ public interface ProductDao {
 
     Long updateOptionStock(PurchaseProduct purchaseProduct);
 
+    Long restoreOptionStock(PurchaseProduct purchaseProduct);
+
     OptionOrderDto selectProductInfoForOrderFromDetail(Long optionList);
 }

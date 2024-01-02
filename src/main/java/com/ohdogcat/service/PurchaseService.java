@@ -6,7 +6,10 @@ import com.ohdogcat.dto.purchase.OptionInfoToCreateOrderDto;
 import com.ohdogcat.dto.purchase.OptionOrderDto;
 import com.ohdogcat.dto.purchase.OrderInfoDto;
 import com.ohdogcat.dto.purchase.OrderParameterDto;
+import com.ohdogcat.dto.purchase.PurchaseCancelInfoDto;
 import com.ohdogcat.dto.purchase.PurchaseProductDto;
+import com.ohdogcat.dto.purchase.PurchaseStatusChangeDto;
+import com.ohdogcat.enums.PurchaseStatusEnum;
 import com.ohdogcat.exception.OutOfStockExeption;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -234,6 +238,77 @@ public class PurchaseService {
 
         return result;
 
+    }
+
+    @Transactional(rollbackFor = {RuntimeException.class})
+    public String cancelPurchase(PurchaseCancelInfoDto purchaseCancelInfoDto) {
+//        해당 주문이 해당 유저의 주문이 맞는지, 해당 status가 1, 2인 (1)
+        Purchase purchase = purchaseDao.getPurchaseInfo(purchaseCancelInfoDto.getPurchase_fk());
+
+        Payment payment = purchaseDao.retrievePaymentByPurchaseFk(
+            purchaseCancelInfoDto.getPurchase_fk());
+        Long result = null;
+
+        if (!Objects.equals(purchase.getMember_fk(), purchaseCancelInfoDto.getMember_fk())) {
+            throw new RuntimeException("owner_not_match");
+        }
+
+        if (purchase.getStatus_fk() == 1 || purchase.getStatus_fk() == 2) {
+
+            if (payment.getUsed_point() > 0) {
+
+                MemberPointDto memberPointDto = MemberPointDto.builder()
+                    .accumulated_point(payment.getUsed_point()).member_pk(
+                        purchaseCancelInfoDto.getMember_fk()).build();
+
+                result = memberDao.accumulatePoint(memberPointDto); // 포인트 환불
+                log.debug("resultToRestorePoint={}", result);
+            } // 포인트 되돌리기
+
+            if (payment.getPay_method().equals("무통장입금") && payment.getPaid_price() > 0) {
+                result = purchaseDao.retrievePayment(payment);
+                log.debug("paymentStatusChange={}", result);
+            } // 결제 취소
+
+            List<OptionOrderDto> products = purchaseDao.getProductByPurchasePk(
+                purchaseCancelInfoDto.getPurchase_fk());
+
+            products.forEach(e -> {
+                PurchaseProduct purchaseProduct = e.toPurchaseProduct();
+                productDao.restoreOptionStock(purchaseProduct);
+            }); // 재고 다시 채우기
+
+            PurchaseStatusChangeDto targetStatus = PurchaseStatusChangeDto.builder()
+                .purchase_pk(purchase.getPurchase_pk()).status_fk(
+                    PurchaseStatusEnum.CANCELED.getStatus_pk()).build();
+
+            purchaseDao.cancelPurchase(targetStatus);
+
+            return "canceled";
+        } else if (purchase.getStatus_fk() == 3 || purchase.getStatus_fk() == 4
+                   || purchase.getStatus_fk() == 5) {
+            PurchaseStatusChangeDto targetStatus = PurchaseStatusChangeDto.builder()
+                .purchase_pk(purchase.getPurchase_pk()).status_fk(
+                    PurchaseStatusEnum.CANCEL_REQUESTED.getStatus_pk()).build();
+
+            purchaseDao.cancelPurchase(targetStatus);
+            return "cancel_requested";
+        }
+        else if (purchase.getStatus_fk().equals(PurchaseStatusEnum.CANCELED.getStatus_pk())
+                 || purchase.getStatus_fk()
+                     .equals(PurchaseStatusEnum.CANCEL_REQUESTED.getStatus_pk())) {
+            return "already_canceled_or_cancel_requested";
+        }
+//        (1) 경우 => product의 재고 되돌려야 함.
+//        (1) 포인트 사용 내역 확인 후, 포인트 환불
+//        (1) 결제 금액 사용 내역 확인 후(결제 이후 여야 함) 포인트 환불
+
+//        3,4,5의 경우, 취소 요청은 가능, 어드민에서 취소 승인 해야 함 (2)
+
+//        해당 status 확인 후 (1)의 경우 status 8로 변경, (2)의 경우 status 7로 변경
+
+//        금액 환불
+        return "failed";
     }
 
 }

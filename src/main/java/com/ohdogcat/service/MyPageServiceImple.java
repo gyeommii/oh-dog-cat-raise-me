@@ -3,10 +3,14 @@ package com.ohdogcat.service;
 import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
+import com.ohdogcat.dto.purchase.PurchaseListDto;
+import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
+import com.ohdogcat.repository.PurchaseDao;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,10 +18,11 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class MyPagetServiceImple implements MyPageService {
+public class MyPageServiceImple implements MyPageService {
 
     private final MemberDao memberDao;
     private final AddressDao addressDao;
+    private final PurchaseDao purchaseDao;
 
     @Override
     public MemberInfoDto getMemberMyPageInfo(Long memberPk) {
@@ -68,5 +73,12 @@ public class MyPagetServiceImple implements MyPageService {
         Long result = memberDao.updateUserDefaultAddress(memberToUpdateAddress);
 
         return result == 1;
+    }
+
+    @Override
+    public List<PurchaseListDto> getMemberPurchaseList(PurchaseListPagenationDto pageInfo) {
+        List<PurchaseListDto> result = purchaseDao.getMemberPurchaseList(pageInfo);
+        log.debug("result={}", result);
+        return result;
     }
 }

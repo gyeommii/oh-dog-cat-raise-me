@@ -54,7 +54,7 @@
 
   <select id="getPurchaseInfo" parameterType="Long" resultType="Purchase">
     select
-      *
+    *
     from purchase
     where purchase_pk = #{purchasePk}
   </select>
@@ -70,18 +70,45 @@
 
   <select id="retrievePaymentByPurchaseFk" parameterType="Long" resultType="Payment">
     select
-      *
+    *
     from payment
     where purchase_fk = #{ purchaseFk }
   </select>
-  
+
   <select id="getPurchaseStatusByPk" parameterType="Long" resultType="PurchaseStatus">
     select
-      *
+    *
     from purchase_status
     where status_pk = #{ status_pk }
   </select>
 
+  <select id="getMemberPurchaseList" parameterType="Long" resultType="PurchaseListDto">
+    select
+      purchase_pk, order_name, status_pk, pay_method, payment.total_price, purchase_date, purchase_status, img_url
+    from purchase left join payment on purchase_fk = purchase_pk
+    left join purchase_status on status_pk = status_fk
+    left join (
+    select purchase_fk, img_url, dense_rank() over (partition by purchase_fk order by option_pk) as RANK
+    FROM PURCHASE_PRODUCT pp
+    LEFT JOIN PRODUCT_OPTION po ON pp.OPTION_FK  = po.OPTION_PK
+    LEFT JOIN PRODUCT p2 ON p2.PRODUCT_PK = po.PRODUCT_FK
+    ) pi on purchase_pk = pi.purchase_fk and rank=1 where member_fk = #{member_fk}
+    order by purchase_date desc
+  </select>
+
+  <update id="retrievePayment" parameterType="Payment">
+    update payment
+    set paid_price = paid_price + #{paid_price}, pay_success = 3
+    where payment_pk = #{payment_pk}
+  </update>
+
+  <update id="cancelPurchase" parameterType="PurchaseStatusChangeDto">
+    update purchase
+    set status_fk = #{status_fk}
+    where purchase_pk = #{purchase_pk}
+  </update>
+
+<!--  select USERID,CLASS, POINT, RANK() OVER(PARTITION BY CLASS ORDER BY POINT DESC) RANK FROM T_STUDENT-->
 </mapper>
 
   <!--

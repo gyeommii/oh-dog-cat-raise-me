@@ -26,7 +26,6 @@ public class HikariCPTest {
 //        config.setJdbcUrl("jdbc:oracle:thin:@localhost:1521:xe");
         config.setUsername("scott");
         config.setPassword("tiger");
-
         // 환경 설정 내용이 적용된 커넥션 풀 객체(DataSource)를 생성:
         HikariDataSource ds = new HikariDataSource(config);
 

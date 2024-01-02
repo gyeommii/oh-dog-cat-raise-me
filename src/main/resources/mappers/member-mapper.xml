@@ -125,4 +125,5 @@
     where member_pk = #{member_pk}
   </update>
 
+<!--pay_success => 3은 주문 취소시 환불 상태-->
 </mapper>

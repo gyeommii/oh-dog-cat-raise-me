@@ -119,4 +119,10 @@
     set stock = stock - #{count}
     where option_pk = #{option_fk}
   </update>
+
+  <update id="restoreOptionStock" parameterType="PurchaseProduct">
+    update product_option
+    set stock = stock + #{count}
+    where option_pk = #{option_fk}
+  </update>
 </mapper>

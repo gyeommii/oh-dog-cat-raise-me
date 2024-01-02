@@ -32,8 +32,8 @@ public class OrderInfoDto {
     public Purchase toPurchase() {
         return Purchase.builder()
             .member_fk(memberFk)
-            .status_fk(getPurchaseStatus())
             .address_fk(addressFk)
+            .status_fk(payMethod.equals("무통장입금") ? 1l : 2l)
             .total_price(totalPrice)
             .order_name(orderName)
             .build();
