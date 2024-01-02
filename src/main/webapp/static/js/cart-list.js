@@ -387,7 +387,9 @@ document.addEventListener("DOMContentLoaded",() => {
 		beforeOptionFk = cartItem.option_fk;
 		
 		btnOption.innerText = "상품 옵션을 선택하세요";
-		btnOption.addEventListener("click",() => getOptionList(cartItem));
+		btnOption.onclick =() =>{
+			getOptionList(cartItem);
+		}
 		optionChangeModal.show();
 	}
 	
@@ -454,7 +456,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		const uri = `list/update/changeoption`;
 		const response = await axios.put(uri, cartUpdateData);
 		console.log("적용 결과",typeof response.data, response.data);
-
+		console.log("afterOptionFk",afterOptionFk);
 		if(response.data == 0){
 			alert("이미 장바구니에 있는 옵션입니다!");
 		} else{

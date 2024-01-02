@@ -14,6 +14,7 @@
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
 	rel="stylesheet" />
+<link href="../css/font.css" rel="stylesheet" >
 
 <style>
 a {
@@ -34,7 +35,6 @@ a {
 	left: -24px;
 	top: 0%;
 }
-
 </style>
 </head>
 <body>

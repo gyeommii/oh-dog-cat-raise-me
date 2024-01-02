@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 	<head>
@@ -10,6 +12,7 @@
 	    	  integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
 	    	  crossorigin="anonymous">
   	    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+  	    <link href="../css/font.css" rel="stylesheet" >
 	    	  
    	    <style>
             .bi{
@@ -40,14 +43,17 @@
 	      	<c:forEach var="wish" items="${wishList}">
 	          <div class="col-md-3" data-id="${wish.product_fk}">
           		  <c:url var="productDetailsPage" value="../product/details">
-						<c:param name="productPk" value="${wish.product_fk}" />
+						<c:param name="productPk" value="${wish.product_fk}"/>
 				  </c:url>
-	              <div class="card mb-5 item" onclick="toPrductDetailPage(event)" style="width: 17rem; cursor: pointer;">
+	              <div class="card mb-5 item" onclick="toPrductDetailPage(event,'${productDetailsPage}')" style="width: 17rem; cursor: pointer;">
 	                  <img src="${wish.img_url}" class="card-img-top" alt="Product image">
 	                  <div class="card-body row">
 	                      <div class="col-10">
 	                          <h5 class="card-title fw-bold fs-6">${wish.product_name}</h5>
-	                          <p class="card-text fs-6">${wish.min_price}</p>
+	                          <p class="card-text fs-6">
+	                          	<f:formatNumber value="${wish.min_price}" pattern="#,###" />원
+                          	  </p>
+	                         
 	                      </div>
 	                      <div class="col-2 m-0 p-1 text-center align-self-center">
 	                          <button class="bi bi-suit-heart-fill m-0 p-0 btnWish"
@@ -82,9 +88,9 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
    	<script src="../js/wishlist.js"></script>
    	<script>
-	    function toPrductDetailPage(event) {
+	    function toPrductDetailPage(event, detailPage) {
 	        if (!event.target.classList.contains("btnWish")) {
-	            location.href = "${productDetailsPage}";
+	            location.href = detailPage;
 	        }
 	    }
 	</script>
