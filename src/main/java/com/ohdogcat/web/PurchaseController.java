@@ -127,7 +127,7 @@ public class PurchaseController {
 
     @ResponseBody
     @DeleteMapping("/{purchasePk}")
-    public ResponseEntity<String> cancelPurchase (HttpSession session, @PathVariable Long purchasePk, HttpServletRequest req) {
+    public ResponseEntity<String> cancelPurchase (HttpSession session, @PathVariable Long purchasePk) {
         log.debug("purchasePk={}", purchasePk);
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
 
@@ -136,4 +136,5 @@ public class PurchaseController {
 
         return ResponseEntity.ok(result);
     }
+
 }

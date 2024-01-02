@@ -31,4 +31,6 @@ public interface PurchaseDao {
     Long retrievePayment(Payment payment);
 
     Long cancelPurchase (PurchaseStatusChangeDto purchaseStatusChangeDto);
+
+    Integer getPurchaseCount (Long memberPk);
 }

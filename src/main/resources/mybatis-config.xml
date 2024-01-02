@@ -28,6 +28,7 @@
 		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseListDto" alias="PurchaseListDto" />
 		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseCancelInfoDto" alias="PurchaseCancelInfoDto" />
 		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseStatusChangeDto" alias="PurchaseStatusChangeDto" />
+		<typeAlias type="com.ohdogcat.dto.purchase.PurchaseListPagenationDto" alias="PurchaseListPagenationDto" />
   </typeAliases>
 
 </configuration>

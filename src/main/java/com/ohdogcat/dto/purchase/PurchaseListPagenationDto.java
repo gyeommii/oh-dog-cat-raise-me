@@ -15,6 +15,6 @@ public class PurchaseListPagenationDto {
     private Long member_fk;
     private Integer limit = 10;
     private Integer offset = 0;
-
+    private Integer curPage;
 
 }

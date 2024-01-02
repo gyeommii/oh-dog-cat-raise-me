@@ -61,16 +61,16 @@
                             <td class="align-middle">${purchase.pay_method}</td>
                             <td class="align-middle">
                                 <c:if test="${purchase.status_pk eq 1 or purchase.status_pk eq 2 or purchase.status_pk eq 3}">
-                                <span class="badge bg-warning fs-6">${purchase.purchase_status}</span>
+                                    <span class="badge bg-warning fs-6">${purchase.purchase_status}</span>
                                 </c:if>
                                 <c:if test="${purchase.status_pk eq 4 or purchase.status_pk eq 5}">
-                                <span class="badge bg-primary fs-6">${purchase.purchase_status}</span>
+                                    <span class="badge bg-primary fs-6">${purchase.purchase_status}</span>
                                 </c:if>
                                 <c:if test="${purchase.status_pk eq 6}">
-                                <span class="badge bg-success fs-6">${purchase.purchase_status}</span>
+                                    <span class="badge bg-success fs-6">${purchase.purchase_status}</span>
                                 </c:if>
                                 <c:if test="${purchase.status_pk eq 7 or purchase.status_pk eq 8}">
-                                <span class="badge bg-danger fs-6">${purchase.purchase_status}</span>
+                                    <span class="badge bg-danger fs-6">${purchase.purchase_status}</span>
                                 </c:if>
                             </td>
                             <td class="align-middle"
@@ -88,8 +88,59 @@
                 <!-- End Table with stripped rows -->
             </div>
         </section>
+        <nav aria-label="Page navigation my-3"  style="margin-bottom: 50px">
+            <ul class="pagination justify-content-center">
+
+                <c:url var="listPageUrlByPaginationPrev" value="./purchaseList">
+                    <c:param name="curPage" value="${curPage-1}"/>
+                </c:url>
+                <c:url var="listPageUrlByPaginationNext" value="./purchaseList">
+                    <c:param name="curPage" value="${curPage+1}"/>
+                </c:url>
+                <c:choose>
+                <c:when test="${curPage eq 1}">
+                <li class="page-item" id="paginationPrev"><a class="page-link"
+                                                             href="#none"
+                >
+                    </c:when>
+                    <c:otherwise>
+                    <li class="page-item" id="paginationPrev"><a class="page-link"
+                                                                 href="${listPageUrlByPaginationPrev}">
+                        </c:otherwise>
+                        </c:choose>
+                        Previous</a></li>
+                    <c:forEach begin="1" end="${page}" var="pageCount" step="1">
+                    <c:url var="listPageUrlByPagination" value="./purchaseList">
+                        <c:param name="curPage" value="${pageCount}"/>
+                    </c:url>
+
+                    <c:if test="${pageCount eq curPage}">
+                    <li class="page-item active" aria-current="page"><a class="page-link"
+                                                                        href="${listPageUrlByPagination}">${pageCount}</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${pageCount ne curPage}">
+                    <li class="page-item"><a class="page-link"
+                                             href="${listPageUrlByPagination}">${pageCount}</a></li>
+                    </c:if>
+                    </c:forEach>
+                    <c:choose>
+                    <c:when test="${curPage eq page}">
+                    <li class="page-item" id="paginationNext"><a class="page-link"
+                                                                 href="#none">Next</a>
+                    </li>
+                    </c:when>
+                    <c:otherwise>
+                    <li class="page-item" id="paginationNext"><a class="page-link"
+                                                                 href="${listPageUrlByPaginationNext}">Next</a>
+                    </li>
+                    </c:otherwise>
+                    </c:choose>
+            </ul>
+        </nav>
     </div>
 </main>
+
 
 <%@ include file="../fragments/footer.jspf" %>
 

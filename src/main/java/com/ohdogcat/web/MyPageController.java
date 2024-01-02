@@ -7,6 +7,7 @@ import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.service.MyPageService;
 import jakarta.servlet.http.HttpSession;
+import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Slf4j
@@ -74,14 +76,17 @@ public class MyPageController {
 
 
     @GetMapping("/purchaseList")
-    public void showAllPurchase(HttpSession session, Model model,
+    public void showAllPurchase(HttpSession session, Model model, @RequestParam(defaultValue = "1") Integer curPage,
         PurchaseListPagenationDto pageInfo) {
         MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
 
         pageInfo.setMember_fk(signedMember.getMember_pk());
+        pageInfo.setCurPage(curPage);
 
-        model.addAttribute("purchaseList", service.getMemberPurchaseList(pageInfo));
+        Map<String, Object> result = service.getMemberPurchaseList(pageInfo);
+        result.put("curPage", curPage);
 
+        model.addAllAttributes(result);
     }
 
 

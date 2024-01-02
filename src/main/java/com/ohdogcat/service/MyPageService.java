@@ -6,6 +6,7 @@ import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.dto.purchase.PurchaseListDto;
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import java.util.List;
+import java.util.Map;
 
 public interface MyPageService {
 
@@ -15,6 +16,6 @@ public interface MyPageService {
 
     Boolean updateUserAddress(MemberAddressUpdateDto dto);
 
-    List<PurchaseListDto> getMemberPurchaseList(PurchaseListPagenationDto pageInfo);
+    Map<String, Object> getMemberPurchaseList(PurchaseListPagenationDto pageInfo);
 
 }
