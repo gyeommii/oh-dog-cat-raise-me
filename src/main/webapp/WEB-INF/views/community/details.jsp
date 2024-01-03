@@ -11,11 +11,20 @@
             rel="stylesheet" 
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" 
             crossorigin="anonymous">
+            
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+        <link href="../css/font.css" rel="stylesheet" >
+        <link href="../css/nav.css" rel="stylesheet" >
     </head>
     <body>
     <div class="container-fluid">
-        <!-- header -->
-        <%@ include file="../fragments/header.jspf"%>
+        <!--top nav -->
+        <%@ include file="../fragments/top-nav.jspf"%>
+        <!-- Header-->
+        <%@ include file ="../fragments/header.jspf" %>
+        <!-- bottom nav-->
+        <%@ include file="../fragments/bottom-nav.jspf"%>
         
         <main class="my-2">
             <div class="card">
@@ -75,7 +84,7 @@
                                 <textarea class="form-control"
                                     id="ctext" placeholder="댓글 입력"></textarea>
                                 <!-- 댓글 작성자 아이디 -  로그인 사용자 아이디로 설정 -->
-                                <input class="" id="member_fk" />
+                                <input class="d-none" id="member_fk" value="${signedMember}"/>
                             </div>
                             <div class="col-2">
                                 <button class="btn btn-outline-warning" 
@@ -129,10 +138,14 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>   
     
     <script>
-          const signedMember = '${signedMember}';
+          const signedMember = '${signedMember.member_pk}';
+          console.log(signedMember);
     </script>
     
     <script src="../js/community/post-comment.js"></script>
+    
+    <script src="../js/navcart-count.js"></script>
+    <script src="../js/cart-list.js"></script>
     
 
     </body>

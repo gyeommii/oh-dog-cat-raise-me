@@ -1,10 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const bsCollapse = new bootstrap.Collapse('div#collapseComments', {toggle: false});
-    
+    const bsCollapse = new bootstrap.Collapse('div#collapseComments', { toggle: false });
     const btnToggleComment = document.querySelector('button#btnToggleComment');
+    const btnRegisterComment = document.querySelector('button#btnRegisterComment');
+    const modal = new bootstrap.Modal('div#commentModal', { backdrop: true });
+    const btnUpdateComment = document.querySelector('button#btnUpdateComment');
+    
+    // 댓글 창
     btnToggleComment.addEventListener('click', () => {
         bsCollapse.toggle();
-        
         if (btnToggleComment.innerHTML === '댓글 보기') {
             btnToggleComment.innerHTML = '댓글 감추기';
             getAllComments();
@@ -12,24 +15,21 @@ document.addEventListener('DOMContentLoaded', () => {
             btnToggleComment.innerHTML = '댓글 보기';
         }
     });
-    
-    const btnRegisterComment = document.querySelector('button#btnRegisterComment');
+
     btnRegisterComment.addEventListener('click', registerComment);
-    
-    const modal = new bootstrap.Modal('div#commentModal', {backdrop: true});
-    const btnUpdateComment = document.querySelector('button#btnUpdateComment');
+
     btnUpdateComment.addEventListener('click', () => {
-        const commentId = document.querySelector('input#modalCommentId').value;
+        const commentId = document.querySelector('input#modalCommentMember_fk').value;
         const ctext = document.querySelector('textarea#modalCommentText').value;
         updateComment(commentId, ctext);
     });
-
+    
+    // 댓글 등록
     function registerComment(event) {
         const postId = document.querySelector('input#post_pk').value;
         const ctext = document.querySelector('textarea#ctext').value;
-        const member_fk = document.querySelector('input#member_fk').value; 
-        //signedMember; // signedMember는 현재 로그인된 사용자 ID
-        
+        const member_fk = document.querySelector('input#member_fk').value;
+
         if (ctext.trim() === '') {
             alert('댓글 내용을 입력하세요.');
             return;
@@ -47,8 +47,9 @@ document.addEventListener('DOMContentLoaded', () => {
             .catch(error => {
                 console.error('댓글 등록 중 오류 발생', error);
             });
-    } 
+    }
     
+    // 댓글목록 조회
     function getAllComments() {
         const postId = document.querySelector('input#post_pk').value;
         axios.get(`../post/comment/all/${postId}`)
@@ -60,10 +61,11 @@ document.addEventListener('DOMContentLoaded', () => {
             });
     }
     
+    // 댓글 카드 생성
     function makeCommentElements(data) {
         const divComments = document.querySelector('div#comments');
         let htmlStr = '';
-    
+
         data.forEach(comment => {
             const time = new Date(comment.modifiedTime).toLocaleString();
             htmlStr += `
@@ -74,10 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
                         <span class="text-secondary">${time}</span>
                     </div>
                     <div>${comment.ctext}</div>`;
-    
-            // 수정 및 삭제 버튼은 현재 로그인한 사용자와 댓글 작성자가 같을 때만 표시
-            // signedMember 현재 로그인한 사용자의 정보
-            if (comment.member_fk === signedMember) {
+            console.log(typeof comment.member_fk, typeof signedMember);
+            if (comment.member_fk == signedMember) {
                 htmlStr += `
                     <div>
                         <button class="btnCommentDelete btn btn-outline-danger" 
@@ -87,29 +87,14 @@ document.addEventListener('DOMContentLoaded', () => {
                     </div>`;
             }
             
-            htmlStr += '</div>'; // card 종료 태그
-    });
-
-    divComments.innerHTML = htmlStr;
-
-    // 삭제 및 수정 버튼에 대한 이벤트 리스너를 추가합니다.
-    document.querySelectorAll('button.btnCommentDelete').forEach(button => {
-        button.addEventListener('click', function() {
-            const commentId = this.getAttribute('data-id');
-            showDeleteConfirmation(commentId);
+            htmlStr += '</div>';
         });
-    });
 
-    document.querySelectorAll('button.btnCommentModify').forEach(button => {
-        button.addEventListener('click', function() {
-            const commentId = this.getAttribute('data-id');
-            const currentText = this.getAttribute('data-text');
-            showEditCommentModal(commentId, currentText);
-        });
-    });
-}
-
+        divComments.innerHTML = htmlStr;
+        addEventListenersToButtons();
+    }
     
+    // 댓글 수정
     function updateComment(commentId, ctext) {
         if (ctext.trim() === '') {
             alert('댓글 내용을 입력하세요.');
@@ -127,7 +112,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('댓글 수정 중 오류 발생', error);
             });
     }
-
+    
+    // 댓글 삭제
     function deleteComment(commentId) {
         if (!confirm('댓글을 삭제하시겠습니까?')) return;
 
@@ -142,73 +128,34 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error('댓글 삭제 중 오류 발생', error);
             });
     }
-
-  
-    // 댓글 수정 모달을 보여주는 함수
-function showEditCommentModal(commentId, currentText) {
-    // 모달에 현재 댓글 내용을 채워넣음
-    document.querySelector('input#modalCommentId').value = commentId;
-    document.querySelector('textarea#modalCommentText').value = currentText;
-
-    // 모달을 보여줌
-    modal.show();
-}
-
-// 댓글 삭제 확인을 위한 함수
-function showDeleteConfirmation(commentId) {
-    if(confirm('댓글을 삭제하시겠습니까?')) {
-        deleteComment(commentId);
-    }
-}
-
-// 댓글 목록 HTML을 작성하고, div#comments 영역에 추가하는 함수.
-function makeCommentElements(data) {
-    const divComments = document.querySelector('div#comments');
-    let htmlStr = '';
-
-    data.forEach(comment => {
-        const time = new Date(comment.modifiedTime).toLocaleString();
-        htmlStr += `
-            <div class="card card-body my-1">
-                <div>
-                    <span class="d-none">${comment.comments_pk}</span>
-                    <span class="fw-bold">${comment.member_fk}</span>
-                    <span class="text-secondary">${time}</span>
-                </div>
-                <div>${comment.ctext}</div>
-                `;
-
-        if (comment.member_fk === signedMember) {
-            htmlStr += `
-                <div>
-                    <button class="btnCommentDelete btn btn-outline-danger" 
-                        data-id="${comment.comments_pk}">삭제</button>
-                    <button class="btnCommentModify btn btn-outline-success" 
-                        data-id="${comment.comments_pk}" data-text="${comment.ctext}">수정</button>
-                </div>`;
-        }
-        
-        htmlStr += '</div>'; // card 종료 태그
-    });
-
-    divComments.innerHTML = htmlStr;
-
-    // 삭제 및 수정 버튼에 이벤트 리스너 등록
-    document.querySelectorAll('button.btnCommentDelete').forEach(button => {
-        button.addEventListener('click', function() {
-            const commentId = this.getAttribute('data-id');
-            showDeleteConfirmation(commentId);
-        });
-    });
-
-    document.querySelectorAll('button.btnCommentModify').forEach(button => {
-        button.addEventListener('click', function() {
-            const commentId = this.getAttribute('data-id');
-            const currentText = this.getAttribute('data-text');
-            showEditCommentModal(commentId, currentText);
-        });
-    });
-}
-
     
+    // 댓글 수정 모달
+    function showEditCommentModal(commentId, currentText) {
+        document.querySelector('input#modalCommentMember_fk').value = commentId;
+        document.querySelector('textarea#modalCommentText').value = currentText;
+        modal.show();
+    }
+    
+    function showDeleteConfirmation(commentId) {
+        if (confirm('댓글을 삭제하시겠습니까?')) {
+            deleteComment(commentId);
+        }
+    }
+
+    function addEventListenersToButtons() {
+        document.querySelectorAll('button.btnCommentDelete').forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-id');
+                showDeleteConfirmation(commentId);
+            });
+        });
+
+        document.querySelectorAll('button.btnCommentModify').forEach(button => {
+            button.addEventListener('click', function() {
+                const commentId = this.getAttribute('data-id');
+                const currentText = this.getAttribute('data-text');
+                showEditCommentModal(commentId, currentText);
+            });
+        });
+    }
 });

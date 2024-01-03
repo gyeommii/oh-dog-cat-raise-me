@@ -13,6 +13,11 @@
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
     crossorigin="anonymous">
 
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<link href="../../css/font.css" rel="stylesheet" >
+<link href="../../css/nav.css" rel="stylesheet" >
+
 <style>
 .label-large {
     font-size: 20px;
@@ -76,8 +81,12 @@ li {
 </head>
 <body>
 
-    <!-- Header -->
-    <%@ include file="/WEB-INF/views/fragments/header.jspf"%>
+    <!--top nav -->
+    <%@ include file="../../fragments/top-nav.jspf"%>
+    <!-- Header-->
+    <%@ include file ="../../fragments/header.jspf" %>
+    <!-- bottom nav-->
+    <%@ include file="../../fragments/bottom-nav.jspf"%>
 
     <div class="row">
         <div class="col-12 text-center my-5">
@@ -189,6 +198,8 @@ li {
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../../js/product-sorted.js"></script>
     <script>let totalPages = ${totalPages};</script>
+    <script src="../../js/navcart-count.js"></script>
+    <script src="../../js/cart-list.js"></script>
     
      <!-- Footer-->
     <%@ include file="../../fragments/footer.jspf"%>
