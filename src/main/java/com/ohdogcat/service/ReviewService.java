@@ -2,6 +2,7 @@ package com.ohdogcat.service;
 
 import java.util.List;
 import org.springframework.stereotype.Service;
+import com.ohdogcat.dto.member.review.MyReviewDetailsDto;
 import com.ohdogcat.dto.member.review.ReviewDeleteDto;
 import com.ohdogcat.dto.member.review.ReviewDetailDto;
 import com.ohdogcat.dto.member.review.ReviewDetailFindDto;
@@ -24,13 +25,16 @@ public class ReviewService {
   // 리뷰에 필요한 목록 불러오기
   public List<ReviewDetailDto> selectReviewDetailViews(ReviewDetailFindDto dto) {
     log.debug("selectReviewDetailViews(dto={})", dto);
-    List<ReviewDetailDto> reviewDetailDto = reviewDao.selectReviewDetailViews(dto);
-//    if (reviewDetailDto.stream().map((x) -> x.getStatus_pk()) != PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk()) {
-//      log.debug("stream={}, Enum={}", reviewDetailDto.stream().map((x) -> x.getStatus_pk()).toString(), PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk().toString());
+    List<ReviewDetailDto> list = reviewDao.selectReviewDetailViews(dto);
+        // 스테이터스의 값이 같으면
+//    if (  == PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk()) {
+//      log.debug("reviewDetailDto dto={}, Enum={}", list.get(0).getStatus_pk(), PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk());
 //      
+//    } else {
+      // 다르면??????????????????????          
 //    }
     
-    return reviewDetailDto;
+  return list;
   }
   
   // 리뷰 작성
@@ -38,14 +42,7 @@ public class ReviewService {
     log.debug("insertReview(dto={})", dto);
     
     reviewDao.insertReview(dto.toEntity());
-  }
-  
-  // 상품의 리뷰 보기
-  public List<ReviewListDto> selectReviewByOptionFk(long option_fk) {
-    List<Review> list = reviewDao.selectReviewByOptionFk(option_fk);
-    
-    return list.stream().map(ReviewListDto::fromEntity).toList();
-  }
+  }  
 
   // 리뷰 수정
   public int updateWhereReviewPkAndMemberFk(ReviewUpdateDto dto) {
@@ -56,16 +53,16 @@ public class ReviewService {
   
   // 리뷰 삭제
   public int deleteWhereReviewAndMemberFk(ReviewDeleteDto dto) {
-    int result = reviewDao.deleteWhereReviewAndMemberFk(dto);
+    int result = reviewDao.deleteWhereReviewAndMemberFk(dto.toEntity());
     
     return result;
   }
   
   // 내가 쓴 리뷰 보기
-  public List<ReviewListDto> selectByMemberFkByReview(long member_fk) {
-    List<Review> list = reviewDao.selectReviewByMemberFk(member_fk);
+  public List<ReviewListDto> selectReviewByMemberFk(long member_fk) {
+    List<ReviewListDto> list = reviewDao.selectReviewByMemberFk(member_fk);
     
-    return list.stream().map(ReviewListDto::fromEntity).toList();
-  }
+    return list;
+  }  
   
 }

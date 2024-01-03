@@ -63,26 +63,25 @@
                         <c:url var="reviewRegister" value="/review/reviewregister" />
                         <form class="row g-3" action="${reviewRegister}" method="POST" enctype="multipart/form-data">
                             <div class="my-2">
-                                <span>상품명</span>
-                                <a class="form-control">${forReviewer[0].product_name}</a>
+                                <span>상품 이미지</span>  
+                                <div class="text-center">                              
+                                <img class="img-fluid card-img" src="${forReviewer[0].img_url}" style="height: 350px; width: 350px;" id="img_url" alt="상품 이미지">
+                                </div>
                             </div>
                             <div class="my-2">
-                                <span>상품 이미지</span>
-                                <c:url var="imgGetUrl" value="/image">
-                                    <c:param name="imgUrl" value="${forReviewer[0].img_url}" />
-                                </c:url>
-                                <img class="img-fluid card-img" src="${imgGetUrl}" style="height: 500px; width: 500px;" id="img_url" alt="상품 이미지">
+                                <span>상품명</span>
+                                <span class="form-control">${forReviewer[0].product_name}</span>
                             </div>
                            <div class="my-2">
                                 <label for="option_fk">옵션</label>
-                                <a class="form-control">${forReviewer[0].option_name}</a>
-                                <input class="d-none" type="text" id="option_fk" name="option_fk" value="" readonly>
+                                <span class="form-control">${forReviewer[0].option_name}</span>
+                                <input class="d-none" type="text" id="option_fk" name="option_fk" value="${option_fk}" readonly>
                             </div>                                                                               
                             <div class="my-2">
                                 <label for="pet_fk">펫 선택</label>
                                 <select class="form-select" id="pet_fk" name="pet_fk">
                                     <c:forEach var="forReviewer" items="${forReviewer}">
-                                        <option value="${forReviewer.pet_pk}">${forReviewer.pet_name}＊${forReviewer.pet_type}</option>
+                                        <option value="${forReviewer.pet_pk}">이름:${forReviewer.pet_name} 😸🐶:${forReviewer.pet_type}</option>
                                     </c:forEach>
                                 </select>
                             </div>
@@ -106,19 +105,16 @@
                                 <textarea cols="20" rows="6" class="form-control" id="content" name="content" placeholder="내용을 입력해주세요."  maxlength="500" required></textarea>
                                 <span id="charCount">0 / 500</span>
                             </div>                    
-                            <div class="my-2">
                                 <label for="img_file" class="form-label">사진</label>
+                            <div class="my-2 input-group">
                                 <input class="form-control" type="file" id="img_file" name="img_file" value="리뷰 이미지" />
-                            </div>
-                            <div>                        
-                                <img class="d-none" alt="imagePreview" id="imagePreview" style="height: 500px; width: 500px" src="#">
-                            </div>
-                            <div>
                                 <button id="clearButton" class="btn btn-danger d-none" onclick="clearFileInput(event);">파일 선택 제거</button>
                             </div>
-                            <div>
-                                <input class="d-none" type="text" value="" id="option_pk" readonly>
-                            </div>                            
+                            <div class="text-center">                        
+                                <img class="d-none" alt="imagePreview" id="imagePreview" style="height: 350px; width: 350px" src="#">
+                            </div>
+                            
+                                                                                 
                             <div class="card-footer">
                                 <input class="btn btn-success form-control" type="submit" value="리뷰 등록">
                             </div>                            

@@ -5,17 +5,18 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.ohdogcat.dto.member.MemberSessionDto;
+import com.ohdogcat.dto.member.review.ReviewDeleteDto;
 import com.ohdogcat.dto.member.review.ReviewDetailDto;
 import com.ohdogcat.dto.member.review.ReviewDetailFindDto;
-import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.member.review.ReviewRegisterDto;
 import com.ohdogcat.service.ReviewService;
-import com.ohdogcat.util.FtpImgLoaderUtil;
+import com.ohdogcat.util.FtpUploaderUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -28,11 +29,11 @@ import lombok.extern.slf4j.Slf4j;
 public class ReviewController {
 
   private final ReviewService reviewService;
-  private final FtpImgLoaderUtil ftpImgLoaderUtil;
+  private final FtpUploaderUtil ftpImgLoaderUtil;
 
   // 리뷰 작성 페이지
-  @GetMapping("")
-  public String reviewRegister(@RequestParam(name = "option_fk" ) long option_fk, HttpSession session, ReviewDetailFindDto dto, Model model) {
+  @GetMapping("/{option_fk}")
+  public String reviewRegister(@PathVariable("option_fk") Long option_fk, HttpSession session, ReviewDetailFindDto dto, Model model) {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     log.debug("memberSessionDto.getMember_pk()={}", memberSessionDto.getMember_pk());
     long member_fk = memberSessionDto.getMember_pk();
@@ -42,7 +43,7 @@ public class ReviewController {
     log.debug("reviewDetailDto={}", reviewDetailDto);
 
     model.addAttribute("forReviewer", reviewDetailDto);
-
+    model.addAttribute("option_fk", option_fk);
     return "review/reviewregister";
   }
 
@@ -62,6 +63,16 @@ public class ReviewController {
     reviewService.insertReview(dto);
 
     return "redirect:/";
-  }  
+  }
+  
+  @GetMapping("/delete")
+  public void deleteReview(@RequestParam ( name = "deleteReview") long review_pk , ReviewDeleteDto dto, HttpSession session) {
+    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
+    dto.setMember_fk(memberSessionDto.getMember_pk());
+    dto.setReview_pk(review_pk);
+    
+    reviewService.deleteWhereReviewAndMemberFk(dto);
+    
+  }
   
 }

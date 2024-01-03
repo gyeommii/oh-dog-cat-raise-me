@@ -4,23 +4,20 @@
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ohdogcat.repository.ReviewDao">
 
-    <select id="selectReviewByMemberFk" resultType="Review">
-        select * from
-        REVIEW where MEMBER_FK = #{member_fk} order by REVIEW_PK desc
+    <select id="selectReviewByMemberFk" resultType="com.ohdogcat.dto.member.review.ReviewListDto">
+        SELECT r.review_pk, r.member_fk, p.product_name, po.option_name, pe.pet_name, pe.pet_type, r.content, r.img, r.score, r.modified_time
+        FROM review r
+        JOIN product_option po ON r.option_fk = po.option_pk
+        JOIN product p ON po.product_fk = p.product_pk
+        JOIN pet pe ON r.pet_fk = pe.pet_pk
+        WHERE r.member_fk = #{member_fk}
+        ORDER BY r.review_pk DESC
     </select>
 
     <select id="selectReviewByOptionFk" resultType="Review">
         select * from
         REVIEW where OPTION_FK = #{option_fk}
-    </select>
-
-    <select id="selectReviewByOptionFkForProductFkProductName" resultType="Review">
-        SELECT r.*, po.product_fk, p.product_name
-        FROM review r
-        JOIN product_option po ON r.option_fk = po.option_pk
-        JOIN product p ON po.product_fk = p.product_pk
-        WHERE r.option_fk = #{option_fk}
-    </select>
+    </select>    
 
     <insert id="insertReview">
         insert into REVIEW (MEMBER_FK, PET_FK, OPTION_FK,
@@ -68,12 +65,23 @@
         where
         M.member_pk = #{member_fk} and PP.option_fk = #{option_fk}
     </select>
-
-    <select id="selectScoreAverage" resultType="int">
-        select
-        CAST(AVG(score) AS INT) from REVIEW
-        where OPTION_FK =
-        #{option_fk}
+    
+    <select id="selectMyReviewDetails" resultType="com.ohdogcat.dto.member.review.MyReviewDetailsDto">
+    SELECT
+        p.product_name AS product_name,
+        po.option_name AS option_name,
+        pe.pet_name AS pet_name,
+        pe.pet_type AS pet_type
+    FROM
+        review r
+    JOIN
+        product_option po ON r.option_fk = po.option_pk
+    JOIN
+        product p ON po.product_fk = p.product_pk
+    JOIN
+        pet pe ON r.pet_fk = pe.pet_pk
+    WHERE
+        r.member_fk = #{member_fk}
     </select>
-
+    
 </mapper>

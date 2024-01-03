@@ -4,12 +4,14 @@ import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
+import com.ohdogcat.dto.member.review.MyReviewDetailsDto;
 import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.wishlist.WishListDto;
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.service.MyPageService;
 import com.ohdogcat.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
@@ -111,12 +113,12 @@ public class MyPageController {
     }
     
     /* 리뷰에서.. */
-    @GetMapping("/myreview")
+    @GetMapping("/review")
     public String myReview(HttpSession session, Model model) {
       MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
 
-      List<ReviewListDto> list = reviewService.selectByMemberFkByReview(memberSessionDto.getMember_pk());
-      model.addAttribute("myReview", list);
+      List<ReviewListDto> list = reviewService.selectReviewByMemberFk(memberSessionDto.getMember_pk());
+      model.addAttribute("myReview", list);      
       
       return "review/myreview";
     }
