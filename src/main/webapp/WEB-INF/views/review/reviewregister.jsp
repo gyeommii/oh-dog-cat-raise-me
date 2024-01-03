@@ -45,24 +45,47 @@
             </div>
             <div class="col-md-6">
                 <div class="container mt-5">
-                    <h3 class="text-center mb-4">리뷰 등록</h3>        
+                    <h3 class="text-center mb-4">리뷰 등록</h3>
                 </div>
-                <div class="card">
+                <div class="card my-2">
+                    <div id="deliveryStatus">
+                        <p class="text-center"></p>
+                    </div>
+                    <div class="d-grid gap-2 col-2 mx-auto">
+                    <button class="d-none btn btn-secondary" id="backButton">뒤로 가기</button>
+                    </div>
                     <div class="card-body">
                         <c:url var="reviewRegister" value="/mypage/reviewregister" />
                         <form class="row g-3" action="${reviewRegister}" method="POST" enctype="multipart/form-data">
-                            <div class="card">
-                                <label class="form-label" for="product_name">상품</label>
-                                <a class="form-control" id="product_name"></a>
-                                <label class="form-label" for="">옵션</label>
-                                <a class="form-control" id=""></a>
-                                <img class="img-fluid card-img" alt="product_img_url" id="product_img_url" src="">
-                            <div>
-                                <select>
-                                    <option>
+                            <div class="my-2">
+                                <span>상품명</span>
+                                <a class="form-control">${forReviewer[0].product_name}</a>
+                            </div>
+                            <div class="my-2">
+                                <span>상품 이미지</span>
+                                <c:url var="imgGetUrl" value="/image">
+                                    <c:param name="imgUrl" value="${forReviewer[0].img_url}" />
+                                </c:url>
+                                <img class="img-fluid card-img" src="${imgGetUrl}" style="height: 500px; width: 500px;" id="img_url" alt="상품 이미지">
+                            </div>
+                           <div class="my-2">
+                                <label for="option_fk">옵션</label>
+                                <a class="form-control">${forReviewer[0].option_name}</a>
+                                <input class="d-none" type="text" id="option_fk" name="option_fk" value="${forReviewer[0].option_pk}" readonly>
+                            </div>
+                            <div class="my-2">
+                                <span>가격</span>
+                                <a class="form-control">${forReviewer[0].price}</a>
+                            </div>                                                        
+                            <div class="my-2">
+                                <label for="pet_fk">펫 선택</label>
+                                <select class="form-select" id="pet_fk" name="pet_fk">
+                                    <!-- 실제 펫 목록을 동적으로 가져와서 옵션으로 추가 -->
+                                    <c:forEach var="forReviewer" items="${forReviewer}">
+                                        <option value="${forReviewer.pet_pk}">${forReviewer.pet_name}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
-                            </div>                             
                                 <div class="col-12 text-center mb-3">
                                 <label for="rating">평점</label><br>
                                     <div class="rating rating-reversed">
@@ -78,34 +101,36 @@
                                         <label for="star1">&#9733;</label>
                                     </div>
                                 </div>                          
-                            <div>
+                            <div class="my-2">
                                 <label for="content" class="form-label">내용</label>
-                                <textarea cols="20" rows="6" class="form-control" id="content" name="content" placeholder="내용을 입력해주세요."  maxlength="500"></textarea>
+                                <textarea cols="20" rows="6" class="form-control" id="content" name="content" placeholder="내용을 입력해주세요."  maxlength="500" required></textarea>
                                 <span id="charCount">0 / 500</span>
                             </div>                    
-                            <div>
+                            <div class="my-2">
                                 <label for="img_file" class="form-label">사진</label>
-                                <input class="form-control" type="file" id="img_file" name="img_file" value="리뷰 이미지" multiple>
+                                <input class="form-control" type="file" id="img_file" name="img_file" value="리뷰 이미지" />
                             </div>
                             <div>                        
-                                <img class="img-fluid card-img" alt="img_preview" id="img_preview" src="#">
-                            </div>
-                            
-                            <div>
-                                <input class="d-none" type="text" value="" id="member_id" readonly>
+                                <img class="d-none" alt="imagePreview" id="imagePreview" style="height: 500px; width: 500px" src="#">
                             </div>
                             <div>
-                                <input class="d-none" type="text" value="" id="pet_pk" readonly>
+                                <button id="clearButton" class="btn btn-danger d-none" onclick="clearFileInput(event);">파일 선택 제거</button>
+                            </div>                            
+                            <div>
+                                <input class="d-none" type="text" value="${forReviewer[0].member_id}" id="member_id" readonly>
                             </div>
                             <div>
-                                <input class="d-none" type="text" value="" id="product_pk" readonly>
+                                <input class="d-none" type="text" value="${forReviewer[0].product_pk}" id="product_pk" readonly>
                             </div>
                             <div>
-                                <input class="d-none" type="text" value="" id="option_pk" readonly>
+                                <input class="d-none" type="text" value="${forReviewer[0].option_pk}" id="option_pk" readonly>
+                            </div>
+                            <div>
+                                <input class="d-none" type="text" value="${forReviewer[0].purchase_status}" id="purchase_status" readonly>
                             </div>
                             <div class="card-footer">
                                 <input class="btn btn-success form-control" type="submit" value="리뷰 등록">
-                            </div>
+                            </div>                            
                         </form>
                     </div>
                 </div>
@@ -114,7 +139,7 @@
     </main>    
 	
     <!-- Footer-->
-    <%@ include file="../fragments/footer.jspf"%>    
+    <%@ include file="../fragments/footer.jspf"%>
     
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" 
 	    integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" 

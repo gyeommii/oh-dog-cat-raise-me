@@ -7,9 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.member.review.ReviewDetailDto;
+import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.member.review.ReviewRegisterDto;
 import com.ohdogcat.service.ReviewService;
 import com.ohdogcat.util.FtpImgLoaderUtil;
@@ -41,29 +43,38 @@ public class ReviewController {
     return "review/reviewregister";
   }
 
-
-
   // 리뷰 작성
   @PostMapping("/reviewregister")
-  public String reviewRegister(MultipartFile img_file, ReviewRegisterDto dto,
-      HttpServletRequest req, HttpSession session) throws IOException {
-    log.debug("reviewRegister(dto={}, session={}", dto);
+  public String reviewRegister(MultipartFile img_file, HttpSession session,
+      HttpServletRequest req, ReviewRegisterDto dto) throws IOException {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     dto.setMember_fk(memberSessionDto.getMember_pk());
-    
-    if (!img_file.isEmpty()) {
-      log.debug("MultipartFile img={}", img_file);
 
+    if (!img_file.isEmpty()) {
       String imgPath = ftpImgLoaderUtil.upload(img_file, req.getServletPath());
       dto.setImg(imgPath);
-      log.debug("reviewRegister(dto={})", dto);
-      reviewService.insertReview(dto);
     } else {
       dto.setImg("");
-      reviewService.insertReview(dto);
     }
+    reviewService.insertReview(dto);
 
     return "redirect:/";
   }
 
+  @GetMapping("/myreview")
+  public String myReview(HttpSession session, Model model) {
+    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
+
+    List<ReviewListDto> list = reviewService.selectByMemberFkByReview(memberSessionDto.getMember_pk());
+    model.addAttribute("myReview", list);
+    
+    return "review/myreview";
+  }
+
+  @GetMapping("/reviewtest")
+  public String reviewTest() {
+    
+    return "review/reviewtest";
+  }
+  
 }

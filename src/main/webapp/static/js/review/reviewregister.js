@@ -4,6 +4,26 @@
 
 document.addEventListener('DOMContentLoaded', () => {
 
+    const ratingRadios = document.querySelectorAll('input[name="score"]');
+
+    function validateRating() {
+        let checked = false;
+        ratingRadios.forEach(radio => {
+            if (radio.checked) {
+                checked = true;
+            }
+        });
+        return checked;
+    }
+
+    // 리뷰 제출 시 평점이 선택되었는지 확인
+    document.querySelector('form').addEventListener('submit', (event) => {
+        if (!validateRating()) {
+            event.preventDefault(); // 제출 막기
+            alert('평점을 선택해주세요.');
+        }
+    });
+
     // textarea 요소와 글자 수를 표시할 span 요소를 변수에 할당합니다.
     const textArea = document.querySelector('#content');
     const charCount = document.querySelector('#charCount');
@@ -24,6 +44,68 @@ document.addEventListener('DOMContentLoaded', () => {
             textArea.value = textArea.value.substring(0, maxLength);
             charCount.textContent = '500 / 500 글자수를 초과합니다.';
         }
-    });    
+    });
+
+    const img_file = document.querySelector('#img_file');
+
+    img_file.addEventListener('change', previewImage);
+
+    function previewImage() {
+        const file = document.querySelector('#img_file').files[0];
+        const preview = document.querySelector('#imagePreview');
+        const clearButton = document
+            .querySelector('#clearButton');
+
+        const reader = new FileReader();
+
+        reader.onloadend = function() {
+            preview.src = reader.result;
+            preview.classList.remove('d-none'); // 이미지를 선택하면 감춰진 이미지를 보여줍니다.
+            clearButton.classList.remove('d-none');
+        }
+
+        if (file) {
+            reader.readAsDataURL(file);
+        } else {
+            preview.src = "";
+            preview.classList.add('d-none'); // 이미지가 없을 때는 이미지를 감춥니다.
+            clearButton.classList.add('d-none');
+        }
+    }
+
+    const clearButton = document.querySelector('#clearButton');
+
+    clearButton.addEventListener('click', clearFileInput);
+
+    function clearFileInput(event) {
+        event.preventDefault();
+
+        const input = document.querySelector('#img_file');
+        const preview = document.querySelector('#imagePreview');
+        const clearButton = document
+            .querySelector('#clearButton');
+
+        input.value = ''; // 파일 입력 필드 초기화
+        preview.src = ''; // 미리보기 이미지 초기화
+        preview.classList.add('d-none'); // 이미지 감추기
+        clearButton.classList.add('d-none');
+    }
+
+    const purchaseStatus = document.querySelector('#purchase_status').value;
+    const deliveryStatusElement = document.querySelector('#deliveryStatus');
+    const backButton = document.querySelector('#backButton');
+
+
+    if (purchaseStatus !== '6') {
+        // 배송 상태가 ''이 아닌 경우 안내를 표시하고, 리뷰 양식을 숨깁니다.
+        deliveryStatusElement.innerHTML = '<div class="my-2"><p class="text-center">배송이 완료되지 않았습니다. 배송 완료 후 리뷰를 작성하실 수 있습니다.</p></div>';
+        backButton.classList.remove('d-none');
+        document.querySelector('form').style.display = 'none';
+
+        backButton.addEventListener('click', () => {
+            window.history.back();
+        });
+
+    }
 
 });

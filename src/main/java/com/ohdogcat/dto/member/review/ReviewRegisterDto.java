@@ -1,10 +1,14 @@
 package com.ohdogcat.dto.member.review;
 
 import com.ohdogcat.model.Review;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ReviewRegisterDto {
   private long member_fk;
