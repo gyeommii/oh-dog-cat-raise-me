@@ -80,12 +80,12 @@
                                     value="${pet.pet_pk}"/>
                         </c:url>
                             <a
-                                    class="btn btn-secondary"
+                                    class="btn btn-outline-secondary"
                                     id="modifyPet"
                                     role="button"
                                     href="${modifyPet}">🔧</a>
                             <a
-                                    class="btn btn-danger"
+                                    class="btn btn-outline-danger"
                                     onclick="return confirm('삭제하시겠습니까?')"
                                     id="deletePet"
                                     role="button"

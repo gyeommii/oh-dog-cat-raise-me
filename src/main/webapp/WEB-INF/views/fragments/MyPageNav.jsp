@@ -33,7 +33,7 @@
                     <a class="nav-link ms-1 link-body-emphasis" href="${wishListPage}">위시리스트</a>
                     <a class="nav-link ms-1 link-body-emphasis" href="${myPurchasePage}">구매 내역
                         확인하기</a>
-                    <a class="nav-link ms-1 link-body-emphasis" href="#{reviewListPage}">내 리뷰 보기</a>
+                    <a class="nav-link ms-1 link-body-emphasis" href="${reviewListPage}">내 리뷰 보기</a>
                 </nav>
             </nav>
         </nav>
