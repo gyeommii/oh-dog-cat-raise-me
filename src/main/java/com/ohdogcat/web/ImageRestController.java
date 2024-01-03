@@ -1,6 +1,6 @@
 package com.ohdogcat.web;
 
-import com.ohdogcat.util.FtpImgLoaderUtil;
+import com.ohdogcat.util.FtpUploaderUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/image")
 public class ImageRestController {
 
-    private final FtpImgLoaderUtil imgUploader;
+    private final FtpUploaderUtil imgUploader;
 
     @GetMapping("")
     public ResponseEntity<Resource> getImage(@RequestParam String imgUrl, HttpServletRequest req)
