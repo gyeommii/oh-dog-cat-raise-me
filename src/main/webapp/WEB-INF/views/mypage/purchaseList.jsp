@@ -14,20 +14,16 @@
           crossorigin="anonymous">
     <link href="../css/order/order-page.css" rel="stylesheet"/>
 
-    <style>
-      .btn-smaller-custom {
-        --bs-btn-padding-y: .25rem;
-        --bs-btn-padding-x: .5rem;
-        --bs-btn-font-size: .75rem;
-      }
-    </style>
+    <link href="../css/mypage.css" rel="stylesheet"/>
 </head>
 
 <body>
 
 <%@ include file="../fragments/header.jspf" %>
-<main>
-    <div class="pt-3 mt-3" style="width: 70%; margin: auto">
+
+<main class="outer-container">
+    <%@include file="../fragments/MyPageNav.jsp" %>
+    <div class="container pt-3 mt-3 my-page-container">
         <!-- End Page Title -->
         <section class="section">
             <h4 class="display-6">구매 이력보기</h4>

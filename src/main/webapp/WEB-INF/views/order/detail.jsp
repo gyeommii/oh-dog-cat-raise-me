@@ -13,6 +13,7 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
     <link href="../css/order/order-page.css" rel="stylesheet"/>
+    <link href="../css/mypage.css" rel="stylesheet"/>
 
 </head>
 
@@ -20,8 +21,9 @@
 
 <%@ include file="../fragments/header.jspf" %>
 
-<main>
-    <div class="order-wrapper outer-wrapper-content mb-3">
+<main class="outer-container">
+    <%@include file="../fragments/MyPageNav.jsp" %>
+    <div class="mb-3">
         <h2 class="order-header text-center">주문 내역 확인하기</h2>
         <c:if test="${at eq 'O'}">
             <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -31,7 +33,7 @@
                         aria-label="Close"></button>
             </div>
         </c:if>
-        <div>
+        <div class="container my-page-container">
             <div class="accordion accordion-flush inner-wrapper my-3" id="accordionExample">
                 <div class="accordion-item" style="border: 0px">
                     <div class="small_header accordion-header flex-box-start">
@@ -116,9 +118,18 @@
                                             <div style="font-size: 18px">${product.count * product.price}</div>
                                             <div class="fs-6 fw-normal">무료배송</div>
                                             <hr/>
-                                            <button class="btn btn-outline-primary btn-sm mb-2"
-                                                    data-id="${product.option_fk}">장바구니 넣기
-                                            </button>
+                                            <c:choose>
+                                                <c:when test="${purchaseStatus.status_pk eq 6}">
+                                                    <a class="btn btn-outline-primary btn-sm mb-2"
+                                                       href="../review/${product.option_fk}">리뷰 작성
+                                                    </a>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <a class="btn btn-secondary btn-sm mb-2"
+                                                       href="#">리뷰 작성
+                                                    </a>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </div>
                                     </div>
                                 </div>
@@ -236,7 +247,8 @@
             </div>
 
             <div class="container d-flex pt-3" style="justify-content: space-between">
-                <a id="toListBtn" class="btn btn-outline-success" style="width: 17%" href="../mypage/purchaseList">
+                <a id="toListBtn" class="btn btn-outline-success" style="width: 17%"
+                   href="../mypage/purchaseList">
                     <svg
                             xmlns="http://www.w3.org/2000/svg"
                             width="16"
@@ -262,6 +274,7 @@
         </div>
     </div>
 </main>
+
 <input type="hidden" value="${purchase.purchase_pk}" id="purchasePk"/>
 
 <%@ include file="../fragments/footer.jspf" %>
