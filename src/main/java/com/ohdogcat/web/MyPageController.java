@@ -4,11 +4,8 @@ import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
-<<<<<<< HEAD
 import com.ohdogcat.dto.member.review.ReviewListDto;
-=======
 import com.ohdogcat.dto.wishlist.WishListDto;
->>>>>>> 2adfa3a66ffbf5ebfa6095ac9323afd6fd06355a
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.service.MyPageService;
 import com.ohdogcat.service.ReviewService;
@@ -112,7 +109,8 @@ public class MyPageController {
 
         model.addAllAttributes(result);
     }
-
+    
+    /* 리뷰에서.. */
     @GetMapping("/myreview")
     public String myReview(HttpSession session, Model model) {
       MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");

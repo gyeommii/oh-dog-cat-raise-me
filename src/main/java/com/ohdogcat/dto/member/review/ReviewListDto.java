@@ -2,10 +2,14 @@ package com.ohdogcat.dto.member.review;
 
 import java.sql.Timestamp;
 import com.ohdogcat.model.Review;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class ReviewListDto {
   private long review_pk;
