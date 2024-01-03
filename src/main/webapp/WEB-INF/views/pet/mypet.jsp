@@ -11,15 +11,29 @@
             rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
             crossorigin="anonymous">
-    <link href="../css/mypage.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+    <link href="../css/font.css" rel="stylesheet" >
+    <link href="../css/nav.css" rel="stylesheet" >
+    <link href="../css/mypage.css" rel="stylesheet">
+
 </head>
 <body>
+<!--top nav -->
+<%@ include file="../fragments/top-nav.jspf" %>
+<!-- Header-->
+<%@ include file="../fragments/header.jspf" %>
+<!-- bottom nav-->
+<%@ include file="../fragments/bottom-nav.jspf" %>
 
-<%@include file="../fragments/header.jspf" %>
 
-<main class="outer-container">
+
+<main class="outer-container row">
+    <div class="col-2">
     <%@include file="../fragments/MyPageNav.jsp" %>
-    <div class="container pb-3 my-page-container">
+    </div>
+
+    <div class="container pb-3 my-page-container col-8">
         <div class="card-body bg-opacity-10"
              style="display: flex;  justify-content: space-between;">
             <h2 class="text-center display-6 my-3" style="display: inline-block; width: 100%">
@@ -104,17 +118,15 @@
 </main>
 
 <!-- Footer-->
-<footer class="py-5 bg-dark">
-    <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; ohdogcat
-            2023</p>
-    </div>
-</footer>
+<%@ include file="../fragments/footer.jspf"%>
 
 <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
-
+<!--axios없는 jsp에는 axios도 넣어주세용 -->
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="../js/navcart-count.js"></script>
+<script src="../js/cart-list.js"></script>
 </body>
 </html>

@@ -7,11 +7,10 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인</title>
-    <link
-            href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
             rel="stylesheet"
             integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-            crossorigin="anonymous">
+            crossorigin="anonymous" />
     <style>
       .login-icon {
         width: 13px;
@@ -19,9 +18,21 @@
         object-fit: contain;
       }
     </style>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<link href="../css/font.css" rel="stylesheet" />
+<link href="../css/nav.css" rel="stylesheet"  />
+<link href="../css/mypage.css" rel="stylesheet" />
+
 </head>
 <body>
-<%@include file="../fragments/header.jspf" %>
+<!--top nav -->
+<%@ include file="../fragments/top-nav.jspf" %>
+<!-- Header-->
+<%@ include file="../fragments/header.jspf" %>
+<!-- bottom nav-->
+<%@ include file="../fragments/bottom-nav.jspf" %>
 
 <main id="login-form-wrapper m-3" style="width: 50%; margin: auto; padding-top: 3%;">
     <div class="mb-3 card p-3" style="width: 70%; margin:auto">
@@ -82,6 +93,7 @@
 
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="../js/member/signin.js"></script>
-
+<script src="../js/navcart-count.js"></script>
+<script src="../js/cart-list.js"></script>
 </body>
 </html>

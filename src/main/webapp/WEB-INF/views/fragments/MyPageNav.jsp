@@ -8,10 +8,10 @@
 <c:url var="wishListPage" value="/mypage/wishlist" />
 <c:url var="reviewListPage" value="/mypage/review" />
 
-<div id="my-page-nav">
-    <div>
+<div id="my-page-nav" class="pt-6">
+    <div class="mt-4">
         <nav id="navbar-example3" role="navigation"
-             class="h-100 flex-column align-items-stretch">
+             class="h-100 flex-column align-items-stretch pt-3">
             <nav class="nav nav-pills flex-column">
                 <h5 class="nav-link text-bg-light p-2"><a href="${memberMyPage}"
                                                           class="link-body-emphasis">내 정보</a>
