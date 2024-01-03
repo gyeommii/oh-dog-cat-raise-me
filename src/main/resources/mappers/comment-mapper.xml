@@ -31,9 +31,13 @@
     </delete>
     
     <select id="selectByPostId" resultType="Comment">
-        SELECT * FROM COMMENTS WHERE POST_FK = #{postId}
-        order by CREATED_TIME
+        SELECT c.*, m.MEMBER_ID 
+        FROM COMMENTS c
+        JOIN MEMBER m ON c.MEMBER_FK = m.MEMBER_PK
+        WHERE c.POST_FK = #{postId}
+        order by c.CREATED_TIME
     </select>
+
     
     
     

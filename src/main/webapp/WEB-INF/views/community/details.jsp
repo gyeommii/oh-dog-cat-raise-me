@@ -16,6 +16,97 @@
         <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
         <link href="../css/font.css" rel="stylesheet" >
         <link href="../css/nav.css" rel="stylesheet" >
+        
+        
+    
+    <style>
+    <!-- Custom Modal Styles -->
+        /* 모달 컨텐츠 스타일링 */
+        .custom-modal .modal-content {
+            background-color: #f8f9fa; /* 밝은 회색 배경 */
+            border-radius: 8px; /* 모서리 둥글게 */
+            border: 1px solid #dee2e6; /* 테두리 색상 */
+        }
+    
+        /* 모달 헤더 스타일링 */
+        .custom-modal .modal-header {
+            background-color: #e9ecef; /* 헤더 배경색 */
+            border-bottom: 1px solid #dee2e6; /* 헤더 아래 테두리 */
+            padding: 15px; /* 패딩 */
+        }
+    
+        .custom-modal .modal-header .modal-title {
+            font-weight: bold; /* 제목 굵게 */
+        }
+    
+        /* 모달 바디 스타일링 */
+        .custom-modal .modal-body {
+            padding: 20px; /* 내부 패딩 */
+        }
+    
+        /* 모달 푸터 스타일링 */
+        .custom-modal .modal-footer {
+            padding: 15px; /* 패딩 */
+            background-color: #e9ecef; /* 푸터 배경색 */
+            border-top: 1px solid #dee2e6; /* 푸터 위 테두리 */
+        }
+    
+        /* 모달 버튼 스타일링 */
+        .custom-modal .modal-footer .btn {
+            margin: 0 5px; /* 버튼 간격 */
+        }
+        
+        /* 카드 커스텀 스타일 */
+         .card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            border: 1px solid #dee2e6;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            max-width: 800px; /* 최대 너비 설정 */
+            margin: auto; /* 중앙 정렬 */
+        }
+    
+        .card-header {
+            background-color: #e9ecef;
+            border-bottom: 1px solid #dee2e6;
+            font-weight: bold;
+        }
+    
+        .card-body {
+            padding: 20px;
+        }
+       .btn-modify {
+            background-color: #FFB914; /* 배경 색상 */
+            color: white; /* 글자 색상 */
+            border: none; /* 테두리 제거 */
+            border-radius: 5px; /* 모서리 둥글게 */
+            text-decoration: none; /* 밑줄 제거 */
+        }
+    
+        .btn-modify:hover {
+            background-color: #e6a810; /* 호버 상태에서의 배경 색상 */
+        } 
+        
+        .form-label {
+            color: #828282;
+        }
+         .fixed-size-textarea {
+            width: 100%; /* 너비를 컨테이너의 100%로 설정 */
+            height: 300px; /* 높이 설정 */
+            resize: none; /* 크기 조절 비활성화 */
+        }
+        .fixed-textarea-comment{
+            width: 100%; /* 너비를 컨테이너의 100%로 설정 */
+            height: 100px; /* 높이 설정 */
+            resize: none; /* 크기 조절 비활성화 */
+        }
+        .btn-register-comment{
+            margin-top: 30px;
+        }
+            
+            
+    </style>
+    
     </head>
     <body>
     <div class="container-fluid">
@@ -41,7 +132,7 @@
                     </div>
                     <div class="my-2">
                         <label class="form-label" for="content">내용</label>
-                        <textarea class="form-control" id="content" readonly>${post.content}</textarea>
+                        <textarea class="form-control fixed-size-textarea" id="content" readonly>${post.content}</textarea>
                     </div>
                     <div class="my-2 d-none">
                         <label class="form-label" for="member_fk">작성자</label>
@@ -60,12 +151,14 @@
                     </div>
                 </form>
                 
-                <div class="card-footer">
+                <c:if test="${post.member_fk eq signedMember.member_pk}" >
+                    <div class="card-footer">
                         <c:url var="postModifyPage" value="/community/modify">
                             <c:param name="post_pk" value="${post.post_pk}" />
                         </c:url>
-                        <a href="${postModifyPage}" class="btn btn-primary">수정하기</a>
-                </div>
+                        <a href="${postModifyPage}" class="btn btn-modify">수정하기</a>
+                    </div>
+                </c:if>
                 
             </div>
             
@@ -81,12 +174,12 @@
                         <div class="row my-2">
                             <div class="col-10">
                                 <!-- 댓글 입력 창 -->
-                                <textarea class="form-control"
+                                <textarea class="form-control fixed-textarea-comment"
                                     id="ctext" placeholder="댓글 입력"></textarea>
                                 <!-- 댓글 작성자 아이디 -  로그인 사용자 아이디로 설정 -->
                                 <input class="d-none" id="member_fk" value="${signedMember}"/>
                             </div>
-                            <div class="col-2">
+                            <div class="col-2 btn-register-comment">
                                 <button class="btn btn-outline-warning" 
                                     id="btnRegisterComment">등록</button>
                             </div>
@@ -99,31 +192,25 @@
             </div>
             
             <!-- 댓글 업데이트 모달 -->
-            <div id="commentModal" class="modal" tabindex="-1">
+            <!-- 모달 HTML -->
+            <div id="commentModal" class="modal custom-modal" tabindex="-1">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">댓글 수정</h5>
-                            <button type="button" class="btn-close"
-                                data-bs-dismiss="modal"
-                                aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <!-- 수정할 댓글 아이디 -->
                             <input class="d-none" id="modalCommentMember_fk" />
-                            <!-- 수정댓글 입력 -->
-                            <textarea class="form-controll" id="modalCommentText"></textarea>
+                            <textarea class="form-control" id="modalCommentText"></textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button"
-                                class="btn btn-secondary"
-                                data-bs-dismiss="modal">취소</button>
-                            <button id="btnUpdateComment" type="button"
-                                class="btn btn-warning">변경내용 저장</button>
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                            <button id="btnUpdateComment" type="button" class="btn btn-warning">변경완료</button>
                         </div>
                     </div>
                 </div>
-            </div> <!-- end Modal -->
+            </div>
 
         </main>
         

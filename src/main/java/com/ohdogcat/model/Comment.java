@@ -16,6 +16,7 @@ public class Comment {
 	private String ctext;
 	private LocalDateTime created_time;
 	private LocalDateTime modified_time;
+	private String memberId;
 	
 	public String getFormattedCreatedTime() {
         return created_time != null ? DateTimeUtil.formatLocalDateTime(created_time) : null;

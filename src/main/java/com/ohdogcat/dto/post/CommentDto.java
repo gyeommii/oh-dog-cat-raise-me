@@ -14,5 +14,6 @@ public class CommentDto {
     private String ctext;     // 댓글 내용
     private String createdTime; // 생성된 시간 (문자열로 변환된 값)
     private String modifiedTime; // 수정된 시간 (문자열로 변환된 값)
+    private String memberId;
 
 }

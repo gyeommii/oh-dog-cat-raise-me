@@ -63,7 +63,8 @@ public class CommentRestController {
 	                                           comment.getMember_fk(),
 	                                           comment.getCtext(),
 	                                           comment.getFormattedCreatedTime(),
-	                                           comment.getFormattedModifiedTime()))
+	                                           comment.getFormattedModifiedTime(),
+	                                           comment.getMemberId()))
 	            .collect(Collectors.toList());
 	    return ResponseEntity.ok(commentDtos);
 	}

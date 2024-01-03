@@ -72,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card card-body my-1">
                     <div>
                         <span class="d-none">${comment.comments_pk}</span>
-                        <span class="fw-bold">${comment.member_fk}</span>
+                        <span class="fw-bold">${comment.memberId}</span>
                         <span class="text-secondary">${time}</span>
                     </div>
                     <div>${comment.ctext}</div>`;

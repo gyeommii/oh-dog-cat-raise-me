@@ -98,6 +98,9 @@
         color: white; /* 클릭 시 텍스트 색상*/
     }
     
+    .card-text-postMember{
+         margin-left: 10px;
+    }
         
     
     
@@ -202,7 +205,7 @@
                                         ${post.title}
                                     </a>
                                 </h5>
-                                <p class="card-text" >${post.member_fk}</p>
+                                <p class="card-text card-text-postMember" >${post.member_fk}</p>
                                 <p class="card-text" style="text-align: right;">
                                     <small class="text-muted">${post.formattedModifiedTime}</small>
                                 </p>
