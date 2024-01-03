@@ -32,6 +32,7 @@
     
     <select id="selectByPostId" resultType="Comment">
         SELECT * FROM COMMENTS WHERE POST_FK = #{postId}
+        order by CREATED_TIME
     </select>
     
     

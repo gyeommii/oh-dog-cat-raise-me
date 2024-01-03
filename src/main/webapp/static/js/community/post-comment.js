@@ -100,28 +100,31 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('댓글 내용을 입력하세요.');
             return;
         }
-
+    
         axios.put(`../post/comment/${commentId}`, { ctext })
             .then(response => {
                 if (response.data === 1) {
                     alert('댓글이 수정되었습니다.');
                     getAllComments();
+                    modal.hide(); // 모달 창 숨기기
                 }
             })
             .catch(error => {
                 console.error('댓글 수정 중 오류 발생', error);
             });
     }
+
     
     // 댓글 삭제
     function deleteComment(commentId) {
         if (!confirm('댓글을 삭제하시겠습니까?')) return;
-
+    
         axios.delete(`../post/comment/${commentId}`)
             .then(response => {
                 if (response.data === 1) {
                     alert('댓글이 삭제되었습니다.');
                     getAllComments();
+                    modal.hide(); // 모달 창 숨기기
                 }
             })
             .catch(error => {
@@ -137,9 +140,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
     
     function showDeleteConfirmation(commentId) {
-        if (confirm('댓글을 삭제하시겠습니까?')) {
             deleteComment(commentId);
-        }
+        
     }
 
     function addEventListenersToButtons() {
