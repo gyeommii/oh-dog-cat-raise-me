@@ -165,6 +165,7 @@
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 	<script src="js/product-list.js"></script>
 	<script src="js/navcart-count.js"></script>
+	<script src="js/home.js"></script>
 	<!-- Footer-->
 	<%@ include file="fragments/footer.jspf"%>
 
