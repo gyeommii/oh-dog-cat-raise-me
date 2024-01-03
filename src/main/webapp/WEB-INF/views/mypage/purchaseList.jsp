@@ -12,26 +12,30 @@
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+          rel="stylesheet"/>
     <link href="../css/order/order-page.css" rel="stylesheet"/>
-
-    <style>
-      .btn-smaller-custom {
-        --bs-btn-padding-y: .25rem;
-        --bs-btn-padding-x: .5rem;
-        --bs-btn-font-size: .75rem;
-      }
-    </style>
+    <link href="../css/mypage.css" rel="stylesheet"/>
+    <link href="../css/font.css" rel="stylesheet">
+    <link href="../css/nav.css" rel="stylesheet">
 </head>
-
 <body>
-
+<!--top nav -->
+<%@ include file="../fragments/top-nav.jspf" %>
 <%@ include file="../fragments/header.jspf" %>
-<main>
-    <div class="pt-3 mt-3" style="width: 70%; margin: auto">
+<%@ include file="../fragments/bottom-nav.jspf" %>
+
+<main class="outer-container row">
+    <div class="col-2">
+        <%@include file="../fragments/MyPageNav.jsp" %>
+    </div>
+    <div class="my-page-container container col-8">
         <!-- End Page Title -->
         <section class="section">
             <h4 class="display-6">구매 이력보기</h4>
-            <div class="card-body pb-3">
+            <div class="card-body">
                 <!-- Table with stripped rows -->
                 <p class="lead pb-2">주인놈 떡에 너무 행복한 삶이다냥~</p>
                 <table class="table datatable py-3">
@@ -188,6 +192,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
 <script src="../js/order/orderList.js"></script>
-
+<script src="../js/navcart-count.js"></script>
+<script src="../js/cart-list.js"></script>
 </body>
 </html>
