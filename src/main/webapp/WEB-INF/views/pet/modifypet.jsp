@@ -117,15 +117,9 @@
                         type="submit" value="수정완료"/>
             </form>
         </div>
-<<<<<<< HEAD
-    </main>
-    
-    <!-- Footer-->
-    <%@ include file="../fragments/footer.jspf"%>
-=======
+
     </div>
 </main>
->>>>>>> f0465e15edede3748db6feab26b06daa71064eb4
 
 <!-- Footer-->
 <%@ include file="../fragments/footer.jspf"%>
