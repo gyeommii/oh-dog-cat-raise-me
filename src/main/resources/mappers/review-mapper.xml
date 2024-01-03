@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ohdogcat.repository.ReviewDao">
+	<select id="getReviewSatisfaction" parameterType="Long" resultType="ReviewSatisfactionDto">
+		SELECT count(*) AS count, AVG(r.SCORE) AS score
+		from review r
+		left join product_option po on po.option_pk = r.option_fk
+		left join product p on p.product_pk = po.product_fk
+		where p.product_pk = #{productPk}
+	</select>
+
+	<select id="getReviewListDtoAtProduct" parameterType="Long" resultType="ReviewListItemDto">
+		SELECT
+			product_fk, option_fk, review_pk, r.member_fk, r.img AS image_url, score, member_id,
+			content,
+			created_time, po.OPTION_NAME,
+			p.PET_NAME , p.PET_TYPE , p.AGE , p.GENDER , p.CHEHYEONG
+		FROM REVIEW r
+		left join product_option po on po.option_pk = r.option_fk
+		left join PET p on p.PET_PK  = r.PET_FK
+		left join member m on m.member_pk = r.MEMBER_FK
+		where product_fk = #{productPk}
+	</select>
+
+
+</mapper>
