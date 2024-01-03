@@ -128,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(error){
 			console.log(error);
 		}
-		
+		updateCartQuantity();
 	}
 		
 	// 추가 된 상품 리스트

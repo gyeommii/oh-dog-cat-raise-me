@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded",() => {
 	btnCheckedDelete.addEventListener("click", deleteCheckedItems);
 	btnSelectedOrders.addEventListener("click", onSelectedOrders);
 	btnAllOrders.addEventListener("click", onAllOrders);
-	
 
 
 	/* -------------------------------------------------- ★ 기능 영역 ★ -------------------------------------------------- */
@@ -346,6 +345,7 @@ document.addEventListener("DOMContentLoaded",() => {
 			const response = await axios.delete(uri);
 			if (response.data === 1) {
 				getAllCartList();
+				updateCartQuantity();
 			}
 		} catch(error){
 			console.log(error);
@@ -365,6 +365,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		checkedItems.forEach( item => { 
 			deleteCartItem(item);
 		});
+		updateCartQuantity();
 	}
 
 	// 펫타입별 전체 선택 

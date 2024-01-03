@@ -225,7 +225,7 @@ a {
 		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
 		crossorigin="anonymous"></script>
 	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-
+	<script src="../js/navcart-count.js"></script>
 	<script src="../js/cart-list.js"></script>
 </body>
 </html>

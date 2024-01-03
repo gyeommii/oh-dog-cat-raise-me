@@ -10,3 +10,7 @@ body {
     font-family: 'Pretendard-Regular', sans-serif;
     letter-spacing: 1px;
 }
+
+.my-page-container{
+	height: 100%;
+}
