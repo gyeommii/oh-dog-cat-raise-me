@@ -5,12 +5,15 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
+import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.product.ProductListDto;
 import com.ohdogcat.dto.product.ProductListItemDto;
 import com.ohdogcat.dto.product.ProductOptionListDto;
 import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.model.ProductOption;
+import com.ohdogcat.model.WishList;
 import com.ohdogcat.repository.ProductDao;
+import com.ohdogcat.repository.WishListDao;
 
 import lombok.Builder;
 import lombok.Data;
@@ -26,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class ProductService {
 
 	private final ProductDao productDao;
+	private final WishListDao wishListDao;
 	
 //	// 기존 getProducts
 //    public List<ProductListDto> getProducts(Long petType, String orderBy) {
@@ -96,6 +100,34 @@ public class ProductService {
 		log.debug("readOption()");
 		ProductOption option = productDao.selectOptionByOptionPk(optionPk);
 		return option;
+	}
+
+	public WishList checkWish(long productPk, long memberFk) {
+		log.debug("checkWish(productPk={}, memberFk={})",productPk,memberFk);
+		WishList wishList = WishList.builder()
+				.member_fk(memberFk)
+				.product_fk(productPk)
+				.build();
+		WishList result = wishListDao.selectWishByMemberAndProduct(wishList);
+		return result;
+	}
+
+	public boolean deleteWish(long productFk, long memberFk) {
+		log.debug("deleteWish()");
+		WishList wishList = WishList.builder()
+				.member_fk(memberFk)
+				.product_fk(productFk)
+				.build();
+		return wishListDao.deleteWishByMemberAndProduct(wishList);
+	}
+
+	public boolean addWish(long productFk, long memberFk) {
+		log.debug("addWish()");
+		WishList wishList = WishList.builder()
+				.member_fk(memberFk)
+				.product_fk(productFk)
+				.build();
+		return wishListDao.insertWish(wishList);
 	}
 	
 	

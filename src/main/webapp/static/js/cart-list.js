@@ -45,7 +45,6 @@ document.addEventListener("DOMContentLoaded",() => {
 	btnCheckedDelete.addEventListener("click", deleteCheckedItems);
 	btnSelectedOrders.addEventListener("click", onSelectedOrders);
 	btnAllOrders.addEventListener("click", onAllOrders);
-	
 
 
 	/* -------------------------------------------------- ★ 기능 영역 ★ -------------------------------------------------- */
@@ -346,6 +345,7 @@ document.addEventListener("DOMContentLoaded",() => {
 			const response = await axios.delete(uri);
 			if (response.data === 1) {
 				getAllCartList();
+				updateCartQuantity();
 			}
 		} catch(error){
 			console.log(error);
@@ -365,6 +365,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		checkedItems.forEach( item => { 
 			deleteCartItem(item);
 		});
+		updateCartQuantity();
 	}
 
 	// 펫타입별 전체 선택 
@@ -387,7 +388,9 @@ document.addEventListener("DOMContentLoaded",() => {
 		beforeOptionFk = cartItem.option_fk;
 		
 		btnOption.innerText = "상품 옵션을 선택하세요";
-		btnOption.addEventListener("click",() => getOptionList(cartItem));
+		btnOption.onclick =() =>{
+			getOptionList(cartItem);
+		}
 		optionChangeModal.show();
 	}
 	
@@ -454,7 +457,7 @@ document.addEventListener("DOMContentLoaded",() => {
 		const uri = `list/update/changeoption`;
 		const response = await axios.put(uri, cartUpdateData);
 		console.log("적용 결과",typeof response.data, response.data);
-
+		console.log("afterOptionFk",afterOptionFk);
 		if(response.data == 0){
 			alert("이미 장바구니에 있는 옵션입니다!");
 		} else{

@@ -4,7 +4,11 @@ import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
+<<<<<<< HEAD
 import com.ohdogcat.dto.member.review.ReviewListDto;
+=======
+import com.ohdogcat.dto.wishlist.WishListDto;
+>>>>>>> 2adfa3a66ffbf5ebfa6095ac9323afd6fd06355a
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.service.MyPageService;
 import com.ohdogcat.service.ReviewService;
@@ -13,6 +17,9 @@ import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -76,7 +83,20 @@ public class MyPageController {
         }
 
         return ResponseEntity.ok("success");
+        
     }
+    
+    /* 유정 */
+    @GetMapping("/wishlist")
+    public void getWishList(HttpSession session, Model model) {
+    	log.debug("getWishList()");
+    	MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+    	List<WishListDto> wishList = service.getWishiList(signedMember.getMember_pk());
+    	log.debug("getWishList(count={})", wishList.size());
+    	model.addAttribute("count", wishList.size());
+    	model.addAttribute("wishList", wishList);
+    }
+   
 
 
     @GetMapping("/purchaseList")

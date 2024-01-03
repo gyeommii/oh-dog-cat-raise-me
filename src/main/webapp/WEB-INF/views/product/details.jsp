@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>ohdogcat</title>
 <link
+<<<<<<< HEAD
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
     integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
@@ -16,6 +17,36 @@
 <body>
     <!-- Header-->
     <%@ include file="../fragments/header.jspf"%>
+=======
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+	crossorigin="anonymous">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet" />
+<link href="../css/font.css" rel="stylesheet" >
+<link href="../css/nav.css" rel="stylesheet" >
+<style>
+	 #btnWish{
+	 	border:none;
+	 	background: none;
+	 }
+	 .bi-suit-heart-fill{
+	 	color: rgb(255,35,75);
+	 }
+	 .bi-suit-heart{
+	 	color: rgb(222,222,222);
+	 }
+</style>
+</head>
+<body>
+  	<!--top nav -->
+	<%@ include file="../fragments/top-nav.jspf"%>
+	<!-- Header-->
+  	<%@ include file ="../fragments/header.jspf" %>
+    <!-- bottom nav-->
+   	<%@ include file="../fragments/bottom-nav.jspf"%>
+>>>>>>> 2adfa3a66ffbf5ebfa6095ac9323afd6fd06355a
 
     <main class="mt-3">
         <div class="container">
@@ -31,6 +62,7 @@
                 <div class="col-md-6">
                     <div class="card shadow-sm">
 
+<<<<<<< HEAD
                         <!-- 멍멍/냐옹 뱃지 -->
                         <h5 class="card-header pt-3"
                             style="background: none; border-bottom: none;">
@@ -54,6 +86,33 @@
                             <p class="card-text border-bottom pb-3 text-black-50 ">무료배송 │
                                 평균 3일 이내 배송 ( 주말 / 공휴일 제외 )</p>
 
+=======
+						<!-- 멍멍/냐옹 뱃지 -->
+						<div class="card-header pt-3 fs-5"
+							style="background: none; border-bottom: none;">
+							<div class="badge bg-warning text-white "
+								style="top: 0.5rem; right: 0.5rem;">
+								<c:if test="${p.petType == 1 }"> 멍멍이 </c:if>
+								<c:if test="${p.petType == 2 }"> 야옹이 </c:if>
+							</div>
+						</div>
+
+						<!-- 상품 정보 -->
+						<div class="card-body pt-0">
+							<input class="d-none" id="productPk" value="${p.productPk}" />
+							<div class="row">
+								<p class="card-title col-9 fw-semibold pb-2 fs-3">${p.productName}</p>
+								<button class="col text-center bi pt-0 d-none" id="btnWish"
+								style="font-size: 34px;"></button>
+							</div>
+							<p class="card-text border-bottom pb-3 text-danger fw-semibold fs-3">
+								<f:formatNumber value="${p.minPrice}" pattern="#,###" />
+								원
+							</p>
+							<p class="card-text fw-semibold fs-5">배송정보</p>
+							<p class="card-text border-bottom pb-3 text-black-50 ">무료배송 │
+								평균 3일 이내 배송 ( 주말 / 공휴일 제외 )</p>
+>>>>>>> 2adfa3a66ffbf5ebfa6095ac9323afd6fd06355a
 
 							<!-- 옵션 리스트 -->
 							<div class="dropdown pb-3">
@@ -82,22 +141,14 @@
 								</span>
 								</span>
 							</div>
-
-							<!-- 버튼 선택 -->
-							<div
-								class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
+							<div class="card-text border-top border-2 border-danger pt-4 row mx-auto w-100 input-group">
 								<button
-									class="col-md-2 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
-									id="btnZzim" type="button"
-									style="background: none; border-radius: 8px;">찜</button>
-								<button
-									class="col-md-3 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
+									class="col-md-4 btn btn-outline-warning btn-lg mb-2 me-md-2 text-warning"
 									id="btnCart" type="button"
 									style="background: none; border-radius: 8px;">장바구니</button>
 								<button
-									class="col-md-6 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
-									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 !important;">바로구매</button>
-									
+									class="col-md-8 btn btn-warning btn-lg mb-2 text-white fw-semibold shadow-sm form-control"
+									id="btnBuyNow" type="button" style="border-radius: 8px; background-color: #ffc107 ; outline: none; ">바로구매</button>
 							</div>
 						</div>
 					</div>
@@ -154,6 +205,7 @@
 	<!-- Footer-->
 	<%@ include file="../fragments/footer.jspf"%>
 
+<<<<<<< HEAD
 
     <script
         src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
@@ -161,5 +213,14 @@
         crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/product-details.js"></script>
+=======
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script src="../js/navcart-count.js"></script>
+	<script src="../js/product-details.js"></script>
+>>>>>>> 2adfa3a66ffbf5ebfa6095ac9323afd6fd06355a
 </body>
 </html>
