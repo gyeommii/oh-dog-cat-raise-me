@@ -3,18 +3,22 @@ package com.ohdogcat.service;
 import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
+import com.ohdogcat.dto.wishlist.WishListDto;
 import com.ohdogcat.dto.purchase.PurchaseListDto;
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.model.Address;
 import com.ohdogcat.model.Member;
 import com.ohdogcat.repository.AddressDao;
 import com.ohdogcat.repository.MemberDao;
+import com.ohdogcat.repository.WishListDao;
 import com.ohdogcat.repository.PurchaseDao;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 @Slf4j
@@ -24,6 +28,7 @@ public class MyPageServiceImple implements MyPageService {
 
     private final MemberDao memberDao;
     private final AddressDao addressDao;
+    private final WishListDao wishListDao;
     private final PurchaseDao purchaseDao;
 
     @Override
@@ -77,6 +82,12 @@ public class MyPageServiceImple implements MyPageService {
         return result == 1;
     }
 
+    /* 유정 */
+	@Override
+	public List<WishListDto> getWishiList(Long memberPk) {
+		List<WishListDto> wishList = wishListDao.selectWishListByMember(memberPk);
+		return wishList;
+	}
     @Override
     public Map<String, Object> getMemberPurchaseList(PurchaseListPagenationDto pageInfo) {
         Map<String, Object> result = new HashMap<>();

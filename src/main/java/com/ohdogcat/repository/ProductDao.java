@@ -10,8 +10,8 @@ import com.ohdogcat.dto.product.ProductPetTypeDto;
 import com.ohdogcat.dto.purchase.OptionOrderDto;
 import com.ohdogcat.dto.purchase.OrderParameterDto;
 import com.ohdogcat.model.ProductOption;
+import com.ohdogcat.model.WishList;
 import com.ohdogcat.model.PurchaseProduct;
-
 public interface ProductDao {
 
     // 강아지/고양이 전체 신규 등록 순
@@ -62,5 +62,4 @@ public interface ProductDao {
             @Param("maxPrice") Long maxPrice,
             @Param("inStock") Boolean inStock
             );
-	
 }
