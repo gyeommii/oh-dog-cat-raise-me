@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 	const cartModal = new bootstrap.Modal('div#toCartModal',{backdrop: true}); 
 	// 로그인 모달.
 	const loginModal = new bootstrap.Modal('div#toLoginModal',{backdrop: true}); 
-	
+
 	// 옵션 버튼 클릭 시 실행
 	btnOption.addEventListener("click", getOptionList);
 
@@ -32,10 +32,54 @@ document.addEventListener('DOMContentLoaded', () => {
 	// 바로구매
 	btnBuyNow.addEventListener("click", buyNow);
 
-
-
+	// 찜
+	const productFk = document.querySelector("input#productPk").value;
+	const btnWish = document.querySelector("button#btnWish");
+	btnWish.addEventListener("click", onClickWish);
+	checkWishList();
 
  	/*----------   ★ 옵션/장바구니 기능들 ★   ---------- */
+	 
+	async function checkWishList(){
+		console.log("checkWishList() productFk =", productFk);
+		try{
+			const uri = `wish/check/${productFk}`;
+			const {data : result} = await axios.get(uri);
+			if(result){
+				btnWish.classList.add("bi-suit-heart-fill");
+				btnWish.classList.remove("d-none");
+			} else{
+				btnWish.classList.add("bi-suit-heart");
+				btnWish.classList.remove("d-none");
+			}
+		}catch(error){
+			console.log(error);
+		}
+	}
+
+	async function onClickWish(){
+		console.log("onClickWish()");
+		const uri = `wish/${productFk}`;
+		// 찜 선택 상태
+		if(btnWish.classList.contains("bi-suit-heart-fill")){ 
+			try{	
+				await axios.delete(uri);
+				btnWish.classList.remove("bi-suit-heart-fill");
+				btnWish.classList.add("bi-suit-heart");
+			}catch(error){
+				console.log(error);
+			}
+		}else{
+			try{
+				const {data:result} = await axios.post(uri);
+				if(!result){alert("로그인 후 이용 가능합니다!"); return;}
+				btnWish.classList.remove("bi-suit-heart");
+				btnWish.classList.add("bi-suit-heart-fill");
+			}catch(error){
+				console.log(error);
+			}
+		}
+	}
  	
 	// 바로구매
 	async function buyNow(){
@@ -84,7 +128,7 @@ document.addEventListener('DOMContentLoaded', () => {
 		} catch(error){
 			console.log(error);
 		}
-		
+		updateCartQuantity();
 	}
 		
 	// 추가 된 상품 리스트
@@ -169,7 +213,7 @@ document.addEventListener('DOMContentLoaded', () => {
         optionCard.setAttribute("data-id", option.optionPk);
 
         optionCard.innerHTML = `
-			    <div row class="d-flex justify-content-between align-items-center">
+			    <div row class="d-flex justify-content-between align-items-center" >
 			        <div class="col-8">
 			            <p class="card-text fw-semibold" style="font-size: 1em;">${option.optionName}</p>
 			            <div class="input-group">

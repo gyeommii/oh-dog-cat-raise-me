@@ -20,37 +20,37 @@ import org.springframework.web.multipart.MultipartFile;
 
 @Slf4j
 @Configuration
-public class FtpImgLoaderUtil implements FtpUploaderUtil {
+public class FtpImgLoaderUtil2 implements FtpUploaderUtil {
 
     private String host = "192.168.20.11";
     private Integer port = 21;
     private String user = "admin";
     private String password = "123123";
 
-    private FTPClient ftpClient;
+    public FtpImgLoaderUtil2() {
 
-    public FtpImgLoaderUtil() {
-        ftpClient = new FTPClient();
     }
 
     /**
      * DB 서버 내에 파일 저장하여 저장된 경로를 반환하는 메서드
      *
-     * @param file 업로드할 MultipartFile
-     * @param servletPath  HttpServletRequest 타입의 request
+     * @param file        업로드할 MultipartFile
+     * @param servletPath HttpServletRequest 타입의 request
      * @return 업로드된 이미지의 경로
      * @throws IOException 아마자 업로드 시 문제 발생 시 IOException qkftod
      */
     public String upload(MultipartFile file, String servletPath) throws IOException {
 
-        connect();
+        FTPClient ftpClient = new FTPClient();
+
+        connect(ftpClient);
 
         String result = null;
 
-        List<String> filePath = mkDirByRequestUri(servletPath);
+        List<String> filePath = mkDirByRequestUri(servletPath, ftpClient);
         InputStream inputStream = file.getInputStream();
 
-        setFtpClientConfig();
+        setFtpClientConfig(ftpClient);
 
         String fileName =
             UUID.randomUUID().toString() + "." + file.getOriginalFilename().split("\\.")[1];
@@ -63,7 +63,7 @@ public class FtpImgLoaderUtil implements FtpUploaderUtil {
             result = String.join("/", filePath);
         }
 
-        disconnect();
+        disconnect(ftpClient);
         return result;
     }
 
@@ -76,8 +76,10 @@ public class FtpImgLoaderUtil implements FtpUploaderUtil {
      * @throws IOException
      */
     public Resource download(String imgUrl) throws IOException {
-        connect();
-        setFtpClientConfig();
+        FTPClient ftpClient = new FTPClient();
+
+        connect(ftpClient);
+        setFtpClientConfig(ftpClient);
         InputStream imgStream = ftpClient.retrieveFileStream(imgUrl);
         byte[] result = IOUtils.toByteArray(imgStream);
 
@@ -88,7 +90,7 @@ public class FtpImgLoaderUtil implements FtpUploaderUtil {
 
         Resource resource = new ByteArrayResource(result);
         imgStream.close();
-        disconnect();
+        disconnect(ftpClient);
         return resource;
     }
 
@@ -100,15 +102,16 @@ public class FtpImgLoaderUtil implements FtpUploaderUtil {
      */
     public boolean delete(String imgUrl) throws IOException {
         boolean result = false;
+        FTPClient ftpClient = new FTPClient();
 
-        connect();
+        connect(ftpClient);
         result = ftpClient.deleteFile(imgUrl);
-        disconnect();
+        disconnect(ftpClient);
 
         return result;
     }
 
-    public boolean connect() throws IOException {
+    public boolean connect(FTPClient ftpClient) throws IOException {
         log.debug("connecting to... {}", host);
 
         ftpClient.addProtocolCommandListener(
@@ -119,7 +122,7 @@ public class FtpImgLoaderUtil implements FtpUploaderUtil {
 
         if (!FTPReply.isPositiveCompletion(reply)) {
             try {
-                disconnect();
+                disconnect(ftpClient);
             } catch (IOException e) {
                 log.error("연결에 실패하였습니다. {}", e.getMessage());
                 return false;
@@ -129,21 +132,21 @@ public class FtpImgLoaderUtil implements FtpUploaderUtil {
         return ftpClient.login(user, password);
     }
 
-    public void disconnect() throws IOException {
+    public void disconnect(FTPClient ftpClient) throws IOException {
         log.debug("disconnecting from {}", host);
 
         ftpClient.logout();
         ftpClient.disconnect();
     }
 
-    public void setFtpClientConfig() throws IOException {
+    public void setFtpClientConfig(FTPClient ftpClient) throws IOException {
         ftpClient.enterLocalPassiveMode();
         ftpClient.setFileTransferMode(FTP.BINARY_FILE_TYPE);
         ftpClient.setAutodetectUTF8(true);
         ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
     }
 
-    public List<String> mkDirByRequestUri(String servletPath)
+    public List<String> mkDirByRequestUri(String servletPath, FTPClient ftpClient)
         throws RuntimeException, IOException {
         List<String> result = new ArrayList<>();
 

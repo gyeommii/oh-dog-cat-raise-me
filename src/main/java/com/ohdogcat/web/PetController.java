@@ -1,5 +1,6 @@
 package com.ohdogcat.web;
 
+import com.ohdogcat.util.FtpUploaderUtil;
 import java.io.IOException;
 import java.util.List;
 import org.springframework.stereotype.Controller;
@@ -28,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 public class PetController {
 
   private final PetService petService;
-  private final FtpImgLoaderUtil ftpImgLoaderUtil;
+  private final FtpUploaderUtil ftpImgLoaderUtil;
 
   @GetMapping("/pet")
   public String myPet(HttpSession session, Model model) {
