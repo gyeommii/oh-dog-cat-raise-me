@@ -12,13 +12,16 @@
         <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">    
             <ul class="navbar-nav">
             
-            <li class="nav-item pe-2">
-            	<c:url var="signupPage" value="/user/signup"/>
-                <a class="nav-link text-light" href="${signupPage}"> 
-                    <span class="bi bi-person-plus fs-4"></span>
-                    <span class="navMenu"> Join</span>
-                </a>
-            </li>
+            
+            <c:if test="${empty signedMember}">
+	            <li class="nav-item pe-2">
+	            	<c:url var="signupPage" value="/user/signup"/>
+	                <a class="nav-link text-light" href="${signupPage}"> 
+	                    <span class="bi bi-person-plus fs-4"></span>
+	                    <span class="navMenu"> Join</span>
+	                </a>
+	            </li>
+            </c:if>
             
             <c:if test="${empty signedMember}">
 	            <li class="nav-item pe-2">
@@ -65,3 +68,4 @@
         </div>
     </div>
  </nav>
+ <i class="bi bi-arrow-up-circle-fill"></i>

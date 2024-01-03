@@ -2,7 +2,7 @@
     pageEncoding="UTF-8" trimDirectiveWhitespaces="true" %>
 <%@ taglib prefix="c" uri="jakarta.tags.core" %> 
     
-<ul class="nav justify-content-center py-2 menuList"
+<ul class="nav justify-content-center py-2 bottom-nav"
 	style="font-size: 18px; border-bottom: 1px solid rgb(223, 223, 223);">
 	<li class="nav-item">
 		<c:url var="productListPage" value="/product/list"/>
