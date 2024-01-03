@@ -1,8 +1,11 @@
 package com.ohdogcat.service;
 
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import com.ohdogcat.dto.post.CommentRegisterDto;
+import com.ohdogcat.model.Comment;
 import com.ohdogcat.repository.CommentDao;
 
 import lombok.RequiredArgsConstructor;
@@ -23,6 +26,20 @@ public class CommentService {
 		
 		return result;
 	}
+	
+	// 댓글 수정
+    public int update(CommentRegisterDto dto) {
+        return commentDao.update(dto.toEntity());
+    }
+
+    // 댓글 삭제
+    public int delete(Long commentId) {
+        return commentDao.delete(commentId);
+    }
+
+    public List<Comment> getAllCommentsByPost(Long postId) {
+        return commentDao.selectByPostId(postId);
+    }
 	
 	
 

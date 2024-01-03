@@ -17,6 +17,25 @@
         values (#{post_fk}, #{member_fk}, #{ctext})
     </insert>
     
+    <!-- 댓글 수정 -->
+    <update id="update" parameterType="Comment">
+        UPDATE COMMENTS
+        SET CTEXT = #{ctext}
+        WHERE COMMENTS_PK = #{comments_pk}
+    </update>
+    
+    <!-- 댓글 삭제 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM COMMENTS
+        WHERE COMMENTS_PK = #{comments_pk}
+    </delete>
+    
+    <select id="selectByPostId" resultType="Comment">
+        SELECT * FROM COMMENTS WHERE POST_FK = #{postId}
+    </select>
+    
+    
+    
     
 
 </mapper>

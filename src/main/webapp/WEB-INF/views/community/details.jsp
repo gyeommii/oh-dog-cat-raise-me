@@ -129,7 +129,7 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>   
     
     <script>
-          const signedInUser = '${signedInUser}';
+          const signedMember = '${signedMember}';
     </script>
     
     <script src="../js/community/post-comment.js"></script>
