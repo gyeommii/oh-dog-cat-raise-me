@@ -26,4 +26,15 @@
     where address_pk = #{addressPk}
   </select>
 
+  <select id="getAddressOrdered" parameterType="Long" resultType="Address">
+    select *
+    from ( select
+    address_pk, address, zonecode, detail_addr, recipient
+    from address
+    join purchase on address_fk = address_pk and member_fk = #{memberFk}
+    order by purchase.purchase_date
+    )
+    WHERE ROWNUM <![CDATA[ <= ]]> 5
+  </select>
+
 </mapper>

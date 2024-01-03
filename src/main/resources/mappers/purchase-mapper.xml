@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohdogcat.repository.PurchaseDao">
+
+  <insert id="insertPurchase" parameterType="Purchase">
+    insert into purchase (
+    member_fk, status_fk, address_fk, total_price, order_name
+    ) values (
+    #{member_fk}, #{status_fk}, #{address_fk}, #{total_price}, #{order_name}
+    )
+    <selectKey resultType="Long" keyProperty="purchase_pk" order="AFTER">
+      select purchase_pk from purchase
+      where member_fk = #{member_fk}
+      and status_fk = #{status_fk} and address_fk = #{address_fk}
+      and total_price = #{total_price} and order_name = #{order_name}
+      order by purchase_date desc
+      offset 0 row fetch next 1 row only
+    </selectKey>
+  </insert>
+
+  <insert id="insertPurchasedProduct" parameterType="PurchaseProduct">
+    insert into purchase_product (
+    purchase_fk, option_fk, count
+    ) values (
+    #{purchase_fk}, #{option_fk}, #{count}
+    )
+  </insert>
+
+  <insert id="insertPayment" parameterType="Payment">
+    insert into payment (
+    purchase_fk, total_price, paid_price, used_point, pay_method, merchant_uid, pay_success,
+    accumulated_point
+    ) values (
+    #{purchase_fk}, #{total_price}, #{paid_price}, #{used_point}, #{pay_method}, #{merchant_uid},
+    #{pay_success}, #{accumulated_point}
+    )
+    <selectKey resultType="Long" keyProperty="payment_pk" order="AFTER">
+      select payment_pk from payment
+      where
+      purchase_fk = #{purchase_fk} and
+      total_price = #{total_price} and
+      paid_price = #{paid_price} and
+      used_point = #{used_point} and
+      pay_method = #{pay_method} and
+      merchant_uid = #{merchant_uid} and
+      pay_success = #{pay_success} and
+      accumulated_point = #{accumulated_point}
+      order by payment_pk desc
+      offset 0 row fetch next 1 row only
+    </selectKey>
+  </insert>
+
+  <select id="getPurchaseInfo" parameterType="Long" resultType="Purchase">
+    select
+    *
+    from purchase
+    where purchase_pk = #{purchasePk}
+  </select>
+
+  <select id="getProductByPurchasePk" parameterType="Long" resultType="OptionOrderDto">
+    select
+      option_fk, product_fk, product_name, option_name, img_url, price, count
+    from purchase_product
+    left join product_option on option_fk = option_pk
+    left join product on product_fk = product_pk
+    where purchase_fk = #{purchaseFk}
+  </select>
+
+  <select id="retrievePaymentByPurchaseFk" parameterType="Long" resultType="Payment">
+    select
+    *
+    from payment
+    where purchase_fk = #{ purchaseFk }
+  </select>
+
+  <select id="getPurchaseStatusByPk" parameterType="Integer" resultType="PurchaseStatus">
+    select
+    *
+    from purchase_status
+    where status_pk = #{ status_pk }
+  </select>
+
+  <select id="getMemberPurchaseList" parameterType="PurchaseListPagenationDto" resultType="PurchaseListDto">
+    select
+      purchase_pk, order_name, status_pk, pay_method, payment.total_price, purchase_date, purchase_status, img_url
+    from purchase left join payment on purchase_fk = purchase_pk
+    left join purchase_status on status_pk = status_fk
+    left join (
+    select purchase_fk, img_url, dense_rank() over (partition by purchase_fk order by option_pk) as RANK
+    FROM PURCHASE_PRODUCT pp
+    LEFT JOIN PRODUCT_OPTION po ON pp.OPTION_FK  = po.OPTION_PK
+    LEFT JOIN PRODUCT p2 ON p2.PRODUCT_PK = po.PRODUCT_FK
+    ) pi on purchase_pk = pi.purchase_fk and rank=1 where member_fk = #{member_fk}
+    order by purchase_date desc
+    offset #{offset} row fetch next #{limit} rows only
+  </select>
+
+  <update id="retrievePayment" parameterType="Payment">
+    update payment
+    set paid_price = paid_price + #{paid_price}, pay_success = 3
+    where payment_pk = #{payment_pk}
+  </update>
+
+  <update id="updatePurchaseStatus" parameterType="PurchaseStatusChangeDto">
+    update purchase
+    set status_fk = #{status_fk}
+    where purchase_pk = #{purchase_pk}
+  </update>
+
+  <select id="getPurchaseCount" parameterType="Long" >
+    select count(*) from purchase
+    where member_fk = #{memberPk}
+  </select>
+
+<!--  select USERID,CLASS, POINT, RANK() OVER(PARTITION BY CLASS ORDER BY POINT DESC) RANK FROM T_STUDENT-->
+</mapper>
+
+  <!--
+    member_fk number(10),
+    status_fk number(10) default 1,
+    address_fk number(10),
+    total_price number(8),
+    order_name varchar2(30 char),
+  -->

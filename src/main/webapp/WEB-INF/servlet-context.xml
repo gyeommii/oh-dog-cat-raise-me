@@ -10,7 +10,6 @@
   <!-- Spring MVC 설정들을 애너테이션 기반으로 설정할 수 있도록 -->
   <mvc:annotation-driven>
     <mvc:message-converters>
-
       <bean
         class="org.springframework.http.converter.StringHttpMessageConverter">
         <property name="supportedMediaTypes">
