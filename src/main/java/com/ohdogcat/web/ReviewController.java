@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.member.review.ReviewDetailDto;
+import com.ohdogcat.dto.member.review.ReviewDetailFindDto;
 import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.member.review.ReviewRegisterDto;
 import com.ohdogcat.service.ReviewService;
@@ -23,19 +24,21 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @RequiredArgsConstructor
 @Controller
-@RequestMapping("/mypage")
+@RequestMapping("/review")
 public class ReviewController {
 
   private final ReviewService reviewService;
   private final FtpImgLoaderUtil ftpImgLoaderUtil;
 
-  @GetMapping("/reviewregister")
-  public String reviewRegister(HttpSession session, Model model) {
+  // 리뷰 작성 페이지
+  @GetMapping("")
+  public String reviewRegister(@RequestParam(name = "option_fk" ) long option_fk, HttpSession session, ReviewDetailFindDto dto, Model model) {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     log.debug("memberSessionDto.getMember_pk()={}", memberSessionDto.getMember_pk());
     long member_fk = memberSessionDto.getMember_pk();
-
-    List<ReviewDetailDto> reviewDetailDto = reviewService.selectReviewDetailViews(member_fk);
+    dto.setMember_fk(member_fk);
+    dto.setOption_fk(option_fk);
+    List<ReviewDetailDto> reviewDetailDto = reviewService.selectReviewDetailViews(dto);
     log.debug("reviewDetailDto={}", reviewDetailDto);
 
     model.addAttribute("forReviewer", reviewDetailDto);
@@ -59,22 +62,6 @@ public class ReviewController {
     reviewService.insertReview(dto);
 
     return "redirect:/";
-  }
-
-  @GetMapping("/myreview")
-  public String myReview(HttpSession session, Model model) {
-    MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
-
-    List<ReviewListDto> list = reviewService.selectByMemberFkByReview(memberSessionDto.getMember_pk());
-    model.addAttribute("myReview", list);
-    
-    return "review/myreview";
-  }
-
-  @GetMapping("/reviewtest")
-  public String reviewTest() {
-    
-    return "review/reviewtest";
-  }
+  }  
   
 }

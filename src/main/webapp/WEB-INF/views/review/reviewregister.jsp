@@ -50,12 +50,9 @@
                 <div class="card my-2">
                     <div id="deliveryStatus">
                         <p class="text-center"></p>
-                    </div>
-                    <div class="d-grid gap-2 col-2 mx-auto">
-                    <button class="d-none btn btn-secondary" id="backButton">뒤로 가기</button>
-                    </div>
+                    </div>                    
                     <div class="card-body">
-                        <c:url var="reviewRegister" value="/mypage/reviewregister" />
+                        <c:url var="reviewRegister" value="/review/reviewregister" />
                         <form class="row g-3" action="${reviewRegister}" method="POST" enctype="multipart/form-data">
                             <div class="my-2">
                                 <span>상품명</span>
@@ -71,24 +68,19 @@
                            <div class="my-2">
                                 <label for="option_fk">옵션</label>
                                 <a class="form-control">${forReviewer[0].option_name}</a>
-                                <input class="d-none" type="text" id="option_fk" name="option_fk" value="${forReviewer[0].option_pk}" readonly>
-                            </div>
-                            <div class="my-2">
-                                <span>가격</span>
-                                <a class="form-control">${forReviewer[0].price}</a>
-                            </div>                                                        
+                                <input class="d-none" type="text" id="option_fk" name="option_fk" value="" readonly>
+                            </div>                                                                               
                             <div class="my-2">
                                 <label for="pet_fk">펫 선택</label>
                                 <select class="form-select" id="pet_fk" name="pet_fk">
-                                    <!-- 실제 펫 목록을 동적으로 가져와서 옵션으로 추가 -->
                                     <c:forEach var="forReviewer" items="${forReviewer}">
-                                        <option value="${forReviewer.pet_pk}">${forReviewer.pet_name}</option>
+                                        <option value="${forReviewer.pet_pk}">${forReviewer.pet_name}＊${forReviewer.pet_type}</option>
                                     </c:forEach>
                                 </select>
                             </div>
                                 <div class="col-12 text-center mb-3">
                                 <label for="rating">평점</label><br>
-                                    <div class="rating rating-reversed">
+                                    <div class="rating rating-reversed" id="rating">
                                         <input type="radio" id="star5" name="score" value="5">
                                         <label for="star5">&#9733;</label>
                                         <input type="radio" id="star4" name="score" value="4">
@@ -115,19 +107,10 @@
                             </div>
                             <div>
                                 <button id="clearButton" class="btn btn-danger d-none" onclick="clearFileInput(event);">파일 선택 제거</button>
+                            </div>
+                            <div>
+                                <input class="d-none" type="text" value="" id="option_pk" readonly>
                             </div>                            
-                            <div>
-                                <input class="d-none" type="text" value="${forReviewer[0].member_id}" id="member_id" readonly>
-                            </div>
-                            <div>
-                                <input class="d-none" type="text" value="${forReviewer[0].product_pk}" id="product_pk" readonly>
-                            </div>
-                            <div>
-                                <input class="d-none" type="text" value="${forReviewer[0].option_pk}" id="option_pk" readonly>
-                            </div>
-                            <div>
-                                <input class="d-none" type="text" value="${forReviewer[0].purchase_status}" id="purchase_status" readonly>
-                            </div>
                             <div class="card-footer">
                                 <input class="btn btn-success form-control" type="submit" value="리뷰 등록">
                             </div>                            

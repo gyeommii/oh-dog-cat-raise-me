@@ -43,18 +43,14 @@
 
     <select id="selectReviewDetailViews"
         resultType="com.ohdogcat.dto.member.review.ReviewDetailDto">
-        select
-        M.member_id as member_id,
+        select        
         PET.pet_pk as pet_pk,
         PET.pet_name as pet_name,
         PET.pet_type as pet_type,
-        P.product_pk as product_pk,
         P.product_name as product_name,
         P.img_url as img_url,
-        PO.option_pk as option_pk,
-        PO.option_name as option_name,
-        PO.price as price,
-        PS.purchase_status as purchase_status
+        PO.option_name as option_name,        
+        PS.status_pk as status_pk
         from
         MEMBER M
         join
@@ -70,7 +66,7 @@
         join
         PRODUCT P on PO.product_fk = P.product_pk
         where
-        M.member_pk = #{member_fk}
+        M.member_pk = #{member_fk} and PP.option_fk = #{option_fk}
     </select>
 
     <select id="selectScoreAverage" resultType="int">

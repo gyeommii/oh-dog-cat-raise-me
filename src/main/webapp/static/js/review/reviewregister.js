@@ -89,23 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         preview.src = ''; // 미리보기 이미지 초기화
         preview.classList.add('d-none'); // 이미지 감추기
         clearButton.classList.add('d-none');
-    }
-
-    const purchaseStatus = document.querySelector('#purchase_status').value;
-    const deliveryStatusElement = document.querySelector('#deliveryStatus');
-    const backButton = document.querySelector('#backButton');
-
-
-    if (purchaseStatus !== '6') {
-        // 배송 상태가 ''이 아닌 경우 안내를 표시하고, 리뷰 양식을 숨깁니다.
-        deliveryStatusElement.innerHTML = '<div class="my-2"><p class="text-center">배송이 완료되지 않았습니다. 배송 완료 후 리뷰를 작성하실 수 있습니다.</p></div>';
-        backButton.classList.remove('d-none');
-        document.querySelector('form').style.display = 'none';
-
-        backButton.addEventListener('click', () => {
-            window.history.back();
-        });
-
-    }
+    }    
 
 });

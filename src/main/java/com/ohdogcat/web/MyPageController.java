@@ -4,9 +4,12 @@ import com.ohdogcat.dto.member.MemberAddressUpdateDto;
 import com.ohdogcat.dto.member.MemberChangeInfoDto;
 import com.ohdogcat.dto.member.MemberInfoDto;
 import com.ohdogcat.dto.member.MemberSessionDto;
+import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.purchase.PurchaseListPagenationDto;
 import com.ohdogcat.service.MyPageService;
+import com.ohdogcat.service.ReviewService;
 import jakarta.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class MyPageController {
 
     private final MyPageService service;
+    private final ReviewService reviewService;
 
     @GetMapping("/member")
     public void getMyPage(HttpSession session, Model model) {
@@ -89,5 +93,14 @@ public class MyPageController {
         model.addAllAttributes(result);
     }
 
+    @GetMapping("/myreview")
+    public String myReview(HttpSession session, Model model) {
+      MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
+
+      List<ReviewListDto> list = reviewService.selectByMemberFkByReview(memberSessionDto.getMember_pk());
+      model.addAttribute("myReview", list);
+      
+      return "review/myreview";
+    }
 
 }

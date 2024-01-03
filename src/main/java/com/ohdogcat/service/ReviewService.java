@@ -4,9 +4,11 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import com.ohdogcat.dto.member.review.ReviewDeleteDto;
 import com.ohdogcat.dto.member.review.ReviewDetailDto;
+import com.ohdogcat.dto.member.review.ReviewDetailFindDto;
 import com.ohdogcat.dto.member.review.ReviewListDto;
 import com.ohdogcat.dto.member.review.ReviewRegisterDto;
 import com.ohdogcat.dto.member.review.ReviewUpdateDto;
+import com.ohdogcat.enums.PurchaseStatusEnum;
 import com.ohdogcat.model.Review;
 import com.ohdogcat.repository.ReviewDao;
 import lombok.RequiredArgsConstructor;
@@ -20,9 +22,13 @@ public class ReviewService {
   private final ReviewDao reviewDao; 
   
   // 리뷰에 필요한 목록 불러오기
-  public List<ReviewDetailDto> selectReviewDetailViews(long member_fk) {
-    log.debug("selectReviewDetailViews(ReviewJoinDto={})", member_fk);
-    List<ReviewDetailDto> reviewDetailDto = reviewDao.selectReviewDetailViews(member_fk);
+  public List<ReviewDetailDto> selectReviewDetailViews(ReviewDetailFindDto dto) {
+    log.debug("selectReviewDetailViews(dto={})", dto);
+    List<ReviewDetailDto> reviewDetailDto = reviewDao.selectReviewDetailViews(dto);
+//    if (reviewDetailDto.stream().map((x) -> x.getStatus_pk()) != PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk()) {
+//      log.debug("stream={}, Enum={}", reviewDetailDto.stream().map((x) -> x.getStatus_pk()).toString(), PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk().toString());
+//      
+//    }
     
     return reviewDetailDto;
   }
