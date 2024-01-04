@@ -16,25 +16,28 @@ optionDivList.forEach(el => {
   optionList.push(option);
 })
 
+const addrSelectComp = document.getElementById("addr-selected");
+addrSelectComp.addEventListener("change", changeAddressSelect);
+
+console.log("addrSelectComp.selectedIndex :" + addrSelectComp.options[addrSelectComp.selectedIndex]);
+
 const orderInfoToSubmit = {
   totalPrice: getParsedNumber(totalPrice.innerHTML),
   pointUsed: getParsedNumber(pointToUse.innerHTML),
   optionList,
-  addressFk: null,
+  addressFk: addrSelectComp.selectedIndex >= 0
+      ? addrSelectComp.options[addrSelectComp.selectedIndex].value : null,
   orderName: document.getElementById("orderName").value,
   paidPrice: 0,
   payMethod: undefined,
   paymentSuccess: PAYMENT_SUCCESS.BEFORE,
-  merchantUid : `ORD${today.getFullYear()}${today.getMonth()}${today.getDate()}0131-${crypto.randomUUID()}`,
+  merchantUid: `ORD${today.getFullYear()}${today.getMonth()}${today.getDate()}0131-${crypto.randomUUID()}`,
   orderType: document.getElementById("orderType").value
 };
 
 function getParsedNumber(str) {
   return parseInt(str.split(",").join(""));
 }
-
-const addrSelectComp = document.getElementById("addr-selected");
-addrSelectComp.addEventListener("change", changeAddressSelect);
 
 function changeAddressSelect() {
   // select element에서 선택된 option의 value가 저장된다.
