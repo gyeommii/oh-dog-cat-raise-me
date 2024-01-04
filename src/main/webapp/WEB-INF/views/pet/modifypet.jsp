@@ -133,5 +133,6 @@
 
 <script src="../js/navcart-count.js"></script>
 <script src="../js/cart-list.js"></script>
+<script src="../js/member/memberPointNav.js"></script>
 </body>
 </html>

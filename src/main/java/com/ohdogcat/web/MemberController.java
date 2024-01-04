@@ -132,4 +132,14 @@ public class MemberController {
         return "redirect:/?state=signout";
     }
 
+
+    @ResponseBody
+    @GetMapping("/point")
+    public ResponseEntity<Integer> getPoint (HttpSession session) {
+        MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
+        Integer userPoint = service.getMemberPoint(memberSessionDto.getMember_pk());
+        log.debug("{}님 포인트 : {}",memberSessionDto.getMember_id(), userPoint);
+        return ResponseEntity.ok(userPoint);
+    }
+
 }

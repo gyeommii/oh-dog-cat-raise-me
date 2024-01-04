@@ -312,6 +312,7 @@ public class PurchaseService {
         return "failed";
     }
 
+    @Transactional(rollbackFor = {RuntimeException.class})
     public String confirmPurchase(PurchaseInfoDto purchaseInfoDto) {
 
         Purchase purchase = purchaseDao.getPurchaseInfo(purchaseInfoDto.getPurchase_fk());
@@ -329,6 +330,13 @@ public class PurchaseService {
                 .status_fk(PurchaseStatusEnum.CONFIRMED_PURCHASE.getStatus_pk()).build();
 
             purchaseDao.updatePurchaseStatus(purchaseStatusChangeDto);
+
+            Payment payment = purchaseDao.retrievePaymentByPurchaseFk(purchaseInfoDto.getPurchase_fk());
+
+            MemberPointDto memberPointDto = MemberPointDto.builder().accumulated_point(payment.getAccumulated_point()).member_pk(
+                purchaseInfoDto.getMember_fk()).build();
+
+            memberDao.accumulatePoint(memberPointDto);
 
             return "confirmed";
         }

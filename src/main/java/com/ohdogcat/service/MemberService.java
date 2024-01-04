@@ -19,4 +19,6 @@ public interface MemberService {
     String findMemberId(String email);
 
     boolean resetPassword(MemberResetPasswordDto dto);
+
+    Integer getMemberPoint(Long memberPk);
 }

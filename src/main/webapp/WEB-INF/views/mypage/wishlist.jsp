@@ -95,5 +95,6 @@
     }
   }
 </script>
+<script src="../js/member/memberPointNav.js"></script>
 </body>
 </html>

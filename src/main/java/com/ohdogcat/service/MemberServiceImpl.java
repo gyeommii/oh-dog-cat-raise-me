@@ -70,8 +70,14 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public boolean resetPassword(MemberResetPasswordDto dto) {
-        Integer re =  memberDao.updatePassword(dto.toMember());
+        Integer re = memberDao.updatePassword(dto.toMember());
         log.debug("re={}", re);
         return re == 1;
+    }
+
+    @Override
+    public Integer getMemberPoint(Long memberPk) {
+        Integer point = memberDao.getMemberPoint(memberPk);
+        return point;
     }
 }
