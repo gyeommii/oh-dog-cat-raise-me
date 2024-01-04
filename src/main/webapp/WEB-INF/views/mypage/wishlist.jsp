@@ -38,13 +38,13 @@
         <div class="row">
             <h1 class="fs-1 fw-bold py-3 display-6 pt-4">❣️WISH LIST(${count})</h1>
             <c:forEach var="wish" items="${wishList}">
-                <div class="col-md-3" data-id="${wish.product_fk}">
+                <div class="col-md-3 my-3" data-id="${wish.product_fk}">
                     <c:url var="productDetailsPage" value="../product/details">
                         <c:param name="productPk" value="${wish.product_fk}"/>
                     </c:url>
                     <div class="card mb-5 item"
                          onclick="toPrductDetailPage(event,'${productDetailsPage}')"
-                         style="width: 17rem; cursor: pointer;">
+                         style="cursor: pointer;">
                         <img src="${wish.img_url}" class="card-img-top" alt="Product image">
                         <div class="card-body row">
                             <div class="col-10">
