@@ -16,5 +16,5 @@ public class Post {
 	private LocalDateTime modified_time;
 	private String post_img_url;
 	private Long post_category_fk;
-
+	private String memberId;
 }

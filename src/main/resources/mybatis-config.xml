@@ -35,5 +35,6 @@
     <typeAlias type="com.ohdogcat.dto.product.ProductListDto" alias="ProductListDto"/>
     <typeAlias type="com.ohdogcat.model.Comment" alias="Comment"/>
     <typeAlias type="com.ohdogcat.model.Post" alias="Post"/>
+    <typeAlias type="com.ohdogcat.dto.post.PostListItemDto" alias="PostListItemDto"/>
   </typeAliases>
 </configuration>

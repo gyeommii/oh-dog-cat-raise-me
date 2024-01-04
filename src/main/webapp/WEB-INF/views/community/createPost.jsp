@@ -76,8 +76,8 @@
                             <label for="title" class="form-label"></label>
                             <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요." required autofocus >
                         </div>
-                        <div class="" style="width: 90%;  margin: auto;">
-                            <input type="" class="form-control" id="member_fk" name="member_fk" placeholder="userId(member_fk Long타입이다 은겸아)" required>
+                        <div class="d-none" style="width: 90%;  margin: auto;">
+                            <input type="" class="form-control" id="member_fk" name="member_fk" placeholder="userId(member_fk Long타입이다 은겸아)" >
                         </div>
                         <div style="width: 90%;  margin: auto;">
                             <label for="content" class="form-label"></label>

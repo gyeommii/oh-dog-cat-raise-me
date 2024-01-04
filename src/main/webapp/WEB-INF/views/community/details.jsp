@@ -109,7 +109,7 @@
     
     </head>
     <body>
-    <div class="container-fluid">
+    <div class="container-fluid p-0">
         <!--top nav -->
         <%@ include file="../fragments/top-nav.jspf"%>
         <!-- Header-->

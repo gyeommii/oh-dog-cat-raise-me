@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.post.PostCreateDto;
 import com.ohdogcat.dto.post.PostDto;
 import com.ohdogcat.dto.post.PostListItemDto;
@@ -17,6 +18,7 @@ import com.ohdogcat.dto.post.PostUpdateDto;
 import com.ohdogcat.model.Post;
 import com.ohdogcat.service.PostService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -46,21 +48,26 @@ public class PostController {
 	        model.addAttribute("posts", list);
 	    }
 
-	
-	
 	@GetMapping("/createPost")
 	public void createPost() {
 		log.debug("GET - createPost()");
 	}
 	
 	@PostMapping("/createPost")
-	public String createPost(PostCreateDto dto) {
-		log.debug("POST - createPost(dto={})", dto);
+	public String createPost(PostCreateDto dto, HttpSession session) {
+	    log.debug("POST - createPost(dto={})", dto);
 
-		postService.createPost(dto);
+	    MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+	    if (signedMember == null) {
+	        return "redirect:/user/signin";
+	    }
+	    dto.setMember_fk(signedMember.getMember_pk());
 
-		return "redirect:/community/list"; 
+	    postService.createPost(dto);
+
+	    return "redirect:/community/list"; 
 	}
+
 	
 	@GetMapping({"/details", "/modify"})
     public void details(@RequestParam(name = "post_pk") long post_pk, Model model) {
@@ -69,20 +76,26 @@ public class PostController {
     }
 	
 	@GetMapping("/delete")
-	public String delete(Long post_pk) {
-
-		postService.delete(post_pk);
-
-		return "redirect:/community/list";
+	public String delete(Long post_pk, HttpSession session) {
+	    MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+	    if (signedMember == null) {
+	    	return "redirect:/user/signin";
+	    }
+	    postService.delete(post_pk);
+	    return "redirect:/community/list";
 	}
+
 
 	@PostMapping("/update")
-	public String update(PostUpdateDto dto) {
-
-		postService.update(dto);
-
-		return "redirect:/community/list";
+	public String update(PostUpdateDto dto, HttpSession session) {
+	    MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+	    if (signedMember == null) {
+	        return "redirect:/user/signin";
+	    }
+	    postService.update(dto);
+	    return "redirect:/community/list";
 	}
+
 
 	@GetMapping("/search")
 	public String search(PostSearchDto dto, Model model) {

@@ -23,7 +23,6 @@ public class PostDto {
     private String formattedModifiedTime; // 포맷된 수정 시간
     private String post_img_url;
     private Long post_category_fk;
-    private String memberId;
     
 
     public static PostDto fromEntity(Post post) {
