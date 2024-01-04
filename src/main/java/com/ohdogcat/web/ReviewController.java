@@ -2,13 +2,16 @@ package com.ohdogcat.web;
 
 import java.io.IOException;
 import java.util.List;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import com.ohdogcat.dto.member.MemberSessionDto;
 import com.ohdogcat.dto.member.review.ReviewDeleteDto;
@@ -33,7 +36,8 @@ public class ReviewController {
 
   // 리뷰 작성 페이지
   @GetMapping("/{option_fk}")
-  public String reviewRegister(@PathVariable("option_fk") Long option_fk, HttpSession session, ReviewDetailFindDto dto, Model model) {
+  public String reviewRegister(@PathVariable("option_fk") Long option_fk, HttpSession session,
+      ReviewDetailFindDto dto, Model model) {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     log.debug("memberSessionDto.getMember_pk()={}", memberSessionDto.getMember_pk());
     long member_fk = memberSessionDto.getMember_pk();
@@ -42,15 +46,20 @@ public class ReviewController {
     List<ReviewDetailDto> reviewDetailDto = reviewService.selectReviewDetailViews(dto);
     log.debug("reviewDetailDto={}", reviewDetailDto);
 
+    if (reviewDetailDto == null) {
+
+      return "redirect:/mypage/review" + "?duplicated=true";
+    }
     model.addAttribute("forReviewer", reviewDetailDto);
     model.addAttribute("option_fk", option_fk);
+
     return "review/reviewregister";
   }
 
   // 리뷰 작성
   @PostMapping("/reviewregister")
-  public String reviewRegister(MultipartFile img_file, HttpSession session,
-      HttpServletRequest req, ReviewRegisterDto dto) throws IOException {
+  public String reviewRegister(MultipartFile img_file, HttpSession session, HttpServletRequest req,
+      ReviewRegisterDto dto) throws IOException {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     dto.setMember_fk(memberSessionDto.getMember_pk());
 
@@ -62,17 +71,19 @@ public class ReviewController {
     }
     reviewService.insertReview(dto);
 
-    return "redirect:/";
+    return "redirect:/mypage/review";
   }
   
   @GetMapping("/delete")
-  public void deleteReview(@RequestParam ( name = "deleteReview") long review_pk , ReviewDeleteDto dto, HttpSession session) {
+  public String deleteReview(@RequestParam(name = "review_pk") long review_pk, ReviewDeleteDto dto,
+      HttpSession session) {
     MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");
     dto.setMember_fk(memberSessionDto.getMember_pk());
     dto.setReview_pk(review_pk);
-    
+
     reviewService.deleteWhereReviewAndMemberFk(dto);
     
+    return "redirect:/mypage/review";
   }
-  
+
 }

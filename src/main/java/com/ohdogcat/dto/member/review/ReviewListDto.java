@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class ReviewListDto {
+  private long review_pk;
+  private long member_fk;
   private String product_name;
   private String option_name;
   private String pet_name;

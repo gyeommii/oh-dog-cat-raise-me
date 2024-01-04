@@ -10,12 +10,11 @@ public interface ReviewDao {
   
   List<ReviewDetailDto> selectReviewDetailViews(ReviewDetailFindDto dto);  
   
-  void insertReview(Review review);
-  
-  int updateWhereReviewPkAndMemberFk(Review review);
+  void insertReview(Review review);  
   
   int deleteWhereReviewAndMemberFk(Review review);
   
-  List<ReviewListDto> selectReviewByMemberFk(long member_fk);  
+  List<ReviewListDto> selectReviewByMemberFk(long member_fk);
+
   
 }

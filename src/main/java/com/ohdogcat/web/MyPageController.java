@@ -112,7 +112,7 @@ public class MyPageController {
         model.addAllAttributes(result);
     }
     
-    /* 리뷰에서.. */
+    /* 리뷰 */
     @GetMapping("/review")
     public String myReview(HttpSession session, Model model) {
       MemberSessionDto memberSessionDto = (MemberSessionDto) session.getAttribute("signedMember");

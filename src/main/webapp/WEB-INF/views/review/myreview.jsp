@@ -48,6 +48,7 @@
                             <th>이미지</th>
                             <th>평점</th>
                             <th>수정시간</th>
+                            <th>삭제</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -77,7 +78,20 @@
                                 </td>
                                 <td>${myReview.score}</td>
                                 <td>${myReview.modified_time}</td>
-                                  
+                                <td>
+                                <c:url var="deleteReview"
+                                       value="/review/delete">
+                                    <c:param
+                                        name="review_pk"
+                                        value="${myReview.review_pk}"/>
+                                </c:url>                            
+                                    <a
+                                    class="btn btn-outline-danger"
+                                    onclick="return confirm('삭제하시겠습니까?')"
+                                    id="deleteReview"
+                                    role="button"
+                                    href="${deleteReview}">❌</a>
+                                </td>                                  
                             </tr>
                         </c:forEach>
                     </tbody>
@@ -101,7 +115,7 @@
             </c:forEach>
 
             <!-- 다음 페이지로 이동 -->
-            <li class="page-item <c:if test="${currentPage eq 1}">disabled</c:if>">
+            <li class="page-item <c:if test="${currentPage  eq totalPages}">disabled</c:if>">
                 <c:choose>
                     <c:when test="${currentPage eq 1}">
                         <span class="page-link">Next</span>
@@ -128,6 +142,18 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="../js/navcart-count.js"></script>
 <script src="../js/cart-list.js"></script>
+<script type="text/javascript">
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const isDuplicated = urlParams.get('duplicated');
+
+    if (isDuplicated === 'true') {
+        alert('이미 상품에 작성한 리뷰가 있습니다.');
+        // 추가적인 처리나 동작을 원하는 경우 여기에 코드를 추가하세요.
+    }
+    
+});
+</script>
 
 
 	</body>

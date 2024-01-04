@@ -112,9 +112,7 @@
                             </div>
                             <div class="text-center">                        
                                 <img class="d-none" alt="imagePreview" id="imagePreview" style="height: 350px; width: 350px" src="#">
-                            </div>
-                            
-                                                                                 
+                            </div>                                               
                             <div class="card-footer">
                                 <input class="btn btn-success form-control" type="submit" value="리뷰 등록">
                             </div>                            

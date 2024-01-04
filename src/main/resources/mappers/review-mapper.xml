@@ -14,24 +14,12 @@
         ORDER BY r.review_pk DESC
     </select>
 
-    <select id="selectReviewByOptionFk" resultType="Review">
-        select * from
-        REVIEW where OPTION_FK = #{option_fk}
-    </select>    
-
     <insert id="insertReview">
         insert into REVIEW (MEMBER_FK, PET_FK, OPTION_FK,
         CONTENT, IMG, SCORE, CREATED_TIME, MODIFIED_TIME) values
         (#{member_fk}, #{pet_fk}, #{option_fk}, #{content}, #{img},
         #{score}, SYSTIMESTAMP, SYSTIMESTAMP)
-    </insert>
-
-    <update id="updateWhereReviewPkAndMemberFk">
-        update REVIEW set CONTENT = #{content}, IMG =
-        #{img}, SCORE = #{score}, PET_FK = #{pet_fk}, MODIFIED_TIME =
-        systimestamp where REVIEW_PK = #{review_pk} and MEMBER_FK =
-        #{member_fk}
-    </update>
+    </insert>    
 
     <delete id="deleteWhereReviewAndMemberFk">
         delete from REVIEW where REVIEW_PK= #{review_pk}
@@ -64,24 +52,6 @@
         PRODUCT P on PO.product_fk = P.product_pk
         where
         M.member_pk = #{member_fk} and PP.option_fk = #{option_fk}
-    </select>
-    
-    <select id="selectMyReviewDetails" resultType="com.ohdogcat.dto.member.review.MyReviewDetailsDto">
-    SELECT
-        p.product_name AS product_name,
-        po.option_name AS option_name,
-        pe.pet_name AS pet_name,
-        pe.pet_type AS pet_type
-    FROM
-        review r
-    JOIN
-        product_option po ON r.option_fk = po.option_pk
-    JOIN
-        product p ON po.product_fk = p.product_pk
-    JOIN
-        pet pe ON r.pet_fk = pe.pet_pk
-    WHERE
-        r.member_fk = #{member_fk}
-    </select>
-    
+    </select>    
+        
 </mapper>
