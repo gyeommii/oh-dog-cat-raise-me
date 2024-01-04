@@ -129,16 +129,15 @@
                                             <div class="fs-6 fw-normal">무료배송</div>
                                             <hr/>
                                             <c:choose>
-                                                <c:when test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten eq 1}">
+                                                <c:when test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten eq 0}">
                                                     <a class="btn btn-outline-primary btn-sm mb-2"
                                                        href="../review/${product.option_fk}">리뷰 작성
                                                     </a>
                                                 </c:when>
-                                                <c:when test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten ne 1}">
+                                                <c:when test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten eq 1}">
                                                     <a class="btn btn-secondary btn-sm mb-2 disabled"
                                                        href="../review/${product.option_fk}">리뷰 작성
                                                     </a>
-
                                                 </c:when>
                                                 <c:otherwise>
                                                     <a class="btn btn-secondary btn-sm mb-2 disabled"
@@ -148,7 +147,7 @@
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
-                                        <c:if test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten ne 1}">
+                                        <c:if test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten ne 0}">
                                             <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
                                                 이미 리뷰를 작성한 상품입니다.
                                             </div>
