@@ -27,22 +27,8 @@
         width: 20px;
         height: 20px;
     }
-.input-small {
-        width: 70px;      /* 입력 필드의 너비 */
-        height: 30px;      /* 입력 필드의 높이 */
-        font-size: 14px;   /* 입력 필드 내부의 텍스트 크기 */
-    }
-.input-medium {
-        width: 200px;      /* 입력 필드의 너비 */
-        height: 30px;      /* 입력 필드의 높이 */
-        font-size: 14px;   /* 입력 필드 내부의 텍스트 크기 */
-    }
-    
-.submit-small {
-    width: 200px;      /* 버튼의 너비 */
-    height: 30px;     /* 버튼의 높이 */
-    font-size: 12px;  /* 버튼 내부의 텍스트 크기 */
-}
+
+
 
 {
   margin: 0;
@@ -76,7 +62,76 @@ li {
   justify-content: center;
 }
 
-</style>   
+/* 추가 */
+.sidebar-sticky {
+    border: 1px solid;
+    border-color: #D3D3D3;
+    background-color: ; /* 배경색 변경 */
+    border-radius: 5px; /* 모서리 둥글게 */
+    padding: 10px; /* 내부 패딩 */
+    
+}
+
+.nav-item {
+    margin-bottom: 10px; /* 아이템 간 마진 */
+}
+
+/* 레이블 및 텍스트 스타일 */
+label {
+    display: block; /* 블록 레벨 요소로 만들기 */
+    color: #495057; /* 글꼴 색상 변경 */
+    margin-bottom: 5px; /* 아래쪽 마진 추가 */
+}
+
+input[type='text'] {
+    width: 100%; /* 가로 길이 100% */
+}
+
+/* 검색 버튼 스타일링 */
+#submitFilter {
+    width: 100%; /* 가로 길이 100% */
+}
+
+/* 스위치 커스텀 스타일 */
+.custom-switch:checked {
+    background-color: #FFA500; /* 변경할 색상 */
+    border-color: #FFA500; /* 변경할 색상 */
+}
+
+/* 검색 버튼 커스텀 스타일 */
+.btn-custom {
+    background-color: #FFA500; /* 버튼 배경 색상 */
+    color: white; /* 버튼 텍스트 색상 */
+}
+/* 검색 버튼 클릭 시 스타일 */
+.btn-custom:hover {
+    background-color: #FFB914; /* 클릭 시 배경 색상 변경 */
+    color: white; /* 클릭 시 텍스트 색상*/
+}
+
+/* 선택된 상태의 스위치 핸들 색상 */
+.custom-switch:checked + .form-check-label::before {
+    background-color: white; /* 핸들 색상 */
+    border-color: white; /* 핸들 테두리 색상 */
+}
+
+/* 추가 CSS 스타일 */
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+    color: white;
+}
+
+.pagination-container .btn {
+    margin: 0 5px; /* 버튼 간의 여백 */
+    background-color: #FFA500; /* 변경할 색상 */
+    border-color: #FFA500; /* 변경할 색상 */
+    color: white;
+    
+}
+
+</style>     
     
 </head>
 <body>
@@ -116,29 +171,30 @@ li {
                     <ul class="nav flex-column">
                         <li class="nav-item">
                             <!-- 상품 키워드 검색 -->
-                            <form action="/search-url" method="get"><!-- 'action'은 폼데이터를 처리할 서버의 URL, 'method'는 데이터 전송 방식 -->
+                            <form action="/search-url" method="get" class="mb-3"><!-- 'action'은 폼데이터를 처리할 서버의 URL, 'method'는 데이터 전송 방식 -->
                                 <label>
-                                    <input type="text" title="상품 검색" placeholder="상품 키워드" id="keyword" class="input-medium"> 
-                                    
+                                    <input type="text" title="상품 검색" placeholder="상품 키워드" id="keyword" class="input-medium form-control mb-2"> 
                                 </label>
                             </form> 
                             
                             <!-- 가격 조건 검색 -->
+                            <div class="mb-3">
                             <label>
                                 <span>가격</span>
-                                <input type="text" title="최소가격" placeholder="0" id="minPrice" class="input-small">
-                                <span>~</span>
-                                <input type="text" title="최대가격" placeholder="9,990,000" id="maxPrice"class="input-small" >
+                                <input type="text" title="최소가격" placeholder="0" id="minPrice" class="input-small form-control mt-1 mb-1">
+                                <span>⠀~</span>
+                                <input type="text" title="최대가격" placeholder="9,990,000" id="maxPrice"class="input-small form-control mt-1 mb-1" >
                             </label>
+                            </div>
                             
                             <!-- 품절제외 스위치(체크박스) -->
-                            <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" role="switch" id="soldOutChecked" checked>
+                            <div class="form-check form-switch mb-3">
+                                <input class="form-check-input custom-switch" type="checkbox" role="switch" id="soldOutChecked" checked>
                                 <label class="form-check-label" for="soldOutChecked"> 품절상품 제외</label>
                             </div>
                             <div>
                                 <!-- 필터 검색 버튼 -->
-                                <input type="submit" value="검색" id="submitFilter" class="submit-small">
+                                <input type="submit" value="검색" id="submitFilter" class="submit-small btn btn-custom" >
                             </div>
                         </li>
 
@@ -186,6 +242,7 @@ li {
                         </div>
                     <button class="next-button">▶</button>
                 </div>
+                <div class="mb-4"></div>
             </main>
 
         </div>

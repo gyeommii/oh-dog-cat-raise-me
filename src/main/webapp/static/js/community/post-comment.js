@@ -72,20 +72,20 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="card card-body my-1">
                     <div>
                         <span class="d-none">${comment.comments_pk}</span>
-                        <span class="fw-bold">${comment.memberId}</span>
+                        <span class="fw-bold memberId-text">${comment.memberId}</span>
                         <span class="text-secondary">${time}</span>
                     </div>
                     <div>${comment.ctext}</div>`;
             console.log(typeof comment.member_fk, typeof signedMember);
             if (comment.member_fk == signedMember) {
                 htmlStr += `
-                    <div>
-                        <button class="btnCommentDelete btn btn-outline-danger" 
-                            data-id="${comment.comments_pk}">삭제</button>
-                        <button class="btnCommentModify btn btn-outline-success" 
-                            data-id="${comment.comments_pk}" data-text="${comment.ctext}">수정</button>
+                    <div class="mt-2">
+                        <button class="btnCommentModify btn btn-outline-warning btn-sm" 
+                                data-id="${comment.comments_pk}" data-text="${comment.ctext}">수정</button>
+                        <button class="btnCommentDelete btn btn-outline-secondary btn-sm" 
+                                data-id="${comment.comments_pk}">삭제</button>
                     </div>`;
-            }
+            } 
             
             htmlStr += '</div>';
         });
