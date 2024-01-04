@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${signedMember.member_id}의리뷰페이지</title>
+<title>${signedMember.member_id}님의 리뷰</title>
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -44,15 +44,15 @@
                 <table class="card-body table table-hover text-center">
                     <thead>
                         <tr>
-                            <th>상품이름</th>
-                            <th>옵션이름</th>
-                            <th>펫이름</th>
-                            <th>냥멍</th>
-                            <th>내용</th>
-                            <th>이미지</th>
-                            <th>평점</th>
-                            <th>수정시간</th>
-                            <th>삭제</th>
+                            <th class="text-nowrap">상품이름</th>
+                            <th class="text-nowrap">옵션이름</th>
+                            <th class="text-nowrap">펫이름</th>
+                            <th class="text-nowrap">냥멍</th>
+                            <th class="text-nowrap">내용</th>
+                            <th class="text-nowrap">이미지</th>
+                            <th class="text-nowrap">평점</th>
+                            <th class="text-nowrap">수정시간</th>
+                            <th class="text-nowrap">삭제</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -68,12 +68,12 @@
                             begin="${(currentPage - 1) * itemsPerPage}"
                             end="${currentPage * itemsPerPage - 1}">
                             <tr>
-                                <td>${myReview.product_name}</td>
-                                <td>${myReview.option_name}</td>
-                                <td>${myReview.pet_name}</td>
-                                <td>${myReview.pet_type}</td>
+                                <td class="text-nowrap">${myReview.product_name}</td>
+                                <td class="text-nowrap">${myReview.option_name}</td>
+                                <td class="text-nowrap">${myReview.pet_name}</td>
+                                <td class="text-nowrap">${myReview.pet_type}</td>
                                 <td>${myReview.content}</td>
-                                <td><c:url var="imgGetUrl"
+                                <td style="width: 200px; height: 200px"><c:url var="imgGetUrl"
                                         value="/image">
                                         <c:param name="imgUrl"
                                             value="${myReview.img}" />
@@ -82,7 +82,7 @@
                                             test="${empty myReview.img}">
                                             <img
                                                 class="img-fluid card-img"
-                                                src="..images/review_default_img.png"
+                                                src="../images/review_default_img.png"
                                                 style="height: 200px; width: 200px"
                                                 alt="이미지 X">
                                         </c:when>
