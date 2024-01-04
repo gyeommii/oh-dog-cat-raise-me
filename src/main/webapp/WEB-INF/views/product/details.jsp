@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+    pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
 <%@ taglib prefix="c" uri="jakarta.tags.core"%>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
@@ -8,6 +8,7 @@
 <meta charset="UTF-8">
 <title>ohdogcat</title>
 <link
+
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
@@ -37,19 +38,20 @@
     <!-- bottom nav-->
    	<%@ include file="../fragments/bottom-nav.jspf"%>
 
-	<main class="mt-3">
-		<div class="container">
-			<div class="row py-5">
+    <main class="mt-3">
+        <div class="container">
+            <div class="row py-5">
 
-				<!-- 상품 사진 영역 -->
-				<div class="col-md-6">
-					<img src="${p.imgUrl}" class="img-fluid d-block w-100"
-						alt="Product details">
-				</div>
+                <!-- 상품 사진 영역 -->
+                <div class="col-md-6">
+                    <img src="${p.imgUrl}" class="img-fluid d-block w-100"
+                        alt="Product details">
+                </div>
 
-				<!-- 상품 정보 영역 -->
-				<div class="col-md-6">
-					<div class="card shadow-sm">
+                <!-- 상품 정보 영역 -->
+                <div class="col-md-6">
+                    <div class="card shadow-sm">
+
 
 						<!-- 멍멍/냐옹 뱃지 -->
 						<div class="card-header pt-3 fs-5"
@@ -167,6 +169,7 @@
 	
 	<!-- Footer-->
 	<%@ include file="../fragments/footer.jspf"%>
+
 
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"

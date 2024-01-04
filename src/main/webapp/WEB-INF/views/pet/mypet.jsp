@@ -27,7 +27,6 @@
 <%@ include file="../fragments/bottom-nav.jspf" %>
 
 
-
 <main class="outer-container row">
     <div class="col-2">
     <%@include file="../fragments/MyPageNav.jsp" %>
