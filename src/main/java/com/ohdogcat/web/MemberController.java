@@ -125,4 +125,11 @@ public class MemberController {
         return ResponseEntity.ok(result);
     }
 
+    @GetMapping("/signout")
+    public String signoutMember (HttpSession session) {
+        session.removeAttribute("signedMember");
+        session.invalidate();
+        return "redirect:/?state=signout";
+    }
+
 }

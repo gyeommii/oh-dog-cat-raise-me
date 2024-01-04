@@ -9,6 +9,7 @@ import com.ohdogcat.model.Purchase;
 import com.ohdogcat.model.PurchaseProduct;
 import com.ohdogcat.model.PurchaseStatus;
 import java.util.List;
+import java.util.Map;
 
 public interface PurchaseDao {
 
@@ -20,7 +21,7 @@ public interface PurchaseDao {
 
     Purchase getPurchaseInfo(Long purchasePk);
 
-    List<OptionOrderDto> getProductByPurchasePk(Long purchaseFk);
+    List<OptionOrderDto> getProductByPurchasePk(Map<String, Object> productMap);
 
     Payment retrievePaymentByPurchaseFk(Long purchaseFk);
 

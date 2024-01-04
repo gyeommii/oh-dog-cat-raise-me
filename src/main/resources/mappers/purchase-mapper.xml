@@ -59,13 +59,14 @@
     where purchase_pk = #{purchasePk}
   </select>
 
-  <select id="getProductByPurchasePk" parameterType="Long" resultType="OptionOrderDto">
+  <select id="getProductByPurchasePk" parameterType="Map" resultType="OptionOrderDto">
     select
-      option_fk, product_fk, product_name, option_name, img_url, price, count
-    from purchase_product
-    left join product_option on option_fk = option_pk
-    left join product on product_fk = product_pk
-    where purchase_fk = #{purchaseFk}
+    pp.option_fk, product_fk, product_name, option_name, img_url, price, count, nvl2(r.REVIEW_PK, 1, 0) AS isReviewWritten
+    from purchase_product pp
+    left join product_option po on pp.option_fk = option_pk
+    left join product p on product_fk = product_pk
+    left JOIN REVIEW r ON r.option_fk = po.OPTION_PK AND MEMBER_FK = #{memberPk}
+    where purchase_fk = #{purchasePk}
   </select>
 
   <select id="retrievePaymentByPurchaseFk" parameterType="Long" resultType="Payment">
