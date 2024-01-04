@@ -71,7 +71,7 @@ async function loadReview() {
                 <span id="heart-fill-${el.review_pk}" class="material-symbols-outlined" style="font-variation-settings: 'FILL' ${el.isLike
         ? 100 : 0}"> favorite </span>
               </button>
-              <span id="like-count-${el.review_pk}" class="fw-bold">${el.likeCount}</span> 명이 좋아한 댓글입니다.
+              <span id="like-count-${el.review_pk}" class="fw-bold">${el.likeCount}</span> 명이 좋아한 리뷰입니다.
             </div>
     `;
 
