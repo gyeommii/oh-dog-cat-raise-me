@@ -227,7 +227,11 @@ public class PurchaseService {
         Address address = addressDao.getAddressByAddressPk(purchase.getAddress_fk());
         result.put("address", address);
 
-        List<OptionOrderDto> products = purchaseDao.getProductByPurchasePk(purchasePk);
+        Map<String, Object> productMap = new HashMap<>();
+        productMap.put("memberPk", memberPk);
+        productMap.put("purchasePk", purchasePk);
+
+        List<OptionOrderDto> products = purchaseDao.getProductByPurchasePk(productMap);
         result.put("products", products);
 
         Payment payment = purchaseDao.retrievePaymentByPurchaseFk(purchasePk);
@@ -272,8 +276,11 @@ public class PurchaseService {
                 log.debug("paymentStatusChange={}", result);
             } // 결제 취소
 
-            List<OptionOrderDto> products = purchaseDao.getProductByPurchasePk(
-                purchaseInfoDto.getPurchase_fk());
+            Map<String, Object> productMap = new HashMap<>();
+            productMap.put("memberPk", purchaseInfoDto.getMember_fk());
+            productMap.put("purchasePk", purchaseInfoDto.getPurchase_fk());
+
+            List<OptionOrderDto> products = purchaseDao.getProductByPurchasePk(productMap);
 
             //        (1) 경우 => product의 재고 되돌려야 함.
             products.forEach(e -> {

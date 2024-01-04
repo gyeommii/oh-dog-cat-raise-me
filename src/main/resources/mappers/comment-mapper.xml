@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohdogcat.repository.CommentDao">
+
+    <!-- 특정 포스트에 달려 있는 모든 댓글 검색(COMMENTS_PK 내림차순). -->
+    <select id="selectByPostFK" resultType="Comment">
+        select * from COMMENTS
+        where POST_FK = #{post_fk}
+        order by COMMENTS_PK desc
+    </select>
+    
+    <!-- 특정 포스트에 새 댓글을 추가. -->
+    <insert id="insert">
+        insert into COMMENTS (POST_FK, MEMBER_FK, CTEXT) 
+        values (#{post_fk}, #{member_fk}, #{ctext})
+    </insert>
+    
+    <!-- 댓글 수정 -->
+    <update id="update" parameterType="Comment">
+        UPDATE COMMENTS
+        SET CTEXT = #{ctext}
+        WHERE COMMENTS_PK = #{comments_pk}
+    </update>
+    
+    <!-- 댓글 삭제 -->
+    <delete id="delete" parameterType="long">
+        DELETE FROM COMMENTS
+        WHERE COMMENTS_PK = #{comments_pk}
+    </delete>
+    
+    <select id="selectByPostId" resultType="Comment">
+        SELECT c.*, m.MEMBER_ID 
+        FROM COMMENTS c
+        JOIN MEMBER m ON c.MEMBER_FK = m.MEMBER_PK
+        WHERE c.POST_FK = #{postId}
+        order by c.CREATED_TIME
+    </select>
+
+    
+    
+    
+    
+
+</mapper>

@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.ohdogcat.repository.PostDao">
+
+    <resultMap id="PostWithMemberResultMap" type="PostListItemDto">
+        <!-- Post의 기존 필드 매핑 -->
+        <id column="POST_PK" property="post_pk" />
+        <result column="TITLE" property="title" />
+        <result column="CONTENT" property="content" />
+        <result column="MEMBER_FK" property="member_fk" />
+        <result column="POST_CATEGORY_FK" property="post_category_fk" />
+        <result column="MODIFIED_TIME" property="formattedModifiedTime" />
+        <!-- Member의 ID를 PostListItemDto의 memberId로 매핑 -->
+        <result column="MEMBER_ID" property="memberId" />
+    </resultMap>
+    
+    <!-- POST 테이블 전체 검색. 최신순 -->
+    <select id="selectAllOrderByPostPkDesc" resultMap="PostWithMemberResultMap">
+        SELECT p.*, m.MEMBER_ID
+        FROM POST p
+        JOIN MEMBER m ON p.MEMBER_FK = m.MEMBER_PK
+        ORDER BY p.POST_PK DESC
+    </select>
+    
+    <!-- POST 테이블 전체 검색. 오래된순 -->
+    <select id="selectAllOrderByPostPkAsc" resultMap="PostWithMemberResultMap">
+        SELECT p.*, m.MEMBER_ID
+        FROM POST p
+        JOIN MEMBER m ON p.MEMBER_FK = m.MEMBER_PK
+        ORDER BY p.POST_PK ASC
+    </select>
+    
+    <!-- POST 테이블에서 아이디(PK)로 검색 -->
+    <select id="selectByPostPk" resultType="Post">
+        SELECT p.*, m.MEMBER_ID
+        FROM POST p
+        JOIN MEMBER m ON p.MEMBER_FK = m.MEMBER_PK
+        WHERE p.POST_PK = #{post_pk}
+    </select>
+    
+    <!-- POST 테이블에 새 포스트 삽입 -->
+    <insert id="insert" > 
+        insert into POST (TITLE, CONTENT, MEMBER_FK, POST_CATEGORY_FK) values (#{title}, #{content}, #{member_fk}, #{post_category_fk})
+    </insert>
+    
+    <!-- POST 테이블에서 해당 아이디의 제목, 내용, 수정시간을 업데이트 -->
+    <update id="update">
+        update POST set
+        TITLE = #{title},
+        CONTENT = #{content},
+        MODIFIED_TIME = systimestamp
+        where POST_PK = #{post_pk}
+    </update>
+    
+    <!-- POST 테이블에서 해당 아이디의 포스트 삭제 -->
+    <delete id="delete">
+        delete from POST where POST_PK = #{post_pk}
+    </delete>
+    
+     <!-- 카테고리별로 게시물 검색 -->
+    <select id="selectByCategory" resultType="com.ohdogcat.dto.post.PostListItemDto">
+        select P.*, M.MEMBER_ID
+        from POST P
+        join MEMBER M on P.MEMBER_FK = M.MEMBER_PK
+        where P.POST_CATEGORY_FK = #{category}
+        order by P.POST_PK desc
+    </select>
+
+    
+    <!-- POST 테이블에서 제목, 내용, 제목 또는 내용, 작성자로 검색하기 -->
+    <select id="search" resultType="com.ohdogcat.model.Post"> 
+        <bind name="searchKeyword" value="'%' + keyword + '%'" />
+        select P.*, M.MEMBER_ID
+        from POST P
+        join MEMBER M on P.MEMBER_FK = M.MEMBER_PK
+        <where>
+            <choose>
+                <when test='searchCategory eq "t"'>
+                    upper(P.TITLE) like upper(#{searchKeyword})
+                </when>
+                <when test='searchCategory eq "c"'>
+                    upper(P.CONTENT) like upper(#{searchKeyword})
+                </when>
+                <when test='searchCategory eq "tc"'>
+                    upper(P.TITLE) like upper(#{searchKeyword}) 
+                    or 
+                    upper(P.CONTENT) like upper(#{searchKeyword})
+                </when>
+                <when test='searchCategory eq "a"'>
+                    upper(M.MEMBER_ID) like upper(#{searchKeyword})
+                </when>
+            </choose>
+        </where>
+        order by P.POST_PK desc 
+    </select>
+
+    
+     <!-- 특정 카테고리의 게시물을 정렬하여 가져옴 -->
+    <select id="selectByCategoryAndSort" resultType="com.ohdogcat.model.Post">
+        SELECT p.*, m.MEMBER_ID
+        FROM POST p
+        JOIN MEMBER m ON p.MEMBER_FK = m.MEMBER_PK
+        WHERE p.POST_CATEGORY_FK = #{category}
+        ORDER BY p.POST_PK ${sort}
+    </select>
+
+    <!-- 모든 카테고리의 게시물을 정렬하여 가져옴 -->
+    <select id="selectAllSorted" resultType="Post">
+        SELECT p.*, m.MEMBER_ID
+        FROM POST p
+        JOIN MEMBER m ON p.MEMBER_FK = m.MEMBER_PK
+        ORDER BY p.POST_PK ${sort}
+    </select>
+    
+    
+
+
+    
+    
+    
+    
+    
+</mapper>

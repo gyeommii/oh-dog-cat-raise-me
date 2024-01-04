@@ -1,17 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xmlns="https://jakarta.ee/xml/ns/jakartaee"
-  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
-  id="WebApp_ID" version="5.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
   <display-name>oh-dog-cat-raise-me</display-name>
-
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>
       /WEB-INF/application-context.xml
     </param-value>
   </context-param>
-
   <filter>
     <filter-name>encodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
@@ -24,12 +19,25 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-
-
+  
+    <!-- 로그인 필터.어떤 요청주소들을 인증을 거칠 것인지! -->
+  <filter>
+    <filter-name>AuthenticationFilter</filter-name>
+    <filter-class>com.ohdogcat.filter.AuthenticationFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>AuthenticationFilter</filter-name>
+    <url-pattern>/cart/list</url-pattern>
+    <url-pattern>/mypage/*</url-pattern>
+    <url-pattern>/community/*</url-pattern>
+    <url-pattern>/order/*</url-pattern>
+    <url-pattern>/purchase/*</url-pattern>
+    <url-pattern>/review/like/*</url-pattern>
+  </filter-mapping>
+  
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
-
   <servlet>
     <servlet-name>dispatcherServlet</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>

@@ -202,6 +202,7 @@ Icon
 .Trashes
 .VolumeIcon.icns
 .com.apple.timemachine.donotpresent
+.classpath
 
 # Directories potentially created on remote AFP share
 .AppleDB
