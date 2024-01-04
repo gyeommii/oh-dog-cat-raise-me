@@ -37,6 +37,12 @@ async function loadReview() {
   }
 
   reviewList.map(el => {
+
+    const gender = (el.gender === "female" ?
+            `<span class="material-symbols-outlined text-danger"> ${el.gender} </span>`
+            : `<span class="material-symbols-outlined text-primary"> ${el.gender} </span>`)
+        + '</div>';
+
     const petInfo = (!el.pet_type ? "" : `<div class="fw-semibold">
                 ${el.pet_type === "고양이" ?
             '<span class="badge rounded-pill text-bg-primary" style="font-size: small">'
@@ -47,11 +53,10 @@ async function loadReview() {
         }
         <span>${el.pet_name}
         </span> | <span>${el.chehyeong}</span> | ${el.age}살 |
-   
-   `) + (el.gender === "female" ?
-            `<span class="material-symbols-outlined text-danger"> ${el.gender} </span>`
-            : `<span class="material-symbols-outlined text-primary"> ${el.gender} </span>`)
-        + '</div>';
+        ${gender}
+   `) ;
+
+
 
     const imgHtml = el.image_url ? `<div class="mb-5">
               <img
