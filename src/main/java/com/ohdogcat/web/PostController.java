@@ -27,75 +27,74 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/community")
 public class PostController {
-	
+
 	private final PostService postService;
-	
+
 	// 전체목록
-	 @GetMapping("/list")
-	    public void list(@RequestParam(required = false) Long category,
-	                       @RequestParam(required = false, defaultValue = "desc") String sort,
-	                       Model model) {
-	        List<PostListItemDto> list;
+	@GetMapping("/list")
+	public void list(@RequestParam(required = false) Long category,
+			@RequestParam(required = false, defaultValue = "desc") String sort, Model model) {
+		List<PostListItemDto> list;
+		log.debug("sort={}", sort);
 
-	        if (category != null && category > 0) {
-	            // 특정 카테고리의 게시물을 정렬 순서에 따라 가져옵니다.
-	            list = postService.getPostsByCategoryAndSort(category, sort);
-	        } else {
-	            // 모든 카테고리의 게시물을 정렬 순서에 따라 가져옵니다.
-	            list = postService.getPostsSorted(sort);
-	        }
+		if (category != null && category > 0) {
+			log.debug("일단");
+			// 특정 카테고리의 게시물을 정렬 순서에 따라 가져옴
+			list = postService.getPostsByCategoryAndSort(category, sort);
+		} else {
+			log.debug("이단");
+			// 모든 카테고리의 게시물을 정렬 순서에 따라 가져옴
+			list = postService.getPostsSorted(sort);
+		}
 
-	        model.addAttribute("posts", list);
-	    }
+		model.addAttribute("posts", list);
+	}
 
 	@GetMapping("/createPost")
 	public void createPost() {
 		log.debug("GET - createPost()");
 	}
-	
+
 	@PostMapping("/createPost")
 	public String createPost(PostCreateDto dto, HttpSession session) {
-	    log.debug("POST - createPost(dto={})", dto);
+		log.debug("POST - createPost(dto={})", dto);
 
-	    MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-	    if (signedMember == null) {
-	        return "redirect:/user/signin";
-	    }
-	    dto.setMember_fk(signedMember.getMember_pk());
+		MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+		if (signedMember == null) {
+			return "redirect:/user/signin";
+		}
+		dto.setMember_fk(signedMember.getMember_pk());
 
-	    postService.createPost(dto);
+		postService.createPost(dto);
 
-	    return "redirect:/community/list"; 
+		return "redirect:/community/list";
 	}
 
-	
-	@GetMapping({"/details", "/modify"})
-    public void details(@RequestParam(name = "post_pk") long post_pk, Model model) {
-        PostDto postDto = postService.read(post_pk);
-        model.addAttribute("post", postDto);
-    }
-	
+	@GetMapping({ "/details", "/modify" })
+	public void details(@RequestParam(name = "post_pk") long post_pk, Model model) {
+		PostDto postDto = postService.read(post_pk);
+		model.addAttribute("post", postDto);
+	}
+
 	@GetMapping("/delete")
 	public String delete(Long post_pk, HttpSession session) {
-	    MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-	    if (signedMember == null) {
-	    	return "redirect:/user/signin";
-	    }
-	    postService.delete(post_pk);
-	    return "redirect:/community/list";
+		MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+		if (signedMember == null) {
+			return "redirect:/user/signin";
+		}
+		postService.delete(post_pk);
+		return "redirect:/community/list";
 	}
-
 
 	@PostMapping("/update")
 	public String update(PostUpdateDto dto, HttpSession session) {
-	    MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
-	    if (signedMember == null) {
-	        return "redirect:/user/signin";
-	    }
-	    postService.update(dto);
-	    return "redirect:/community/list";
+		MemberSessionDto signedMember = (MemberSessionDto) session.getAttribute("signedMember");
+		if (signedMember == null) {
+			return "redirect:/user/signin";
+		}
+		postService.update(dto);
+		return "redirect:/community/list";
 	}
-
 
 	@GetMapping("/search")
 	public String search(PostSearchDto dto, Model model) {
@@ -105,10 +104,10 @@ public class PostController {
 
 		model.addAttribute("posts", list);
 
-		return "community/list"; 
-		
+		return "community/list";
+
 	}
-	
+
 //	@GetMapping("/search")
 //	public void search(@RequestParam(required = false) String category, 
 //	                     @RequestParam(required = false) String searchCategory,
@@ -134,18 +133,11 @@ public class PostController {
 //	    model.addAttribute("posts", list);
 //	}
 
-
 	@GetMapping("/listOrdered")
 	public String list(@RequestParam(required = false, defaultValue = "desc") String sort, Model model) {
-	    List<PostListItemDto> list = postService.getPostsListSorted(sort);
-	    model.addAttribute("posts", list);
-	    return "community/list";
+		List<PostListItemDto> list = postService.getPostsListSorted(sort);
+		model.addAttribute("posts", list);
+		return "community/list";
 	}
-
-	
-	
-	
-	
-	
 
 }
