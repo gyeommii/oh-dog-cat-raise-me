@@ -73,7 +73,7 @@ public class ReviewController {
 
     return "redirect:/mypage/review";
   }
-  
+
   @GetMapping("/delete")
   public String deleteReview(@RequestParam(name = "review_pk") long review_pk, ReviewDeleteDto dto,
       HttpSession session) {
@@ -82,7 +82,7 @@ public class ReviewController {
     dto.setReview_pk(review_pk);
 
     reviewService.deleteWhereReviewAndMemberFk(dto);
-    
+
     return "redirect:/mypage/review";
   }
 

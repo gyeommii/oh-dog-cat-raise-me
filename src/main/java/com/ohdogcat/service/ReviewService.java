@@ -56,7 +56,7 @@ public class ReviewService {
 
     reviewDao.insertReview(dto.toEntity());
   }
-  
+
   // 리뷰 삭제
   public int deleteWhereReviewAndMemberFk(ReviewDeleteDto dto) {
     int result = reviewDao.deleteWhereReviewAndMemberFk(dto.toEntity());

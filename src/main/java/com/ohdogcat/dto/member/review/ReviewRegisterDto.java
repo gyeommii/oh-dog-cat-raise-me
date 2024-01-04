@@ -20,7 +20,7 @@ public class ReviewRegisterDto {
 
   public Review toEntity() {
 
-    return Review.builder().member_fk(member_fk).pet_fk(pet_fk).option_fk(option_fk).content(content).img(img)
-        .score(score).build();
+    return Review.builder().member_fk(member_fk).pet_fk(pet_fk).option_fk(option_fk)
+        .content(content).img(img).score(score).build();
   }
 }

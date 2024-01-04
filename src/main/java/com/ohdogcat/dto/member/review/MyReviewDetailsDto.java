@@ -14,5 +14,5 @@ public class MyReviewDetailsDto {
   private String option_name;
   private String pet_name;
   private String pet_type;
-  
+
 }

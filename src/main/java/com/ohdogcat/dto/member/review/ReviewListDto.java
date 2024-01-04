@@ -21,6 +21,6 @@ public class ReviewListDto {
   private String content;
   private String img;
   private int score;
-  private Timestamp modified_time;  
+  private Timestamp modified_time;
 
 }

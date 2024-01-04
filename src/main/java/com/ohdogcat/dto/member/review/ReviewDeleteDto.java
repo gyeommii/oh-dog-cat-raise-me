@@ -15,8 +15,8 @@ public class ReviewDeleteDto {
   private long member_fk;
 
   public Review toEntity() {
-    
+
     return Review.builder().review_pk(review_pk).member_fk(member_fk).build();
   }
-  
+
 }
