@@ -13,7 +13,8 @@
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
     <link href="../css/order/order-page.css" rel="stylesheet"/>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+          rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"/>
     <link href="../css/font.css" rel="stylesheet">
@@ -128,18 +129,35 @@
                                             <div class="fs-6 fw-normal">무료배송</div>
                                             <hr/>
                                             <c:choose>
-                                                <c:when test="${purchaseStatus.status_pk eq 6}">
+                                                <c:when test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten eq 1}">
                                                     <a class="btn btn-outline-primary btn-sm mb-2"
                                                        href="../review/${product.option_fk}">리뷰 작성
                                                     </a>
                                                 </c:when>
+                                                <c:when test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten ne 1}">
+                                                    <a class="btn btn-secondary btn-sm mb-2 disabled"
+                                                       href="../review/${product.option_fk}">리뷰 작성
+                                                    </a>
+
+                                                </c:when>
                                                 <c:otherwise>
-                                                    <a class="btn btn-secondary btn-sm mb-2"
+                                                    <a class="btn btn-secondary btn-sm mb-2 disabled"
                                                        href="#">리뷰 작성
                                                     </a>
+
                                                 </c:otherwise>
                                             </c:choose>
                                         </div>
+                                        <c:if test="${purchaseStatus.status_pk eq 6 and product.isReviewWritten ne 1}">
+                                            <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
+                                                이미 리뷰를 작성한 상품입니다.
+                                            </div>
+                                        </c:if>
+                                        <c:if test="${purchaseStatus.status_pk ne 6}">
+                                            <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
+                                                구매 확정 상태에서만 리뷰 작성이 가능합니다.
+                                            </div>
+                                        </c:if>
                                     </div>
                                 </div>
                             </c:forEach>
