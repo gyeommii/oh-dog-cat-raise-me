@@ -89,6 +89,10 @@ document.addEventListener('DOMContentLoaded', () => {
 			alert("상품을 선택해주세요!");
 			return;
 		}
+		if(!signedMember){
+			loginModal.show();
+			return;
+		}
 		try{
 		const {data : uri} = await axios.post("../order/checkout",cartItems);
 		location.href = uri;
