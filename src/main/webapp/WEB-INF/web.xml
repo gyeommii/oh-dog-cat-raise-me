@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="https://jakarta.ee/xml/ns/jakartaee" xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd" id="WebApp_ID" version="5.0">
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns="https://jakarta.ee/xml/ns/jakartaee"
+  xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_5_0.xsd"
+  id="WebApp_ID" version="5.0">
   <display-name>oh-dog-cat-raise-me</display-name>
   <context-param>
     <param-name>contextConfigLocation</param-name>
@@ -19,8 +22,8 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/*</url-pattern>
   </filter-mapping>
-  
-    <!-- 로그인 필터.어떤 요청주소들을 인증을 거칠 것인지! -->
+
+  <!-- 로그인 필터.어떤 요청주소들을 인증을 거칠 것인지! -->
   <filter>
     <filter-name>AuthenticationFilter</filter-name>
     <filter-class>com.ohdogcat.filter.AuthenticationFilter</filter-class>
@@ -34,7 +37,7 @@
     <url-pattern>/purchase/*</url-pattern>
     <url-pattern>/review/like/*</url-pattern>
   </filter-mapping>
-  
+
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
@@ -56,10 +59,38 @@
     <servlet-name>dispatcherServlet</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
-  
+
   <error-page>
     <error-code>404</error-code>
     <location>/error/404</location>
+  </error-page>
+  <error-page>
+    <error-code>400</error-code>
+    <location>/error/400</location>
+  </error-page>
+  <error-page>
+    <error-code>500</error-code>
+    <location>/error/500</location>
+  </error-page>
+  <error-page>
+    <error-code>501</error-code>
+    <location>/error/501</location>
+  </error-page>
+  <error-page>
+    <error-code>502</error-code>
+    <location>/error/502</location>
+  </error-page>
+  <error-page>
+    <error-code>503</error-code>
+    <location>/error/503</location>
+  </error-page>
+  <error-page>
+    <error-code>504</error-code>
+    <location>/error/504</location>
+  </error-page>
+  <error-page>
+    <error-code>505</error-code>
+    <location>/error/505</location>
   </error-page>
 
 </web-app>
