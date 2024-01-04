@@ -14,6 +14,8 @@ async function loadReview() {
       (satisfaction.score ? satisfaction.score : 0) * 20));
   const backgroundPositionY = Math.floor(roundedNum / 10) * 10;
 
+  document.getElementById("review-count").innerHTML=satisfaction.count;
+
   imgScore.style.backgroundPosition = `0 ${backgroundPositionY}%`;
   document.getElementById("score-pane").innerHTML = Math.floor(
       satisfaction.score) ?? 0;
