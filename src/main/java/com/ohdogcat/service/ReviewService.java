@@ -17,16 +17,39 @@ public class ReviewService {
 
     private final ReviewDao reviewDao;
 
-    public Map<String, Object> getReviewDataAtProductPage(Long productPk) {
+    public Map<String, Object> getReviewDataAtProductPage(Map<String, Object> reviewDataMap) {
         Map<String, Object> result = new HashMap<>();
 
-        ReviewSatisfactionDto satisfaction = reviewDao.getReviewSatisfaction(productPk);
+        ReviewSatisfactionDto satisfaction = reviewDao.getReviewSatisfaction(
+            (Long) reviewDataMap.get("productPk"));
         result.put("satisfaction", satisfaction);
 
-        List<ReviewListItemDto> reviewListItems = reviewDao.getReviewListDtoAtProduct(productPk);
+        List<ReviewListItemDto> reviewListItems = reviewDao.getReviewListDtoAtProduct(
+            reviewDataMap);
         result.put("reviewList", reviewListItems);
 
         return result;
+    }
+
+    public String clickLike(Map<String, Object> reviewLikeDataMap) {
+// db에 있나 체크
+        Integer isDuplicated = reviewDao.checkDuplicateLike(reviewLikeDataMap);
+
+        if (isDuplicated != 0) {
+            Integer result = reviewDao.deleteLike(reviewLikeDataMap);
+
+            if (result == 0) {
+                return "delete_failed";
+            }
+
+            return "deleted";
+        }
+
+        Integer result = reviewDao.createLike(reviewLikeDataMap);
+        if (result == 0) {
+            return "create_failed";
+        }
+        return "created";
     }
 
 }

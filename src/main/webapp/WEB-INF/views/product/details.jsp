@@ -28,8 +28,19 @@
         color: rgb(255, 35, 75);
       }
 
-      .bi-suit-heart {
+      .bi-suit-heart{
         color: rgb(222, 222, 222);
+      }
+
+      .review-like-button{
+        border: 0;
+        background-color: transparent;
+        color: #E40002;
+        padding-right: 0px;
+      }
+
+      .review-like-button:hover{
+        color: #9B0004;
       }
 
       .estimate-avg-point .img-score{

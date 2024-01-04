@@ -14,6 +14,8 @@ public class ReviewListItemDto {
     private Long review_pk;
     private Long member_fk;
     private Long score;
+    private Integer isLike;
+    private Integer likeCount;
     private String content;
     private String image_url;
     private String member_id;

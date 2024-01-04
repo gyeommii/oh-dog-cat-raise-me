@@ -7,17 +7,16 @@ loadReview();
 async function loadReview() {
   const {data} = await axios.get(`../review?productPk=${productPk}`);
 
-  const {satisfaction, reviewList} = data;
+  const {satisfaction, reviewList, loginStatus} = data;
 
   let html = '';
-  const roundedNum = (Math.round((satisfaction.score ? satisfaction.score : 0) * 20));
-  const backgroundPositionY = Math.floor(roundedNum/10)*10;
+  const roundedNum = (Math.round(
+      (satisfaction.score ? satisfaction.score : 0) * 20));
+  const backgroundPositionY = Math.floor(roundedNum / 10) * 10;
 
   imgScore.style.backgroundPosition = `0 ${backgroundPositionY}%`;
-  document.getElementById("score-pane").innerHTML = Math.floor(satisfaction.score) ?? 0;
-
-  // var avg = Math.round(sum/score.length); // 79
-  // var result = Math.round(avg/10)*10; // 80
+  document.getElementById("score-pane").innerHTML = Math.floor(
+      satisfaction.score) ?? 0;
 
   if (reviewList.length === 0) {
     const emptyReview = `
@@ -54,12 +53,22 @@ async function loadReview() {
             : `<span class="material-symbols-outlined text-primary"> ${el.gender} </span>`)
         + '</div>';
 
-    const imgHtml = el.image_url ? ` <div class="mb-5">
+    const imgHtml = el.image_url ? `<div class="mb-5">
               <img
                 style='height: 250px;'
                 src='/ohdogcat/image?imgUrl=${el.image_url}'
               />
             </div>` : "";
+
+    const likeDiv = `
+            <div class="like-container">
+              <button class="btn review-like-button ${loginStatus}" review-data-pk="${el.review_pk}" ${loginStatus}>
+                <span id="heart-fill-${el.review_pk}" class="material-symbols-outlined" style="font-variation-settings: 'FILL' ${el.isLike
+        ? 100 : 0}"> favorite </span>
+              </button>
+              <span id="like-count-${el.review_pk}" class="fw-bold">${el.likeCount}</span> 명이 좋아한 댓글입니다.
+            </div>
+    `;
 
     html += `
       <div class="review-item row mt-5 mb-3">
@@ -83,13 +92,44 @@ async function loadReview() {
               ${el.content}
             </p>
            ${imgHtml}
+           ${likeDiv}
           </div>
         </div>
 `;
-    console.log(html)
     reviewContainer.innerHTML = html;
+    addEventToLikeBtn();
   })
 
+
+}
+
+function addEventToLikeBtn () {
+
+  const likeBtns = document.querySelectorAll(".review-like-button");
+
+  for (const likeBtn of likeBtns) {
+    likeBtn.addEventListener("click",() => clickLike(likeBtn));
+  }
+
+}
+
+async function clickLike(likeBtn) {
+  const reviewPk = likeBtn.getAttribute("review-data-pk");
+  const {data} = await axios.get(`../review/like/${reviewPk}`);
+
+  const heartIcon = document.getElementById(`heart-fill-${reviewPk}`);
+  const likeCount = document.getElementById(`like-count-${reviewPk}`);
+  const likeCountValue = likeCount.innerHTML;
+
+  if (data === "created") {
+    heartIcon.style["font-variation-settings"] = " 'FILL' 100";
+    likeCount.innerHTML = parseInt(likeCountValue.trim()) + 1;
+  } else if (data === "deleted") {
+    heartIcon.style["font-variation-settings"] = " 'FILL' 0";
+    likeCount.innerHTML = parseInt(likeCountValue.trim()) - 1;
+  } else {
+    alert("좋아요 중 문제가 발생했습니다. 다시 시도해주세요");
+  }
 }
 
 function getDateStr(dataStr) {

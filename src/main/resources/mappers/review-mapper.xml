@@ -12,18 +12,47 @@
 		where p.product_pk = #{productPk}
 	</select>
 
-	<select id="getReviewListDtoAtProduct" parameterType="Long" resultType="ReviewListItemDto">
+	<select id="getReviewListDtoAtProduct" parameterType="Map" resultType="ReviewListItemDto">
 		SELECT
 			product_fk, option_fk, review_pk, r.member_fk, r.img AS image_url, score, member_id,
 			content,
 			created_time, po.OPTION_NAME,
-			p.PET_NAME , p.PET_TYPE , p.AGE , p.GENDER , p.CHEHYEONG
+			p.PET_NAME , p.PET_TYPE , p.AGE , p.GENDER , p.CHEHYEONG,
+		<if test="memberPk != null">
+			nvl2( rl.member_fk, 1, 0 ) as isLike,
+		</if>
+		nvl (likeCount, 0) as likeCount
 		FROM REVIEW r
 		left join product_option po on po.option_pk = r.option_fk
 		left join PET p on p.PET_PK  = r.PET_FK
 		left join member m on m.member_pk = r.MEMBER_FK
+		<if test="memberPk != null">
+			left join review_like rl on r.review_pk = rl.review_fk and rl.member_fk = #{memberPk}
+		</if>
+		left join (
+			select
+				review_fk, count (member_fk) as likeCount
+			from review_like
+			group by review_fk
+		) rl on rl.review_fk = r.review_pk
 		where product_fk = #{productPk}
+		order by created_time desc
 	</select>
 
+	<select id="checkDuplicateLike" parameterType="Map" resultType="Integer">
+		select count(*) as count from review_like
+		where member_fk = #{memberPk} and review_fk = #{reviewPk}
+	</select>
+
+	<insert id="createLike" parameterType="Map">
+		insert into review_like (
+		member_fk, review_fk
+		) values (#{memberPk}, #{reviewPk})
+	</insert>
+
+	<delete id="deleteLike" parameterType="Map">
+		delete from review_like
+		where member_fk = #{memberPk} and review_fk = #{reviewPk}
+	</delete>
 
 </mapper>
