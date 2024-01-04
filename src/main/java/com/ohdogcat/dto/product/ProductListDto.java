@@ -23,7 +23,4 @@ public class ProductListDto {
 	private int score; // 리뷰평점
     private Long stock; // 재고 수량 => 0이면 품절
     
-   
-    
-    
 }

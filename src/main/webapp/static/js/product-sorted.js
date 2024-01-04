@@ -315,34 +315,33 @@ document.addEventListener("DOMContentLoaded", function() {
     function createPagination(totalPages, currentPageNum) {
         const paginationContainer = document.querySelector('.pagination-container');
         paginationContainer.innerHTML = ''; // 초기화
-
+    
         // 이전 페이지 버튼
         const prevButton = document.createElement('button');
         prevButton.innerText = '◀';
+        prevButton.className = 'btn btn-outline-primary'; // 부트스트랩 클래스 추가
         prevButton.disabled = currentPageNum === 1;
         prevButton.addEventListener('click', () => fetchProducts(currentPageNum - 1));
         paginationContainer.appendChild(prevButton);
-
+    
         // 페이지 번호 버튼
         for (let i = 1; i <= totalPages; i++) {
             const pageButton = document.createElement('button');
             pageButton.innerText = i;
-            pageButton.className = 'page-number-button';
-            pageButton.disabled = i === currentPageNum;
-            pageButton.addEventListener('click', () => {
-                console.log("페이지 번호 버튼 클릭됨:", i);
-                fetchProducts(i);
-            });
+            pageButton.className = currentPageNum === i ? 'btn btn-primary' : 'btn btn-outline-secondary'; // 현재 페이지에 따라 스타일 변경
+            pageButton.addEventListener('click', () => fetchProducts(i));
             paginationContainer.appendChild(pageButton);
         }
-
+    
         // 다음 페이지 버튼
         const nextButton = document.createElement('button');
         nextButton.innerText = '▶';
+        nextButton.className = 'btn btn-outline-primary'; // 여기를 수정했습니다.
         nextButton.disabled = currentPageNum === totalPages;
         nextButton.addEventListener('click', () => fetchProducts(currentPageNum + 1));
         paginationContainer.appendChild(nextButton);
     }
+
 
     // 페이지 번호에 따라 상품 데이터를 가져오는 함수
     function fetchProducts(pageNumber) {

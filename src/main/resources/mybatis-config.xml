@@ -34,5 +34,8 @@
       alias="PurchaseListPagenationDto"/>
     <typeAlias type="com.ohdogcat.dto.product.ProductListDto" alias="ProductListDto"/>
     <typeAlias type="com.ohdogcat.model.Review" alias="Review"/>
+    <typeAlias type="com.ohdogcat.model.Comment" alias="Comment"/>
+    <typeAlias type="com.ohdogcat.model.Post" alias="Post"/>
+    <typeAlias type="com.ohdogcat.dto.post.PostListItemDto" alias="PostListItemDto"/>
   </typeAliases>
 </configuration>
