@@ -89,6 +89,6 @@ document.addEventListener('DOMContentLoaded', () => {
         preview.src = ''; // 미리보기 이미지 초기화
         preview.classList.add('d-none'); // 이미지 감추기
         clearButton.classList.add('d-none');
-    }    
+    }
 
 });
