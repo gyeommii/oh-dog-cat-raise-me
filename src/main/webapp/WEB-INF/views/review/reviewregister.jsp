@@ -130,8 +130,8 @@
                                     class="form-control" id="content"
                                     name="content"
                                     placeholder="내용을 입력해주세요."
-                                    maxlength="500" required></textarea>
-                                <span id="charCount">0 / 500</span>
+                                    maxlength="300" required></textarea>
+                                <span id="charCount">0 / 300</span>
                             </div>
                             <label for="img_file" class="form-label">사진</label>
                             <div class="my-2 input-group">
@@ -172,7 +172,6 @@
     <script src="../js/review/reviewregister.js"></script>
     <script src="../js/cart-list.js"></script>
     <script src="../js/navcart-count.js"></script>
-
 
 </body>
 </html>

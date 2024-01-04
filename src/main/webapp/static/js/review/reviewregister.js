@@ -34,15 +34,15 @@ document.addEventListener('DOMContentLoaded', () => {
         const currentLength = textArea.value.length;
 
         // 최대 입력 가능한 글자 수를 설정합니다.
-        const maxLength = 500;
+        const maxLength = 300;
 
         // 화면에 글자 수와 최대 글자 수를 표시합니다.
         charCount.textContent = currentLength + ' / ' + maxLength;
 
-        // 만약 최대 글자 수를 초과하면 입력을 막습니다.
+        // 만약 최대 글자 300자를 초과하면 입력을 막습니다.
         if (currentLength > maxLength) {
             textArea.value = textArea.value.substring(0, maxLength);
-            charCount.textContent = '500 / 500 글자수를 초과합니다.';
+            charCount.textContent = '300 / 300 글자수를 초과합니다.';
         }
     });
 
