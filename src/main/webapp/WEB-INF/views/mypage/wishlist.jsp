@@ -35,7 +35,8 @@
 
     <div class="container col-8">
         <section class="section">
-            <h1 class="container fs-1 fw-bold py-3 display-6 pt-4">❣️WISH LIST(${count})</h1>
+        <div class="row">
+            <h1 class="fs-1 fw-bold py-3 display-6 pt-4">❣️WISH LIST(${count})</h1>
             <c:forEach var="wish" items="${wishList}">
                 <div class="col-md-3" data-id="${wish.product_fk}">
                     <c:url var="productDetailsPage" value="../product/details">
@@ -61,6 +62,7 @@
                     </div>
                 </div>
             </c:forEach>
+            </div>
         </section>
         <c:if test="${count==0}">
             <div class="container card mb-5 border-0" id="emptyCart"
