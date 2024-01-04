@@ -18,6 +18,7 @@ public class OptionOrderDto {
     private Integer count;
     private Integer stock;
     private Integer price;
+    private Integer isReviewWritten;
     private String product_name;
     private String img_url;
     private String option_name;

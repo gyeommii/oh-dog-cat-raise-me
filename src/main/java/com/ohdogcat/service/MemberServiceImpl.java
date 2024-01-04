@@ -45,7 +45,7 @@ public class MemberServiceImpl implements MemberService {
             Long result = addressDao.registerAddress(address);
             log.debug("result = {}", result);
             log.debug("address_pk={}", address.getAddress_pk());
-            member.setAddress_fk(result);
+            member.setAddress_fk(address.getAddress_pk());
         }
 
         Integer isMemberCreated = memberDao.join(member);

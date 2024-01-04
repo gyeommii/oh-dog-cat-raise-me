@@ -61,5 +61,5 @@ public interface ProductDao {
             @Param("minPrice") Long minPrice, 
             @Param("maxPrice") Long maxPrice,
             @Param("inStock") Boolean inStock
-            );
+    );
 }
