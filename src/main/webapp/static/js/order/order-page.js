@@ -95,12 +95,11 @@ async function addAddressToSelectComponent(e) {
   optionDiv.value = address_fk;
   optionDiv.innerHTML = fullAddress;
   optionDiv.selected = true;
-  // optionDiv.classList.add("")
 
   const addrSelected = document.getElementById("addr-selected");
 
   addrSelected.append(optionDiv);
-
+  changeAddressSelect();
   addAddress.classList.add("d-none");
 }
 
@@ -145,7 +144,6 @@ function execBankTransfer() {
                    aria-label="Close"></button>
       </div>`;
 
-  // document.getElementById("order-submit-btn").disabled = false;
   checkOrderCanCreate();
 }
 

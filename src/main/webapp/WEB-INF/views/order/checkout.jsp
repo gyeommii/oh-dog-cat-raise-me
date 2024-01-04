@@ -12,7 +12,8 @@
           rel="stylesheet"
           integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
           crossorigin="anonymous">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css"
+          rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
           rel="stylesheet"/>
     <link href="../css/order/order-page.css" rel="stylesheet"/>
@@ -171,11 +172,13 @@
                             <select id="addr-selected" class="form-select form-select-sm"
                                     style="font-size: 12px;"
                                     aria-label="Small select example">
-                                <option value=${address.address_pk} selected>
-                                    ${address.address} ${address.detail_addr}
-                                    | ${address.recipient}
-                                    <span class="text-secondary">(기본 배송지)</span>
-                                </option>
+                                <c:if test="${not empty address}">
+                                    <option value=${address.address_pk} selected>
+                                            ${address.address} ${address.detail_addr}
+                                        | ${address.recipient}
+                                        <span class="text-secondary">(기본 배송지)</span>
+                                    </option>
+                                </c:if>
                                 <c:if test="${not empty addressOrdered}">
                                     <c:forEach var="addr" items="${addressOrdered}">
                                         <option value=${addr.address_pk}>
@@ -395,6 +398,5 @@
 <script src="../js/order/calculatePrice.js"></script>
 <script src="../js/order/order-page.js"></script>
 <script src="../js/navcart-count.js"></script>
-<script src="../js/cart-list.js"></script>
 </body>
 </html>
