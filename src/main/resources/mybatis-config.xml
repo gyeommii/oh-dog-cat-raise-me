@@ -9,8 +9,8 @@
   <typeAliases>
     <typeAlias type="com.ohdogcat.model.Product" alias="Product"/>
     <typeAlias type="com.ohdogcat.model.ProductOption" alias="ProductOption"/>
-    <typeAlias type="com.ohdogcat.model.WishList" alias="WishList" />
-    <typeAlias type="com.ohdogcat.dto.wishlist.WishListDto" alias="WishListDto" />
+    <typeAlias type="com.ohdogcat.model.WishList" alias="WishList"/>
+    <typeAlias type="com.ohdogcat.dto.wishlist.WishListDto" alias="WishListDto"/>
     <typeAlias type="com.ohdogcat.dto.product.ProductPetTypeDto" alias="ProductPetTypeDto"/>
     <typeAlias type="com.ohdogcat.dto.product.ProductOptionListDto" alias="ProductOptionListDto"/>
     <typeAlias type="com.ohdogcat.model.Member" alias="Member"/>
@@ -33,6 +33,8 @@
     <typeAlias type="com.ohdogcat.dto.purchase.PurchaseListPagenationDto"
       alias="PurchaseListPagenationDto"/>
     <typeAlias type="com.ohdogcat.dto.product.ProductListDto" alias="ProductListDto"/>
+    <typeAlias type="com.ohdogcat.dto.ReviewSatisfactionDto" alias="ReviewSatisfactionDto"/>
+    <typeAlias type="com.ohdogcat.dto.ReviewListItemDto" alias="ReviewListItemDto"/>
     <typeAlias type="com.ohdogcat.model.Review" alias="Review"/>
     <typeAlias type="com.ohdogcat.model.Comment" alias="Comment"/>
     <typeAlias type="com.ohdogcat.model.Post" alias="Post"/>
