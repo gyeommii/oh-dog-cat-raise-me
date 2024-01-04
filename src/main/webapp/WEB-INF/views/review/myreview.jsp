@@ -41,73 +41,100 @@
                 <div class="container mt-5">
                     <h3 class="text-center mb-4">내가 작성한 리뷰 목록</h3>
                 </div>
-                <table class="table table-hover text-center card-body">
-                    <thead>
-                        <tr>
-                            <th class="text-nowrap">상품이름</th>
-                            <th class="text-nowrap">옵션이름</th>
-                            <th class="text-nowrap">펫이름</th>
-                            <th class="text-nowrap">냥멍</th>
-                            <th class="text-nowrap">내용</th>
-                            <th class="text-nowrap">이미지</th>
-                            <th class="text-nowrap">평점</th>
-                            <th class="text-nowrap">수정시간</th>
-                            <th class="text-nowrap">삭제</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <c:set var="itemsPerPage" value="3" />
-                        <c:set var="currentPage"
-                            value="${param.pageNumber == null ? 1 : param.pageNumber}" />
-                        <c:set var="startIndex"
-                            value="${(currentPage - 1) * itemsPerPage}" />
-                        <c:set var="endIndex"
-                            value="${startIndex + itemsPerPage - 1}" />
-                        <!-- 페이지당 항목 표시 -->
-                        <c:forEach var="myReview" items="${myReview}"
-                            begin="${(currentPage - 1) * itemsPerPage}"
-                            end="${currentPage * itemsPerPage - 1}">
-                            <tr>
-                                <td class="text-nowrap">${myReview.product_name}</td>
-                                <td class="text-nowrap">${myReview.option_name}</td>
-                                <td class="text-nowrap">${myReview.pet_name}</td>
-                                <td class="text-nowrap">${myReview.pet_type}</td>
-                                <td>${myReview.content}</td>
-                                <td style="height: 200px; width: 200px"><c:url
-                                        var="imgGetUrl" value="/image">
-                                        <c:param name="imgUrl"
-                                            value="${myReview.img}" />
-                                    </c:url> <c:choose>
-                                        <c:when
-                                            test="${empty myReview.img}">
-                                            <img
-                                                class="img-fluid card-img"
-                                                src="../images/review_default_img.png"
-                                                style="height: 200px; width: 200px"
-                                                alt="이미지 X">
-                                        </c:when>
-                                        <c:otherwise>
-                                            <img
-                                                class="img-fluid card-img"
-                                                src="${imgGetUrl}"
-                                                style="height: 200px; width: 200px"
-                                                alt="리뷰 이미지">
-                                        </c:otherwise>
-                                    </c:choose></td>
-                                <td>${myReview.score}</td>
-                                <td>${myReview.modified_time}</td>
-                                <td><c:url var="deleteReview"
-                                        value="/review/delete">
-                                        <c:param name="review_pk"
-                                            value="${myReview.review_pk}" />
-                                    </c:url> <a class="btn btn-outline-danger"
-                                    onclick="return confirm('삭제하시겠습니까?')"
-                                    id="deleteReview" role="button"
-                                    href="${deleteReview}">❌</a></td>
-                            </tr>
-                        </c:forEach>
-                    </tbody>
-                </table>
+                <c:choose>
+                    <c:when test="${empty myReview}">
+                        <div class="container card my-5 border-0"
+                            id="emptyCart"
+                            style="border-radius: 24px; box-shadow: 0px 0px 10px 0px rgb(230, 230, 230);">
+                            <div class="card-body py-5">
+                                <div class="row fw-semibold text-center"
+                                    style="font-size: 20px;">
+                                    <div class="col my-5">
+                                        <p style="font-size: 50px">📝</p>
+                                        작성된 리뷰가 없습니다.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </c:when>
+                    <c:otherwise>
+                        <table
+                            class="table table-hover text-center card-body">
+                            <thead>
+                                <tr>
+                                    <th class="text-nowrap">상품이름</th>
+                                    <th class="text-nowrap">옵션이름</th>
+                                    <th class="text-nowrap">펫이름</th>
+                                    <th class="text-nowrap">냥멍</th>
+                                    <th class="text-nowrap">내용</th>
+                                    <th class="text-nowrap">이미지</th>
+                                    <th class="text-nowrap">평점</th>
+                                    <th class="text-nowrap">수정시간</th>
+                                    <th class="text-nowrap">삭제</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <c:set var="itemsPerPage" value="3" />
+                                <c:set var="currentPage"
+                                    value="${param.pageNumber == null ? 1 : param.pageNumber}" />
+                                <c:set var="startIndex"
+                                    value="${(currentPage - 1) * itemsPerPage}" />
+                                <c:set var="endIndex"
+                                    value="${startIndex + itemsPerPage - 1}" />
+                                <!-- 페이지당 항목 표시 -->
+                                <c:forEach var="myReview"
+                                    items="${myReview}"
+                                    begin="${(currentPage - 1) * itemsPerPage}"
+                                    end="${currentPage * itemsPerPage - 1}">
+                                    <tr>
+                                        <td class="text-nowrap">${myReview.product_name}</td>
+                                        <td class="text-nowrap">${myReview.option_name}</td>
+                                        <td class="text-nowrap">${myReview.pet_name}</td>
+                                        <td class="text-nowrap">${myReview.pet_type}</td>
+                                        <td>${myReview.content}</td>
+                                        <td
+                                            style="height: 200px; width: 200px"><c:url
+                                                var="imgGetUrl"
+                                                value="/image">
+                                                <c:param name="imgUrl"
+                                                    value="${myReview.img}" />
+                                            </c:url> <c:choose>
+                                                <c:when
+                                                    test="${empty myReview.img}">
+                                                    <img
+                                                        class="img-fluid card-img"
+                                                        src="../images/review_default_img.png"
+                                                        style="height: 200px; width: 200px"
+                                                        alt="이미지 X">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img
+                                                        class="img-fluid card-img"
+                                                        src="${imgGetUrl}"
+                                                        style="height: 200px; width: 200px"
+                                                        alt="리뷰 이미지">
+                                                </c:otherwise>
+                                            </c:choose></td>
+                                        <td>${myReview.score}</td>
+                                        <td>${myReview.modified_time}</td>
+                                        <td><c:url
+                                                var="deleteReview"
+                                                value="/review/delete">
+                                                <c:param
+                                                    name="review_pk"
+                                                    value="${myReview.review_pk}" />
+                                            </c:url> <a
+                                            class="btn btn-outline-danger"
+                                            onclick="return confirm('삭제하시겠습니까?')"
+                                            id="deleteReview"
+                                            role="button"
+                                            href="${deleteReview}">❌</a></td>
+                                    </tr>
+                                </c:forEach>
+                            </tbody>
+                        </table>
+                    </c:otherwise>
+                </c:choose>
                 <c:if test="${not empty myReview}">
                     <nav aria-label="Page navigation">
                         <ul class="pagination justify-content-center">
