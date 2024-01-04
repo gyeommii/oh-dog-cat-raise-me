@@ -1,0 +1,40 @@
+.my-page-container {
+  width: 70%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.outer-container {
+  padding-top: 25px;
+  padding-bottom: 25px;
+}
+
+.btn-smaller-custom {
+  --bs-btn-padding-y: .25rem;
+  --bs-btn-padding-x: .5rem;
+  --bs-btn-font-size: .75rem;
+}
+
+#my-page-nav {
+  display: inline-block;
+  position: static;
+  left: 5px;
+  background-color: white;
+  margin-left: 20px;
+}
+
+a{
+  text-decoration-line: none;
+  color: black;
+}
+
+.bi{
+  border:none;
+  background: none;
+}
+.bi-suit-heart-fill{
+  color: rgb(255,35,75);
+}
+.bi-suit-heart{
+  color: rgb(222,222,222);
+}
