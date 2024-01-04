@@ -46,7 +46,6 @@ public class ProductController {
 
 		model.addAttribute("products", products);
 		model.addAttribute("totalPages", totalPages);
-
 }
 	
 	// best페이지
