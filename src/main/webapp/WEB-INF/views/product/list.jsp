@@ -75,7 +75,7 @@ li {
   justify-content: center;
 }
 
-/* 추가적인 CSS 스타일링 */
+/* 추가 */
 .sidebar-sticky {
     border: 1px solid;
     border-color: #D3D3D3;
@@ -89,7 +89,7 @@ li {
     margin-bottom: 10px; /* 아이템 간 마진 */
 }
 
-/* 레이블 및 텍스트 스타일링 */
+/* 레이블 및 텍스트 스타일 */
 label {
     display: block; /* 블록 레벨 요소로 만들기 */
     color: #495057; /* 글꼴 색상 변경 */
@@ -128,7 +128,7 @@ input[type='text'] {
     border-color: white; /* 핸들 테두리 색상 */
 }
 
-/* 추가적인 CSS 스타일링 */
+/* 추가 CSS 스타일 */
 .pagination-container {
     display: flex;
     justify-content: center;
@@ -143,11 +143,6 @@ input[type='text'] {
     color: white;
     
 }
-
-
-
-
-
 
 </style>   
     
@@ -256,6 +251,7 @@ input[type='text'] {
                         </div>
                     <button class="next-button">▶</button>
                 </div>
+                <div class="mb-4"></div>
             </main>
 
         </div>

@@ -85,6 +85,7 @@
                         </div>
                         <div style="text-align: center;">
                             <button type="submit" class="btn custom-btn btn-warning">등록</button>
+                            <button type="button" class="btn custom-btn btn-warning" id="cancelButton">취소</button>
                         </div>
                     </form>
                 </div> 
@@ -99,6 +100,12 @@
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="../js/navcart-count.js"></script>
     <script src="../js/cart-list.js"></script>
+    
+    <script>
+        document.getElementById('cancelButton').addEventListener('click', function() {
+            window.location.href = '../community/postList'; // 포스트 목록 페이지의 URL로 변경하세요
+        });
+    </script>
             
     <!-- Footer-->
     <%@ include file="../fragments/footer.jspf"%>

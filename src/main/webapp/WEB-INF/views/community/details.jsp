@@ -103,6 +103,10 @@
         .btn-register-comment{
             margin-top: 30px;
         }
+        
+        .memberId-text {
+            color: #828282;
+        }
             
             
     </style>
