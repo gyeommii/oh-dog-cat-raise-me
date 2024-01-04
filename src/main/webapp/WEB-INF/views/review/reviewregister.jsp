@@ -173,6 +173,5 @@
     <script src="../js/cart-list.js"></script>
     <script src="../js/navcart-count.js"></script>
 
-
 </body>
 </html>

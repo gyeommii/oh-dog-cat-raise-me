@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>${signedMember.member_id}님의 리뷰</title>
+<title>내가 작성한 리뷰</title>
 <link
     href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
     rel="stylesheet"
@@ -41,7 +41,7 @@
                 <div class="container mt-5">
                     <h3 class="text-center mb-4">내가 작성한 리뷰 목록</h3>
                 </div>
-                <table class="card-body table table-hover text-center">
+                <table class="table table-hover text-center card-body">
                     <thead>
                         <tr>
                             <th class="text-nowrap">상품이름</th>
@@ -73,8 +73,8 @@
                                 <td class="text-nowrap">${myReview.pet_name}</td>
                                 <td class="text-nowrap">${myReview.pet_type}</td>
                                 <td>${myReview.content}</td>
-                                <td style="width: 200px; height: 200px"><c:url var="imgGetUrl"
-                                        value="/image">
+                                <td style="height: 200px; width: 200px"><c:url
+                                        var="imgGetUrl" value="/image">
                                         <c:param name="imgUrl"
                                             value="${myReview.img}" />
                                     </c:url> <c:choose>
@@ -166,16 +166,16 @@
     <script src="../js/navcart-count.js"></script>
     <script src="../js/cart-list.js"></script>
     <script type="text/javascript">
-document.addEventListener('DOMContentLoaded', () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const isDuplicated = urlParams.get('duplicated');
-
-    if (isDuplicated === 'true') {
-        alert('이미 상품에 작성한 리뷰가 있습니다.');
-    }
-    
-});
-</script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isDuplicated = urlParams.get('duplicated');
+        
+            if (isDuplicated === 'true') {
+                alert('이미 상품에 작성한 리뷰가 있습니다.');
+            }
+            
+        });
+    </script>
 
 
 </body>
