@@ -34,4 +34,6 @@ public interface MemberDao {
     Long spendPoint (MemberPointDto memberPointDto);
 
     Long accumulatePoint(MemberPointDto memberPointDto);
+
+    Integer getMemberPoint (Long memberPk);
 }

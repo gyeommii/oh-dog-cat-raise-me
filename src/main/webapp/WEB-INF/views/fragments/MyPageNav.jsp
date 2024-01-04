@@ -9,7 +9,11 @@
 <c:url var="reviewListPage" value="/mypage/review" />
 
 <div id="my-page-nav" class="pt-6">
-    <div class="mt-4">
+    <div class="text-center">
+        <div><span class="fw-bold">${signedMember.member_id}</span> 님</div>
+        <div>💰포인트 : <span id="pointDiv"></span>원</div>
+    </div>
+    <div>
         <nav id="navbar-example3" role="navigation"
              class="h-100 flex-column align-items-stretch pt-3">
             <nav class="nav nav-pills flex-column">
