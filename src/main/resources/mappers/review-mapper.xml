@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
@@ -55,4 +56,53 @@
 		where member_fk = #{memberPk} and review_fk = #{reviewPk}
 	</delete>
 
+  <select id="selectReviewByMemberFk" resultType="com.ohdogcat.dto.member.review.ReviewListDto">
+    SELECT r.review_pk, r.member_fk, p.product_name, po.option_name, pe.pet_name, pe.pet_type, r.content, r.img, r.score, r.modified_time
+    FROM review r
+    JOIN product_option po ON r.option_fk = po.option_pk
+    JOIN product p ON po.product_fk = p.product_pk
+    JOIN pet pe ON r.pet_fk = pe.pet_pk
+    WHERE r.member_fk = #{member_fk}
+    ORDER BY r.review_pk DESC
+  </select>
+
+  <insert id="insertReview">
+    insert into REVIEW (MEMBER_FK, PET_FK, OPTION_FK,
+    CONTENT, IMG, SCORE, CREATED_TIME, MODIFIED_TIME) values
+    (#{member_fk}, #{pet_fk}, #{option_fk}, #{content}, #{img},
+    #{score}, SYSTIMESTAMP, SYSTIMESTAMP)
+  </insert>
+
+  <delete id="deleteWhereReviewAndMemberFk">
+    delete from REVIEW where REVIEW_PK= #{review_pk}
+    and MEMBER_FK =#{member_fk}
+  </delete>
+
+  <select id="selectReviewDetailViews"
+    resultType="com.ohdogcat.dto.member.review.ReviewDetailDto">
+    select
+    PET.pet_pk as pet_pk,
+    PET.pet_name as pet_name,
+    PET.pet_type as pet_type,
+    P.product_name as product_name,
+    P.img_url as img_url,
+    PO.option_name as option_name,
+    PS.status_pk as status_pk
+    from
+    MEMBER M
+    join
+    PET on M.member_pk = PET.member_fk
+    join
+    PURCHASE PR on M.member_pk = PR.member_fk
+    join
+    PURCHASE_STATUS PS on PR.status_fk = PS.status_pk
+    join
+    PURCHASE_PRODUCT PP on PR.purchase_pk = PP.purchase_fk
+    join
+    PRODUCT_OPTION PO on PP.option_fk = PO.option_pk
+    join
+    PRODUCT P on PO.product_fk = P.product_pk
+    where
+    M.member_pk = #{member_fk} and PP.option_fk = #{option_fk}
+  </select>
 </mapper>

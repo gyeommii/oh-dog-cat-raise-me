@@ -63,6 +63,7 @@
         justify-content: space-between;
       }
     </style>
+
 </head>
 <body>
 <!--top nav -->
@@ -241,7 +242,6 @@
         </div>
     </div> <!-- end 모달 -->
 
-
 </main>
 
 <!-- Footer-->
@@ -252,8 +252,12 @@
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script>
+  const signedMember = "${signedMember}";
+</script>
 <script src="../js/navcart-count.js"></script>
 <script src="../js/product-details.js"></script>
 <script src="../js/product-review.js"></script>
+
 </body>
 </html>
