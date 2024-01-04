@@ -34,22 +34,23 @@ function getParsedNumber(str) {
 }
 
 const addrSelectComp = document.getElementById("addr-selected");
-addrSelectComp.addEventListener("change", changeLangSelect);
+addrSelectComp.addEventListener("change", changeAddressSelect);
 
-function changeLangSelect() {
-  const addrSelectComp = document.getElementById("addr-selected");
+function changeAddressSelect() {
   // select element에서 선택된 option의 value가 저장된다.
   const selectedAddr = addrSelectComp.options[addrSelectComp.selectedIndex].value;
   orderInfoToSubmit.addressFk = getParsedNumber(selectedAddr);
-  console.log("selectedAddr : ", selectedAddr)
-  console.log("orderInfoToSubmit : ", orderInfoToSubmit)
 
+  checkOrderCanCreate();
   return getParsedNumber(selectedAddr);
 }
 
-orderInfoToSubmit.addressFk = changeLangSelect();
-
 function checkOrderCanCreate() {
+
+  if (!orderInfoToSubmit.addressFk) {
+    alert("배송받을 주소를 추가해주세요!");
+  }
+
   if (!orderInfoToSubmit.orderName
       || !orderInfoToSubmit.payMethod
       || !orderInfoToSubmit.addressFk
@@ -61,7 +62,7 @@ function checkOrderCanCreate() {
           && !orderInfoToSubmit.totalPrice)) {
     return;
   }
-  console.log("오잉")
+
   if (orderInfoToSubmit.payMethod === PAYMENT_METHOD.KAKAOPAY) {
     document.getElementById("order-submit-btn").disabled = false;
     return;

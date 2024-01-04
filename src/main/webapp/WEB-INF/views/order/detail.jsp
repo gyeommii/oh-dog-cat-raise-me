@@ -20,7 +20,11 @@
     <link href="../css/font.css" rel="stylesheet">
     <link href="../css/nav.css" rel="stylesheet">
     <link href="../css/mypage.css" rel="stylesheet">
-
+    <style>
+      .button-tag{
+        margin-right: 10px;
+      }
+    </style>
 </head>
 <body>
 <!--top nav -->
@@ -263,12 +267,24 @@
                     <div class="inner-content fw-normal text-opacity-75 font-small row-2 text-center">
                         ${payment.accumulated_point}원
                     </div>
-                    <span class="badge bg-success">적립 완료</span>
+                    <c:choose>
+                        <c:when test="${purchase.status_fk eq 6}">
+                            <span class="badge bg-success button-tag">적립 완료</span>
+                        </c:when>
+                        <c:when test="${purchase.status_fk eq 1 or purchase.status_fk eq 2 or purchase.status_fk eq 3 or purchase.status_fk eq 4}">
+                            <span class="badge bg-warning button-tag">적립 예정</span>
+                            <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
+                                포인트 적립은 구매 확정 시 완료됩니다.
+                            </div>
+                        </c:when>
+                        <c:otherwise>
+                            <span class="badge bg-danger button-tag">적립 취소</span>
+                            <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
+                                주문이 취소되어 적립이 취소됩니다.
+                            </div>
+                        </c:otherwise>
+                    </c:choose>
 
-                    <span class="badge bg-warning mx-2">적립 예정</span>
-                    <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
-                        포인트 적립은 구매 확정 시 완료됩니다.
-                    </div>
                 </div>
             </div>
 

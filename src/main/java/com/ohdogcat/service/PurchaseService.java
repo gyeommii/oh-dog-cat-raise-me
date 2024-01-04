@@ -121,8 +121,10 @@ public class PurchaseService {
         Member member = memberDao.getUserInfoAtOrder(memberPk);
         result.put("member", member);
 
-        Address address = addressDao.getAddressByAddressPk(member.getAddress_fk());
-        result.put("address", address);
+        if (member.getAddress_fk() != null) {
+            Address address = addressDao.getAddressByAddressPk(member.getAddress_fk());
+            result.put("address", address);
+        }
 
         Membership membership = memberDao.getUserMembership(member);
         result.put("membership", membership);
@@ -179,6 +181,7 @@ public class PurchaseService {
         Membership membership = memberDao.getUserMembership(
             Member.builder().member_pk(infoToOrder.getMemberFk()).build());
 //            포인트 적립금 계산
+        log.debug("멤버쉽...");
 
         MemberPointDto memberPointDto = MemberPointDto.toMemberPointDto(payment,
             membership.getPoint_rate(),
