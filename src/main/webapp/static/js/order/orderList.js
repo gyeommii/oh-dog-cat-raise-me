@@ -13,7 +13,7 @@ for (let purchaseList of purchaseListItems) {
 async function cancelPurchase(purchasePk) {
 
   const confirmResult = confirm(
-      "해당 주문을 취소하겠습니까? <span class='text-warning'>취소 요청은 되돌릴 수 없습니다.</span>")
+      "해당 주문을 취소하겠습니까? 취소 요청은 되돌릴 수 없습니다.")
   console.log(confirmResult + "confirm");
   if (!confirmResult) {
     return;

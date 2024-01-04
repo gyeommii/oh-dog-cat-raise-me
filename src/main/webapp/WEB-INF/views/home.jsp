@@ -62,7 +62,7 @@
 						</c:url>
 						<div class="card mb-5"
 							onclick="location.href= '${productDetailsPage}'"
-							style="width: 17rem; cursor: pointer;">
+							style="cursor: pointer;">
 							<div class="badge bg-warning text-white position-absolute"
 								style="top: 0.5rem; right: 0.5rem">New</div>
 							<img src="${dn.imgUrl}" class="card-img-top" alt="Product image">
@@ -84,7 +84,7 @@
 						</c:url>
 						<div class="card mb-5"
 							onclick="location.href= '${productDetailsPage}'"
-							style="width: 17rem; cursor: pointer;">
+							style="cursor: pointer;">
 							<div class="badge bg-warning text-white position-absolute"
 								style="top: 0.5rem; right: 0.5rem">New</div>
 							<img src="${cn.imgUrl}" class="card-img-top" alt="Product image">
@@ -117,7 +117,7 @@
 						</c:url>
 						<div class="card mb-5"
 							onclick="location.href= '${productDetailsPage}'"
-							style="width: 17rem; cursor: pointer;">
+							style="cursor: pointer;">
 							<div class="badge bg-warning text-white position-absolute"
 								style="top: 0.5rem; right: 0.5rem">Best</div>
 							<img src="${db.imgUrl}" class="card-img-top" alt="Product image">
@@ -140,7 +140,7 @@
 						</c:url>
 						<div class="card mb-5"
 							onclick="location.href= '${productDetailsPage}'"
-							style="width: 17rem; cursor: pointer;">
+							style="cursor: pointer;">
 							<div class="badge bg-warning text-white position-absolute"
 								style="top: 0.5rem; right: 0.5rem">Best</div>
 							<img src="${cb.imgUrl}" class="card-img-top" alt="Product image">
