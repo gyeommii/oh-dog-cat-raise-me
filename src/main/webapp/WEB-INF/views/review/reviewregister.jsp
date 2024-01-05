@@ -95,11 +95,12 @@
                                 <label for="pet_fk">펫 선택</label> <select
                                     class="form-select" id="pet_fk"
                                     name="pet_fk">
-                                    <c:forEach var="forReviewer"
-                                        items="${forReviewer}">
+                                    <c:forEach var="reviewer" items="${forReviewer}">
+                                        <c:if test="${not empty reviewer.pet_pk and reviewer.pet_pk ne 0}" >
                                         <option
-                                            value="${forReviewer.pet_pk}">이름:${forReviewer.pet_name}
-                                            😸🐶:${forReviewer.pet_type}</option>
+                                            value="${reviewer.pet_pk}">이름:${reviewer.pet_name}
+                                            😸🐶:${reviewer.pet_type}</option>
+                                        </c:if>
                                     </c:forEach>
                                 </select>
                             </div>

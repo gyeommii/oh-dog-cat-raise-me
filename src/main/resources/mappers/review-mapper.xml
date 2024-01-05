@@ -61,16 +61,16 @@
     FROM review r
     JOIN product_option po ON r.option_fk = po.option_pk
     JOIN product p ON po.product_fk = p.product_pk
-    JOIN pet pe ON r.pet_fk = pe.pet_pk
+    left JOIN pet pe ON r.pet_fk = pe.pet_pk
     WHERE r.member_fk = #{member_fk}
     ORDER BY r.review_pk DESC
   </select>
 
   <insert id="insertReview">
-    insert into REVIEW (MEMBER_FK, PET_FK, OPTION_FK,
-    CONTENT, IMG, SCORE, CREATED_TIME, MODIFIED_TIME) values
-    (#{member_fk}, #{pet_fk}, #{option_fk}, #{content}, #{img},
-    #{score}, SYSTIMESTAMP, SYSTIMESTAMP)
+    insert into REVIEW (MEMBER_FK,  OPTION_FK,
+    CONTENT, IMG, SCORE, CREATED_TIME, MODIFIED_TIME <if test="pet_fk != 0">,PET_FK</if>) values
+    (#{member_fk}, #{option_fk}, #{content}, #{img},
+    #{score}, SYSTIMESTAMP, SYSTIMESTAMP <if test="pet_fk != 0">,#{pet_fk}</if>)
   </insert>
 
   <delete id="deleteWhereReviewAndMemberFk">
@@ -90,17 +90,17 @@
     PS.status_pk as status_pk
     from
     MEMBER M
-    join
+    left join
     PET on M.member_pk = PET.member_fk
-    join
+    left join
     PURCHASE PR on M.member_pk = PR.member_fk
-    join
+    left join
     PURCHASE_STATUS PS on PR.status_fk = PS.status_pk
-    join
+    left join
     PURCHASE_PRODUCT PP on PR.purchase_pk = PP.purchase_fk
-    join
+    left join
     PRODUCT_OPTION PO on PP.option_fk = PO.option_pk
-    join
+    left join
     PRODUCT P on PO.product_fk = P.product_pk
     where
     M.member_pk = #{member_fk} and PP.option_fk = #{option_fk}
