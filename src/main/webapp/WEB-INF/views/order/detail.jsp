@@ -271,7 +271,7 @@
                         <c:when test="${purchase.status_fk eq 6}">
                             <span class="badge bg-success button-tag">적립 완료</span>
                         </c:when>
-                        <c:when test="${purchase.status_fk eq 1 or purchase.status_fk eq 2 or purchase.status_fk eq 3 or purchase.status_fk eq 4}">
+                        <c:when test="${purchase.status_fk eq 1 or purchase.status_fk eq 2 or purchase.status_fk eq 3 or purchase.status_fk eq 4 or purchase.status_fk eq 5}">
                             <span class="badge bg-warning button-tag">적립 예정</span>
                             <div class="text-secondary text-opacity-75 text-end font-small fw-lighter information-div">
                                 포인트 적립은 구매 확정 시 완료됩니다.

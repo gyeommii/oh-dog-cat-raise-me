@@ -31,7 +31,7 @@ const orderInfoToSubmit = {
   paidPrice: 0,
   payMethod: undefined,
   paymentSuccess: PAYMENT_SUCCESS.BEFORE,
-  merchantUid: `ORD${today.getFullYear()}${today.getMonth()}${today.getDate()}0131-${window.crypto.randomUUID()}`,
+  merchantUid: `ORD${today.getFullYear()}${today.getMonth()}${today.getDate()}0131-${Date.now()}`,
   orderType: document.getElementById("orderType").value
 };
 
